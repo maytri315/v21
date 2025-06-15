@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="jumbotron text-center bg-light p-5 rounded">
+    <h1 class="display-4">Welcome to Vehicle Parking App</h1>
+    <p class="lead">Find and book parking spots with ease. Secure, fast, and user-friendly.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('login') }}">Login</a>
+    <a class="btn btn-outline-primary btn-lg" href="{{ url_for('register') }}">Register</a>
+</div>
+{% endblock %}

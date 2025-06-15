@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}User Dashboard{% endblock %}
+{% block content %}
+<h2 class="mb-4">User Dashboard</h2>
+<div class="card shadow mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Available Parking Lots</h5>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            {% for lot in lots %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ lot.prime_location_name }} - ₹{{ lot.price }}/hour
+                <a href="{{ url_for('book_spot', lot_id=lot.id) }}" class="btn btn-primary btn-sm">Book Spot</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Your Reservations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Lot</th>
+                    <th>Spot</th>
+                    <th>Parking Time</th>
+                    <th>Cost</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.spot.lot.prime_location_name }}</td>
+                    <td>{{ reservation.spot.id }}</td>
+                    <td>{{ reservation.parking_timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>₹{{ reservation.parking_cost }}</td>
+                    <td>
+                        {% if not reservation.leaving_timestamp %}
+                        <a href="{{ url_for('release_spot', reservation_id=reservation.id) }}" class="btn btn-danger btn-sm">Release</a>
+                        {% else %}
+                        Released
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

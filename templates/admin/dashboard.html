@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Parking Lot Statistics</h5>
+    </div>
+    <div class="card-body">
+        {% if lots %}
+            {# Calculate available and occupied spots across all lots #}
+            {% set all_spots = lots | map(attribute='spots') | sum(start=[]) %}
+            {% set available_spots = all_spots | selectattr('status', 'equalto', 'A') | list | length %}
+            {% set occupied_spots = all_spots | selectattr('status', 'equalto', 'O') | list | length %}
+
+            {% if available_spots > 0 or occupied_spots > 0 %}
+                <canvas id="spotChart"></canvas>
+            {% else %}
+                <p class="text-muted">No parking spots available in existing lots.</p>
+            {% endif %}
+        {% else %}
+            <p class="text-muted">No parking lots available. <a href="{{ url_for('create_lot') }}">Create a lot</a> to view statistics.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Parking Lots</h5>
+        <a href="{{ url_for('create_lot') }}" class="btn btn-light btn-sm">Create Lot</a>
+    </div>
+    <div class="card-body">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="searchLots" placeholder="Search lots..." aria-label="Search lots">
+            <button class="btn btn-outline-secondary" type="button" id="searchButton">Search</button>
+        </div>
+        {% if lots %}
+            <ul class="list-group" id="lotList">
+                {% for lot in lots %}
+                    <li class="list-group-item" data-name="{{ lot.prime_location_name|lower }}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="#lotSpots{{ lot.id }}" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="lotSpots{{ lot.id }}">
+                                    {{ lot.prime_location_name }} - ₹{{ lot.price }}/hour ({{ lot.spots|length }} spots)
+                                </a>
+                            </div>
+                            <div>
+                                <a href="{{ url_for('edit_lot', lot_id=lot.id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                {# Lot can only be deleted if it has NO spots #}
+                                {% if lot.spots|length == 0 %}
+                                    <a href="{{ url_for('delete_lot', lot_id=lot.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this lot?')">Delete</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="collapse mt-2" id="lotSpots{{ lot.id }}">
+                            {% if lot.spots %}
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Spot ID</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for spot in lot.spots %}
+                                            <tr>
+                                                <td>{{ spot.id }}</td>
+                                                <td>
+                                                    <span class="badge {{ 'bg-success' if spot.status == 'A' else 'bg-danger' }}">
+                                                        {{ 'Available' if spot.status == 'A' else 'Occupied' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                <p class="text-muted mt-2">No spots created for this lot.</p>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">No parking lots found. <a href="{{ url_for('create_lot') }}">Create one</a>.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Registered Users</h5>
+    </div>
+    <div class="card-body">
+        {% if users %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ 'Admin' if user.is_admin else 'User' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-muted text-end">No registered users found.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% if lots and (available_spots > 0 or occupied_spots > 0) %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Chart.js for spot statistics
+    const ctx = document.getElementById('spotChart').getContext('2d');
+    const spotChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Available', 'Occupied'],
+            datasets: [{
+                // Corrected Jinja expression for Chart.js data
+                data: [
+                    Number('{{- available_spots -}}'),
+                    Number('{{- occupied_spots -}}')
+                ],
+                backgroundColor: ['#10B981', '#EF4444'],
+                borderColor: ['#FFFFFF', '#FFFFFF'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.label || '';
+                            let value = context.raw || 0;
+                            let total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                            let percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                            return `${label}: ${value} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endif %}
+
+<script>
+    // JavaScript for Parking Lot Search
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchLots');
+        const lotList = document.getElementById('lotList');
+
+        if (searchInput && lotList) {
+            searchInput.addEventListener('keyup', function() {
+                const searchValue = searchInput.value.toLowerCase();
+                const items = lotList.getElementsByTagName('li');
+
+                for (let i = 0; i < items.length; i++) {
+                    const itemName = items[i].getAttribute('data-name');
+                    if (itemName && itemName.includes(searchValue)) { // Check for itemName existence
+                        items[i].style.display = '';
+                    } else {
+                        items[i].style.display = 'none';
+                    }
+                }
+            });
+
+            // Optional: Add click listener to search button for explicit search
+            const searchButton = document.getElementById('searchButton');
+            if (searchButton) {
+                searchButton.addEventListener('click', function() {
+                    const event = new KeyboardEvent('keyup');
+                    searchInput.dispatchEvent(event);
+                });
+            }
+        }
+    });
+</script>
+
+{# Add Bootstrap JS bundle for collapse functionality if not already in base.html #}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+{% endblock %}

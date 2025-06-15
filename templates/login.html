@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="card shadow p-4 mx-auto" style="max-width: 400px;">
+    <h2 class="text-center mb-4">Login</h2>
+    <form method="POST" action="{{ url_for('login') }}" id="loginForm">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control", required=True, placeholder="Enter username") }}
+        </div>
+        <div class="mb-3">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control", required=True, placeholder="Enter password") }}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+</div>
+{% endblock %}

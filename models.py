@@ -6,9 +6,10 @@ db = SQLAlchemy()
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)  # Changed from username to email
     password = db.Column(db.String(120), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+    is_blocked = db.Column(db.Boolean, default=False)  # Added for block/unblock feature
     reservations = db.relationship('Reservation', backref='user', lazy=True)
 
 class ParkingLot(db.Model):
@@ -33,3 +34,4 @@ class Reservation(db.Model):
     parking_timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     leaving_timestamp = db.Column(db.DateTime)
     parking_cost = db.Column(db.Float)
+    hours = db.Column(db.Float)

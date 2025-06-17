@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}View Parking Spot{% endblock %}
+{% block content %}
+<h2 class="mb-4">Parking Spot: {{ spot.id }}</h2>
+<div class="card shadow p-4">
+    <div class="card-body">
+        <p><strong>ID:</strong> {{ spot.id }}</p>
+        <p><strong>Lot:</strong> {{ spot.lot.prime_location_name }}</p>
+        <p><strong>Status:</strong> {{ 'Available' if spot.status == 'A' else 'Occupied' }}</p>
+        {% if occupying_user_email %}
+        <p><strong>Occupied by:</strong> {{ occupying_user_email }}</p>
+        {% else %}
+        <p><strong>Occupied by:</strong> None</p>
+        {% endif %}
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+{% endblock %}

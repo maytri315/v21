@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Search{% endblock %}
+{% block content %}
+<h2 class="mb-4">Advanced Search</h2>
+<div class="card shadow p-4">
+    <form method="POST" action="{{ url_for('search') }}">
+        <div class="mb-3">
+            <label for="search_type" class="form-label">Search Type</label>
+            <select id="search_type" name="search_type" class="form-control">
+                <option value="lots">Lots</option>
+                <option value="users">Users</option>
+                <option value="spots">Spots</option>
+                <option value="reservations">Reservations</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="query" class="form-label">Query</label>
+            <input type="text" id="query" name="query" class="form-control">
+        </div>
+        <div class="mb-3" id="spot_status" style="display:none;">
+            <label for="status" class="form-label">Spot Status</label>
+            <select id="status" name="status" class="form-control">
+                <option value="">All</option>
+                <option value="A">Available</option>
+                <option value="O">Occupied</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+{% if lots %}
+<div class="card shadow mt-4">
+    <div class="card-header bg-primary text-white">
+        <h5>Lots</h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lot in lots %}
+                <tr>
+                    <td>{{ lot.prime_location_name }}</td>
+                    <td>₹{{ lot.price }}</td>
+                    <td>{{ lot.address }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% if users %}
+<div class="card shadow mt-4">
+    <div class="card-header bg-primary text-white">
+        <h5>Users</h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.email }}</td>
+                    <td>{{ 'Admin' if user.is_admin else 'User' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% if spots %}
+<div class="card shadow mt-4">
+    <div class="card-header bg-primary text-white">
+        <h5>Spots</h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Lot</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for spot in spots %}
+                <tr>
+                    <td>{{ spot.id }}</td>
+                    <td>{{ spot.lot.prime_location_name }}</td>
+                    <td>{{ 'Available' if spot.status == 'A' else 'Occupied' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% if reservations %}
+<div class="card shadow mt-4">
+    <div class="card-header bg-primary text-white">
+        <h5>Reservations</h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Spot</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.user.email }}</td>
+                    <td>{{ reservation.spot.id }}</td>
+                    <td>₹{{ reservation.parking_cost }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+<script>
+    document.getElementById('search_type').addEventListener('change', function() {
+        document.getElementById('spot_status').style.display = this.value === 'spots' ? 'block' : 'none';
+    });
+</script>
+{% endblock %}

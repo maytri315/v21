@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Create' if action == 'create' else 'Edit' }} User{% endblock %}
+{% block content %}
+<h2 class="mb-4">{{ 'Create' if action == 'create' else 'Edit' }} User</h2>
+<div class="card shadow p-4">
+    <form method="POST" action="{{ url_for('create_user') if action == 'create' else url_for('edit_user', user_id=user.id) }}">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", required=True, placeholder="Enter Gmail address") }}
+        </div>
+        <div class="mb-3">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control", required=True, placeholder="Enter password") }}
+        </div>
+        <div class="mb-3">
+            {{ form.is_admin.label(class="form-label") }}
+            {{ form.is_admin(class="form-check-input") }}
+        </div>
+        <button type="submit" class="btn btn-primary">{{ 'Create' if action == 'create' else 'Update' }}</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back</a>
+    </form>
+</div>
+{% endblock %}

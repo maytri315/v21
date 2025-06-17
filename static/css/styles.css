@@ -1,71 +1,35 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #F3F4F6;
 }
-
-.navbar {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.navbar-brand img {
+    margin-right: 10px;
 }
-
-.jumbotron {
-    background: linear-gradient(135deg, #1E3A8A, #3B82F6);
-    color: white;
-}
-
 .card {
-    border: none;
-    border-radius: 8px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-
-.btn-primary {
-    background-color: #1E3A8A;
-    border-color: #1E3A8A;
+.card-header {
+    border-radius: 12px 12px 0 0;
 }
-
-.btn-primary:hover {
-    background-color: #3B82F6;
-    border-color: #3B82F6;
-}
-
-.parking-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.parking-spot {
-    padding: 15px;
-    text-align: center;
-    border-radius: 8px;
-    cursor: pointer;
+.btn {
     transition: transform 0.2s;
 }
-
-.parking-spot.available {
-    background-color: #10B981;
-    color: white;
+.btn:hover {
+    transform: translateY(-2px);
 }
-
-.parking-spot.occupied {
-    background-color: #EF4444;
-    color: white;
-    cursor: not-allowed;
+.btn-sm {
+    margin-right: 5px;
 }
-
-.parking-spot:hover.available {
-    transform: scale(1.05);
+/* Custom styles for Logo Parking App */
+body {
+    font-family: 'Poppins', sans-serif;
 }
-
-.parking-spot.selected {
-    border: 2px solid #1E3A8A;
+.navbar-brand img {
+    margin-right: 8px;
 }
-
-.alert {
-    animation: fadeIn 0.5s;
+.card {
+    transition: transform 0.2s;
 }
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.card:hover {
+    transform: scale(1.02);
 }

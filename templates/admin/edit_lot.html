@@ -7,23 +7,23 @@
         {{ form.hidden_tag() }}
         <div class="mb-3">
             {{ form.location_name.label(class="form-label") }}
-            {{ form.location_name(class="form-control", required=True) }}
+            {{ form.location_name(class="form-control", required=True, value=lot.prime_location_name) }}
         </div>
         <div class="mb-3">
             {{ form.price.label(class="form-label") }}
-            {{ form.price(class="form-control", required=True) }}
+            {{ form.price(class="form-control", required=True, value=lot.price) }}
         </div>
         <div class="mb-3">
             {{ form.address.label(class="form-label") }}
-            {{ form.address(class="form-control", required=True) }}
+            {{ form.address(class="form-control", required=True, value=lot.address, readonly=True) }}
         </div>
         <div class="mb-3">
             {{ form.pin_code.label(class="form-label") }}
-            {{ form.pin_code(class="form-control", required=True) }}
+            {{ form.pin_code(class="form-control", required=True, value=lot.pin_code, readonly=True) }}
         </div>
         <div class="mb-3">
             {{ form.max_spots.label(class="form-label") }}
-            {{ form.max_spots(class="form-control", required=True) }}
+            {{ form.max_spots(class="form-control", required=True, value=lot.maximum_number_of_spots) }}
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
         <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back</a>

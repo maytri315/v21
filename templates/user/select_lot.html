@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Select Parking Lot{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Select a Parking Lot</h2>
+    <div class="card p-4 shadow">
+        {% if form.lot_id.choices %}
+        <form method="POST" action="{{ url_for('select_lot') }}">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.lot_id.label(class="form-label") }}
+                {{ form.lot_id(class="form-control", required=True) }}
+                <small class="form-text text-muted">Choose a lot with available spots.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Select Lot</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+        {% else %}
+        <p class="text-muted">No lots with available spots.</p>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

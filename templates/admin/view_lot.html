@@ -1,18 +1,41 @@
 {% extends "base.html" %}
-{% block title %}View Parking Spot{% endblock %}
+{% block title %}View Parking Lot{% endblock %}
+
 {% block content %}
-<h2 class="mb-4">Parking Spot: {{ spot.id }}</h2>
+<h2 class="mb-4">Parking Lot: {{ lot.prime_location_name }}</h2>
 <div class="card shadow p-4">
     <div class="card-body">
-        <p><strong>ID:</strong> {{ spot.id }}</p>
-        <p><strong>Lot:</strong> {{ spot.lot.prime_location_name }}</p>
-        <p><strong>Status:</strong> {{ 'Available' if spot.status == 'A' else 'Occupied' }}</p>
-        {% if occupying_user_email %}
-        <p><strong>Occupied by:</strong> {{ occupying_user_email }}</p>
+        <p><strong>Location Name:</strong> {{ lot.prime_location_name }}</p>
+        <p><strong>Price per Hour:</strong> ₹{{ lot.price }}</p>
+        <p><strong>Address:</strong> {{ lot.address }}</p>
+        <p><strong>Pin Code:</strong> {{ lot.pin_code }}</p>
+        <p><strong>Maximum Spots:</strong> {{ lot.maximum_number_of_spots }}</p>
+        <h5 class="mt-4">Parking Spots</h5>
+        {% if lot.spots %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for spot in lot.spots %}
+                <tr>
+                    <td>{{ spot.id }}</td>
+                    <td>{{ 'Available' if spot.status == 'A' else 'Occupied' }}</td>
+                    <td>
+                        <a href="{{ url_for('view_spot', spot_id=spot.id) }}" class="btn btn-info btn-sm">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         {% else %}
-        <p><strong>Occupied by:</strong> None</p>
+        <p>No parking spots available in this lot.</p>
         {% endif %}
-        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back</a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
     </div>
 </div>
 {% endblock %}

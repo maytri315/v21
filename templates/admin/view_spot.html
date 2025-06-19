@@ -1,26 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Parking Spot - Logo Parking App</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <h2>Parking Spot: {{ spot.id }}</h2>
-        <h4>Spot Details</h4>
-        <div class="card">
-            <div class="card-body">
-                <p><strong>ID:</strong> {{ spot.id }}</p>
-                <p><strong>Lot:</strong> {{ spot.lot.prime_location_name }}</p>
-                <p><strong>Status:</strong> {{ 'Occupied' if spot.status == 'O' else 'Available' }}</p>
-                <p><strong>Occupying User Email:</strong> {{ occupying_user_email if occupying_user_email else 'Not occupied' }}</p>
-            </div>
-        </div>
-        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}View Spot{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Spot Details</h2>
+    <p>Spot ID: {{ spot.id }}</p>
+    <p>Status: {{ 'Occupied' if spot.status == 'O' else 'Available' }}</p>
+    {% if occupying_user_email %}
+        <p>Occupied by: {{ occupying_user_email }}</p>
+    {% endif %}
+    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+</div>
+{% endblock %}

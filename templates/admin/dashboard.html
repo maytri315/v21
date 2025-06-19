@@ -2,281 +2,266 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-<h1 class="text-center mb-4">Admin Control Panel</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Admin Control Panel</h1>
 
-<!-- Cockpit-Style Dashboard -->
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card shadow text-center bg-primary text-white">
-            <div class="card-body">
-                <h5 class="card-title">Total Users</h5>
-                <p class="h3">{{ users|length }}</p>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ 'success' if category == 'success' else 'danger' if category == 'danger' else 'warning' }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- Cockpit-Style Dashboard -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card shadow text-center bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <p class="h3">{{ users|length }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow text-center bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Lots</h5>
+                    <p class="h3">{{ lots|length }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Total Spots</h5>
+                    <p class="h3">{{ spots|length }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow text-center bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Reservations</h5>
+                    <p class="h3">{{ reservations|length }}</p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card shadow text-center bg-primary text-white">
-            <div class="card-body">
-                <h5 class="card-title">Total Lots</h5>
-                <p class="h3">{{ lots|length }}</p>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5>Spot Status Overview</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="spotStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5>Reservation Status</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="reservationStatusChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card shadow text-center">
-            <h5 class="card-title">Total Spots</h5>
-            <p class="h3">{{ spots|length }}</h5>
+
+    <!-- Search Bar -->
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <h5>Search</h5>
+        </div>
+        <div class="card-body">
+            <a href="{{ url_for('search') }}" class="btn btn-primary">Advanced Search</a>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card shadow text-center bg-primary text-white">
-            <div class="card-body">
-                <h5 class="card-title">Total Reservations</h5>
-                <p class="h3">{{ reservations|length }}</p>
-            </div>
+
+    <!-- Parking Lots -->
+    <div class="card shadow mb-5">
+        <div class="card-header bg-primary text-white d-flex justify-content-between">
+            <h5>Parking Lots</h5>
+            <a href="{{ url_for('create_lot') }}" class="btn btn-primary btn-sm">Create Lot</a>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Spots</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lot in lots %}
+                    <tr>
+                        <td>{{ lot.prime_location_name }}</td>
+                        <td>₹{{ lot.price }}</td>
+                        <td>{{ lot.spots|length }}</td>
+                        <td>
+                            <a href="{{ url_for('view_lot', lot_id=lot.id) }}" class="btn btn-primary btn-sm">View</a>
+                            <a href="{{ url_for('edit_lot', lot_id=lot.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+                            <form action="{{ url_for('delete_lot', lot_id=lot.id) }}" method="POST" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
-</div>
 
-<div class="row mb-4">
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h5>Spot Status Overview</h5>
-            </div>
-            <div class="card-body">
-                <canvas id="spotChart"></canvas>
-            </div>
+    <!-- Parking Spots -->
+    <div class="card shadow mb-5">
+        <div class="card-header bg-primary text-white d-flex justify-content-between">
+            <h5>Parking Spots</h5>
+            {% if lots and lots[0] %}
+            <a href="{{ url_for('create_spot', lot_id=lots[0].id) }}" class="btn btn-primary btn-sm">Add Spot</a>
+            {% else %}
+            <span class="text-muted">No lots available</span>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Lot</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for spot in spots %}
+                    <tr>
+                        <td>{{ spot.id }}</td>
+                        <td>{{ spot.lot.prime_location_name }}</td>
+                        <td>{{ 'Available' if spot.status == 'A' else 'Occupied' }}</td>
+                        <td>
+                            <a href="{{ url_for('view_spot', spot_id=spot.id) }}" class="btn btn-primary btn-sm">View</a>
+                            <a href="{{ url_for('edit_spot', spot_id=spot.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+                            <form action="{{ url_for('delete_spot', spot_id=spot.id) }}" method="POST" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h5>Reservation Status</h5>
-            </div>
-            <div class="card-body">
-                <canvas id="reservationChart"></canvas>
-            </div>
+
+    <!-- Users -->
+    <div class="card shadow mb-5">
+        <div class="card-header bg-primary text-white">
+            <h5>Users</h5>
         </div>
-    </div>
-</div>
-
-<!-- Search Bar -->
-<div class="card shadow mb-4">
-    <div class="card-header bg-light">
-        <h5>Search</h5>
-    </div>
-    <div class="card-body">
-        <a href="{{ url_for('search') }}" class="btn btn-primary">Advanced Search</a>
-    </div>
-</div>
-
-<!-- Parking Lots -->
-<div class="card shadow mb-4">
-    <div class="card-header bg-primary text-white d-flex justify-content-between">
-        <h5>Parking Lots</h5>
-        <a href="{{ url_for('create_lot') }}" class="btn btn-light btn-sm">Add Lot</a>
-    </div>
-    <div class="card-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Spots</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for lot in lots %}
-                <tr>
-                    <td>{{ lot.prime_location_name }}</td>
-                    <td>₹{{ lot.price }}</td>
-                    <td>{{ lot.spots|length }}</td>
-                    <td>
-                        <a href="{{ url_for('view_lot', lot_id=lot.id) }}" class="btn btn-info btn-sm">View</a>
-                        <a href="{{ url_for('edit_lot', lot_id=lot.id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ url_for('delete_lot', lot_id=lot.id) }}" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Parking Spots -->
-<div class="card shadow mb-4">
-    <div class="card-header bg-primary text-white d-flex justify-content-between">
-        <h5>Parking Spots</h5>
-        {% if lots %}
-        <a href="{{ url_for('create_spot', lot_id=lots[0].id) }}" class="btn btn-light btn-sm">Add Spot</a>
-        {% else %}
-        <span class="text-muted">No lots available</span>
-        {% endif %}
-    </div>
-    <div class="card-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Lot</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for spot in spots %}
-                <tr>
-                    <td>{{ spot.id }}</td>
-                    <td>{{ spot.lot.prime_location_name }}</td>
-                    <td>{{ 'Available' if spot.status == 'A' else 'Occupied' }}</td>
-                    <td>
-                        <a href="{{ url_for('view_spot', spot_id=spot.id) }}" class="btn btn-info btn-sm">View</a>
-                        <a href="{{ url_for('edit_spot', spot_id=spot.id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ url_for('delete_spot', spot_id=spot.id) }}" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Users -->
-<div class="card shadow mb-4">
-    <div class="card-header bg-primary text-white d-flex justify-content-between">
-        <h5>Users</h5>
-        <a href="{{ url_for('create_user') }}" class="btn btn-light btn-sm">Add User</a>
-    </div>
-    <div class="card-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.email }}</td>
-                    <td>{{ 'Admin' if user.is_admin else 'User' }}</td>
-                    <td>{{ 'Blocked' if user.is_blocked else 'Active' }}</td>
-                    <td>
-                        {% if user.id != current_user.id %}
-                            {% if user.is_blocked %}
-                            <form action="{{ url_for('unblock_user', user_id=user.id) }}" method="POST" style="display:inline;">
-                                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Unblock this user?')">Unblock</button>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.email }}</td>
+                        <td>{{ 'Admin' if user.is_admin else 'User' }}</td>
+                        <td>{{ 'Blocked' if user.is_blocked else 'Active' }}</td>
+                        <td>
+                            {% if not user.is_admin and user.id != current_user.id %}
+                            <form action="{{ url_for('block_user' if not user.is_blocked else 'unblock_user', user_id=user.id) }}" method="POST" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-{{ 'danger' if not user.is_blocked else 'success' }} btn-sm">
+                                    {{ 'Block' if not user.is_blocked else 'Unblock' }}
+                                </button>
                             </form>
                             {% else %}
-                            <form action="{{ url_for('block_user', user_id=user.id) }}" method="POST" style="display:inline;">
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Block this user?')">Block</button>
-                            </form>
+                            <span class="text-muted">No block/unblock action</span>
                             {% endif %}
-                        {% else %}
-                            <span class="text-muted">Self</span>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Reservations -->
+    <div class="card shadow mb-5">
+        <div class="card-header bg-primary text-white">
+            <h5>Reservations</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Spot</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in reservations %}
+                    <tr>
+                        <td>{{ reservation.id }}</td>
+                        <td>{{ reservation.user.email }}</td>
+                        <td>{{ reservation.spot.id }}</td>
+                        <td>{{ 'Active' if not reservation.leaving_timestamp else 'Released' }}</td>
+                        <td>
+                            <form action="{{ url_for('delete_reservation', reservation_id=reservation.id) }}" method="POST" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<!-- Reservations -->
-<div class="card shadow mb-4">
-    <div class="card-header bg-primary text-white d-flex justify-content-between">
-        <h5>Reservations</h5>
-        <form action="{{ url_for('cleanup_old_data') }}" method="POST" style="display:inline;">
-            <button type="submit" class="btn btn-danger btn-sm">Cleanup Old Reservations</button>
-        </form>
-    </div>
-    <div class="card-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>User</th>
-                    <th>Spot</th>
-                    <th>Cost</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for reservation in reservations %}
-                <tr>
-                    <td>{{ reservation.id }}</td>
-                    <td>{{ reservation.user.email }}</td>
-                    <td>{{ reservation.spot.id }}</td>
-                    <td>₹{{ reservation.parking_cost }}</td>
-                    <td>
-                        <a href="{{ url_for('edit_reservation', reservation_id=reservation.id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ url_for('delete_reservation', reservation_id=reservation.id) }}" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<script type="application/json" id="chart-data">
-{{ {
-    "spotCountAvailable": spots|selectattr("status", "equalto", "A")|list|length,
-    "spotCountOccupied": spots|selectattr("status", "equalto", "O")|list|length,
-    "reservationCountActive": reservations|rejectattr("leaving_timestamp")|list|length,
-    "reservationCountReleased": reservations|selectattr("leaving_timestamp")|list|length
-}|tojson|safe }}
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const chartData = JSON.parse(document.getElementById('chart-data').textContent);
-    const spotData = {
-        available: chartData.spotCountAvailable,
-        occupied: chartData.spotCountOccupied
-    };
-    const reservationData = {
-        active: chartData.reservationCountActive,
-        released: chartData.reservationCountReleased
-    };
-    const spotCtx = document.getElementById('spotChart').getContext('2d');
-    new Chart(spotCtx, {
-        type: 'pie',
-        data: {
-            labels: ['Available', 'Occupied'],
-            datasets: [{
-                data: [spotData.available, spotData.occupied],
-                backgroundColor: ['#28a745', '#dc3545']
-            }]
-        },
+    // Spot Status Chart
+    const spotStatusCtx = document.getElementById('spotStatusChart').getContext('2d');
+    new Chart(spotStatusCtx, {
+        type: 'doughnut',
+        data: {{ spot_status_data | tojson }},
         options: {
-            responsive: true
+            responsive: true,
+            plugins: { legend: { position: 'top' } }
         }
     });
-    const resCtx = document.getElementById('reservationChart').getContext('2d');
-    new Chart(resCtx, {
+
+    // Reservation Status Chart
+    const reservationStatusCtx = document.getElementById('reservationStatusChart').getContext('2d');
+    new Chart(reservationStatusCtx, {
         type: 'bar',
-        data: {
-            labels: ['Active', 'Released'],
-            datasets: [{
-                label: 'Reservations',
-                data: [reservationData.active, reservationData.released],
-                backgroundColor: ['#007bff', '#6c757d']
-            }]
-        },
+        data: {{ reservation_status_data | tojson }},
         options: {
-            responsive: true
+            responsive: true,
+            scales: { y: { beginAtZero: true } }
         }
     });
 </script>

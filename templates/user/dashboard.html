@@ -3,124 +3,109 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Welcome, {{ current_user.email }}</h2>
+    <h2 class="mb-4">Welcome, {{ current_user.email }}</h2>
 
-    <!-- Summary Card -->
+    <!-- Summary Charts -->
     <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card shadow text-center bg-primary text-white">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5>Your Spot Status</h5>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Total Reservations</h5>
-                    <p class="h3">{{ reservations|length }}</p>
+                    <canvas id="userSpotStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5>Your Reservation Status</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="userReservationStatusChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Chart -->
-    <div class="card shadow mb-4">
-        <div class="card-header bg-primary text-white">
-            <h5>Your Parking Summary</h5>
-        </div>
-        <div class="card-body">
-            <canvas id="reservationChart"></canvas>
-        </div>
-    </div>
-
-    <!-- Reservations -->
-    <div class="card shadow mb-4">
-        <div class="card-header bg-primary text-white">
-            <h5>Your Reservations</h5>
-        </div>
-        <div class="card-body">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }}">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Spot ID</th>
-                        <th>Lot Name</th>
-                        <th>Hours</th>
-                        <th>Cost</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for reservation in reservations %}
-                        <tr>
-                            <td>{{ reservation.id }}</td>
-                            <td>{{ reservation.spot_id }}</td>
-                            <td>{{ reservation.spot.lot.prime_location_name }}</td>
-                            <td>{{ reservation.hours }}</td>
-                            <td>₹{{ reservation.parking_cost }}</td>
-                            <td>{{ 'Active' if not reservation.leaving_timestamp else 'Released' }}</td>
-                            <td>
-                                {% if not reservation.leaving_timestamp %}
-                                    <form action="{{ url_for('release_spot', reservation_id=reservation.id) }}" method="POST" style="display:inline;">
-                                        <button type="submit" class="btn btn-warning btn-sm">Release</button>
-                                    </form>
-                                    <form action="{{ url_for('cancel_reservation', reservation_id=reservation.id) }}" method="POST" style="display:inline;">
-                                        <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
-                                    </form>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Book a New Spot -->
-    <div class="card shadow mb-4">
-        <div class="card-header bg-primary text-white">
-            <h5>Book a New Spot</h5>
-        </div>
-        <div class="card-body">
-            {% if lots %}
-                <ul class="list-group">
-                    {% for lot in lots %}
-                        <li class="list-group-item">
-                            <a href="{{ url_for('book_spot', lot_id=lot.id) }}">{{ lot.prime_location_name }}</a> (Price: ₹{{ lot.price }}/hour)
+    <!-- Existing Content -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4 shadow">
+                <div class="card-header">Available Parking Lots</div>
+                <div class="card-body">
+                    {% if lots %}
+                    <ul class="list-group">
+                        {% for lot in lots %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ lot.prime_location_name }} ({{ lot.address }})
+                            <a href="{{ url_for('select_lot') }}" class="btn btn-primary btn-sm">Book Spot</a>
                         </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No parking lots available.</p>
-            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No parking lots available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4 shadow">
+                <div class="card-header">Your Reservations</div>
+                <div class="card-body">
+                    {% if reservations %}
+                    <ul class="list-group">
+                        {% for reservation in reservations %}
+                        <li class="list-group-item">
+                            Spot ID: {{ reservation.spot_id }} in {{ reservation.spot.lot.prime_location_name }}<br>
+                            Booked at: {{ reservation.parking_timestamp }}<br>
+                            {% if reservation.leaving_timestamp %}
+                            Released at: {{ reservation.leaving_timestamp }}<br>
+                            {% endif %}
+                            Cost: ₹{{ reservation.parking_cost }}<br>
+                            Hours: {{ reservation.hours }}<br>
+                            {% if not reservation.leaving_timestamp %}
+                            <form action="{{ url_for('release_spot', reservation_id=reservation.id) }}" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-warning btn-sm">Release Spot</button>
+                            </form>
+                            <form action="{{ url_for('cancel_reservation', reservation_id=reservation.id) }}" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                            </form>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No reservations found.</p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<script type="application/json" id="chart-data">
-{{ {
-    "activeCount": reservations|rejectattr("leaving_timestamp")|list|length,
-    "releasedCount": reservations|selectattr("leaving_timestamp")|list|length
-}|tojson|safe }}
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const chartData = JSON.parse(document.getElementById('chart-data').textContent);
-    const ctx = document.getElementById('reservationChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: ['Active', 'Released'],
-            datasets: [{
-                data: [chartData.activeCount, chartData.releasedCount],
-                backgroundColor: ['#007bff', '#dc3545']
-            }]
-        },
+    // User Spot Status Chart
+    const userSpotStatusCtx = document.getElementById('userSpotStatusChart').getContext('2d');
+    new Chart(userSpotStatusCtx, {
+        type: 'doughnut',
+        data: {{ user_spot_status_data | tojson }},
         options: {
-            responsive: true
+            responsive: true,
+            plugins: { legend: { position: 'top' } }
+        }
+    });
+
+    // User Reservation Status Chart
+    const userReservationStatusCtx = document.getElementById('userReservationStatusChart').getContext('2d');
+    new Chart(userReservationStatusCtx, {
+        type: 'bar',
+        data: {{ user_reservation_status_data | tojson }},
+        options: {
+            responsive: true,
+            scales: { y: { beginAtZero: true } }
         }
     });
 </script>

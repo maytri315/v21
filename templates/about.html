@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+<div class="jumbotron text-center bg-light p-5 rounded">
+    <h1 class="display-4">About Vehicle Parking App</h1>
+    <p class="lead">We provide a seamless parking experience with secure and user-friendly booking options.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}">Get Started</a>
+</div>
+{% endblock %}

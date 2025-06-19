@@ -1,32 +1,35 @@
 {% extends "base.html" %}
 {% block title %}Create Parking Lot{% endblock %}
+
 {% block content %}
-<h2 class="mb-4">Create Parking Lot</h2>
-<div class="card shadow p-4">
-    <form method="POST" action="{{ url_for('create_lot') }}">
-        {{ form.hidden_tag() }}
-        <div class="mb-3">
-            {{ form.location_name.label(class="form-label") }}
-            {{ form.location_name(class="form-control", required=True) }}
-        </div>
-        <div class="mb-3">
-            {{ form.price.label(class="form-label") }}
-            {{ form.price(class="form-control", required=True) }}
-        </div>
-        <div class="mb-3">
-            {{ form.address.label(class="form-label") }}
-            {{ form.address(class="form-control", required=True) }}
-        </div>
-        <div class="mb-3">
-            {{ form.pin_code.label(class="form-label") }}
-            {{ form.pin_code(class="form-control", required=True) }}
-        </div>
-        <div class="mb-3">
-            {{ form.max_spots.label(class="form-label") }}
-            {{ form.max_spots(class="form-control", required=True) }}
-        </div>
-        <button type="submit" class="btn btn-primary">Create</button>
-        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back</a>
-    </form>
+<div class="container mt-5">
+    <h2>Create Parking Lot</h2>
+    <div class="card p-4 shadow">
+        <form method="POST" action="{{ url_for('create_lot') }}">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.location_name.label(class="form-label") }}
+                {{ form.location_name(class="form-control", required=True) }}
+            </div>
+            <div class="mb-3">
+                {{ form.price.label(class="form-label") }}
+                {{ form.price(class="form-control", required=True) }}
+            </div>
+            <div class="mb-3">
+                {{ form.address.label(class="form-label") }}
+                {{ form.address(class="form-control", required=True) }}
+            </div>
+            <div class="mb-3">
+                {{ form.pin_code.label(class="form-label") }}
+                {{ form.pin_code(class="form-control", required=True) }}
+            </div>
+            <div class="mb-3">
+                {{ form.max_spots.label(class="form-label") }}
+                {{ form.max_spots(class="form-control", required=True) }}
+            </div>
+            <button type="submit" class="btn btn-primary">Create Lot</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
 </div>
 {% endblock %}

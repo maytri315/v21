@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Manage Users{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Manage Users</h1>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ 'success' if category == 'success' else 'danger' if category == 'danger' else 'warning' }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Registered Users</h5>
+        {# Corrected link to the existing 'register' endpoint for adding new users #}
+        <a href="{{ url_for('register') }}" class="btn btn-light btn-sm">Add New User</a>
+    </div>
+    <div class="card-body">
+        {% if users %}
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <span class="badge badge-{{ 'primary' if user.is_admin else 'secondary' }}">
+                                {{ 'Admin' if user.is_admin else 'User' }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge badge-{{ 'danger' if user.is_blocked else 'success' }}">
+                                {{ 'Blocked' if user.is_blocked else 'Active' }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if user.id != current_user.id %}
+                                <a href="{{ url_for('edit_user', user_id=user.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                {% if user.is_blocked %}
+                                    <form action="{{ url_for('unblock_user', user_id=user.id) }}" method="POST" style="display:inline;" class="ml-1">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-success btn-sm" data-confirm="Unblock this user?">Unblock</button>
+                                    </form>
+                                {% else %}
+                                    {# Only allow blocking non-admin users #}
+                                    {% if not user.is_admin %}
+                                    <form action="{{ url_for('block_user', user_id=user.id) }}" method="POST" style="display:inline;" class="ml-1">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-danger btn-sm" data-confirm="Block this user? They will not be able to log in.">Block</button>
+                                    </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                <span class="text-muted">Current Admin</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p class="text-center text-muted">No users registered yet. Use the "Add New User" button to register a new user.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a href="{{ url_for('admin_summary') }}" class="btn btn-secondary btn-lg">Back to Admin Summary</a>
+</div>
+
+{% endblock %}

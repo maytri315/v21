@@ -3,33 +3,90 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Create Parking Lot</h2>
-    <div class="card p-4 shadow">
-        <form method="POST" action="{{ url_for('create_lot') }}">
-            {{ form.hidden_tag() }}
-            <div class="mb-3">
-                {{ form.location_name.label(class="form-label") }}
-                {{ form.location_name(class="form-control", required=True) }}
-            </div>
-            <div class="mb-3">
-                {{ form.price.label(class="form-label") }}
-                {{ form.price(class="form-control", required=True) }}
-            </div>
-            <div class="mb-3">
-                {{ form.address.label(class="form-label") }}
-                {{ form.address(class="form-control", required=True) }}
-            </div>
-            <div class="mb-3">
-                {{ form.pin_code.label(class="form-label") }}
-                {{ form.pin_code(class="form-control", required=True) }}
-            </div>
-            <div class="mb-3">
-                {{ form.max_spots.label(class="form-label") }}
-                {{ form.max_spots(class="form-control", required=True) }}
-            </div>
-            <button type="submit" class="btn btn-primary">Create Lot</button>
-            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
-        </form>
+    <h1 class="text-center mb-4">Create New Parking Lot</h1>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ 'success' if category == 'success' else 'danger' if category == 'danger' else 'warning' }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="card shadow mb-4 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-primary text-white">
+            <h5>Lot Details</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group mb-3">
+                    {{ form.location_name.label(class="form-label") }}
+                    {{ form.location_name(class="form-control") }}
+                    {% if form.location_name.errors %}
+                        <div class="text-danger">
+                            {% for error in form.location_name.errors %}
+                                <small>{{ error }}</small><br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form.price.label(class="form-label") }}
+                    {{ form.price(class="form-control", type="number", step="0.01") }}
+                    {% if form.price.errors %}
+                        <div class="text-danger">
+                            {% for error in form.price.errors %}
+                                <small>{{ error }}</small><br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form.address.label(class="form-label") }}
+                    {{ form.address(class="form-control") }}
+                    {% if form.address.errors %}
+                        <div class="text-danger">
+                            {% for error in form.address.errors %}
+                                <small>{{ error }}</small><br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form.pin_code.label(class="form-label") }}
+                    {{ form.pin_code(class="form-control") }}
+                    {% if form.pin_code.errors %}
+                        <div class="text-danger">
+                            {% for error in form.pin_code.errors %}
+                                <small>{{ error }}</small><br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group mb-4">
+                    {{ form.maximum_number_of_spots.label(class="form-label") }} {# Corrected field name #}
+                    {{ form.maximum_number_of_spots(class="form-control", type="number", min="1") }} {# Corrected field name #}
+                    {% if form.maximum_number_of_spots.errors %} {# Corrected field name #}
+                        <div class="text-danger">
+                            {% for error in form.maximum_number_of_spots.errors %} {# Corrected field name #}
+                                <small>{{ error }}</small><br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary") }}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary ml-2">Back to Dashboard</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

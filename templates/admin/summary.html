@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block title %}Admin Summary{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Admin Summary and Analytics</h1>
+
+<!-- Overview Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card shadow text-center bg-primary text-white h-100">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <h5 class="card-title">Total Users</h5>
+                <p class="h3 mb-0">{{ total_users }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow text-center bg-info text-white h-100">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <h5 class="card-title">Total Lots</h5>
+                <p class="h3 mb-0">{{ total_lots }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow text-center bg-warning text-white h-100">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <h5 class="card-title">Total Spots</h5>
+                <p class="h3 mb-0">{{ total_spots }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow text-center bg-success text-white h-100">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <h5 class="card-title">Total Reservations</h5>
+                <p class="h3 mb-0">{{ total_reservations }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistical Charts and Revenue -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card shadow h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Spot Status Overview</h5>
+            </div>
+            <div class="card-body d-flex justify-content-center align-items-center">
+                <canvas id="spotChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Reservation Status</h5>
+            </div>
+            <div class="card-body d-flex justify-content-center align-items-center">
+                <canvas id="reservationChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow bg-success text-white h-100">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                <h5 class="card-title">Total Revenue (Released Reservations)</h5>
+                <p class="display-4 mb-0">₹{{ "%.2f"|format(total_revenue) }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary btn-lg">Back to Admin Dashboard</a>
+    <a href="{{ url_for('admin_occupied_spots') }}" class="btn btn-warning btn-lg ml-3">View All Occupied Spots</a>
+    <a href="{{ url_for('view_users') }}" class="btn btn-dark btn-lg ml-3">Manage Users</a>
+    <a href="{{ url_for('search') }}" class="btn btn-info btn-lg ml-3">Advanced Search</a>
+</div>
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Spot Status Chart (Pie)
+        const spotData = {{ spot_status_data | tojson | safe }};
+        const spotCtx = document.getElementById('spotChart');
+        if (spotCtx) {
+            new Chart(spotCtx.getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: spotData.labels,
+                    datasets: [{
+                        data: spotData.datasets[0].data,
+                        backgroundColor: spotData.datasets[0].backgroundColor,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        title: {
+                            display: false,
+                        }
+                    }
+                }
+            });
+        }
+
+        // Reservation Status Chart (Bar)
+        const reservationData = {{ reservation_status_data | tojson | safe }};
+        const resCtx = document.getElementById('reservationChart');
+        if (resCtx) {
+            new Chart(resCtx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: reservationData.labels,
+                    datasets: [{
+                        label: 'Number of Reservations',
+                        data: reservationData.datasets[0].data,
+                        backgroundColor: reservationData.datasets[0].backgroundColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0 // Ensure y-axis labels are integers
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %}

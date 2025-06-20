@@ -2,24 +2,32 @@
 {% block title %}Select Parking Lot{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2>Select a Parking Lot</h2>
-    <div class="card p-4 shadow">
-        {% if form.lot_id.choices %}
+<h2 class="mb-4">Select a Parking Lot to Book a Spot</h2>
+<div class="card shadow p-4">
+    {% if form.lot_id.choices %}
         <form method="POST" action="{{ url_for('select_lot') }}">
             {{ form.hidden_tag() }}
             <div class="mb-3">
-                {{ form.lot_id.label(class="form-label") }}
+                <label for="lot_id" class="form-label">Choose a Parking Lot with Available Spots:</label>
                 {{ form.lot_id(class="form-control", required=True) }}
-                <small class="form-text text-muted">Choose a lot with available spots.</small>
+                {% if form.lot_id.errors %}
+                    <div class="text-danger">
+                        {% for error in form.lot_id.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
-            <button type="submit" class="btn btn-primary">Select Lot</button>
-            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Proceed to Book</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary ml-2">Back to Dashboard</a>
         </form>
-        {% else %}
-        <p class="text-muted">No lots with available spots.</p>
-        <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
-        {% endif %}
-    </div>
+    {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            No parking lots currently have available spots. Please check back later.
+        </div>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

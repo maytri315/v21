@@ -1,32 +1,67 @@
 {% extends "base.html" %}
 {% block title %}Edit Parking Lot{% endblock %}
 {% block content %}
-<h2 class="mb-4">Edit Parking Lot</h2>
+<h2 class="mb-4">Edit Parking Lot: {{ lot.prime_location_name }}</h2>
 <div class="card shadow p-4">
     <form method="POST" action="{{ url_for('edit_lot', lot_id=lot.id) }}">
         {{ form.hidden_tag() }}
         <div class="mb-3">
             {{ form.location_name.label(class="form-label") }}
-            {{ form.location_name(class="form-control", required=True, value=lot.prime_location_name) }}
+            {{ form.location_name(class="form-control", required=True) }}
+            {% if form.location_name.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.location_name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <div class="mb-3">
             {{ form.price.label(class="form-label") }}
-            {{ form.price(class="form-control", required=True, value=lot.price) }}
+            {{ form.price(class="form-control", required=True) }}
+            {% if form.price.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.price.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <div class="mb-3">
             {{ form.address.label(class="form-label") }}
-            {{ form.address(class="form-control", required=True, value=lot.address, readonly=True) }}
+            {{ form.address(class="form-control", required=True) }}
+            {% if form.address.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.address.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <div class="mb-3">
             {{ form.pin_code.label(class="form-label") }}
-            {{ form.pin_code(class="form-control", required=True, value=lot.pin_code, readonly=True) }}
+            {{ form.pin_code(class="form-control", required=True) }}
+            {% if form.pin_code.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.pin_code.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <div class="mb-3">
-            {{ form.max_spots.label(class="form-label") }}
-            {{ form.max_spots(class="form-control", required=True, value=lot.maximum_number_of_spots) }}
+            {{ form.maximum_number_of_spots.label(class="form-label") }} {# CHANGED: from form.max_spots to form.maximum_number_of_spots #}
+            {{ form.maximum_number_of_spots(class="form-control", required=True, min="1") }} {# CHANGED: from form.max_spots to form.maximum_number_of_spots #}
+            {% if form.maximum_number_of_spots.errors %} {# CHANGED: from form.max_spots to form.maximum_number_of_spots #}
+                <div class="text-danger small mt-1">
+                    {% for error in form.maximum_number_of_spots.errors %} {# CHANGED: from form.max_spots to form.maximum_number_of_spots #}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
-        <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back</a>
+        <button type="submit" class="btn btn-primary">Update Lot</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary ml-2">Back to Dashboard</a>
     </form>
 </div>
 {% endblock %}

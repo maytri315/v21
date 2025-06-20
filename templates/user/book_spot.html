@@ -1,20 +1,59 @@
 {% extends "base.html" %}
-{% block title %}Book Parking Spot{% endblock %}
+{% block title %}Book Spot{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2>Book a Spot in {{ lot.prime_location_name }}</h2>
-    <div class="card p-4 shadow">
+<h2 class="mb-4">Confirm Your Parking Spot Booking</h2>
+<div class="card shadow p-4">
+    {% if spot %}
+        <p class="lead text-primary">
+            You are about to book: <br>
+            <strong>Spot ID: {{ spot.id }}</strong> in <strong>{{ lot.prime_location_name }}</strong>.
+        </p>
+        <p class="mb-4">
+            Price per hour: <strong class="text-success">₹{{ "%.2f"|format(lot.price) }}</strong>
+        </p>
+
         <form method="POST" action="{{ url_for('book_spot', lot_id=lot.id) }}">
             {{ form.hidden_tag() }}
+            {# These hidden fields are set by app.py data, not user input #}
+            {{ form.spot_id(type="hidden") }}
+            {{ form.user_id(type="hidden") }}
+
             <div class="mb-3">
-                {{ form.hours.label(class="form-label") }}
-                {{ form.hours(class="form-control", required=True) }}
-                <small class="form-text text-muted">Enter the number of hours for your booking.</small>
+                {{ form.vehicle_no.label(class="form-label font-weight-bold") }}
+                {{ form.vehicle_no(class="form-control", required=True, placeholder="Enter your vehicle number (e.g., UP16AB1234)", maxlength="15") }}
+                {% if form.vehicle_no.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.vehicle_no.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
-            <button type="submit" class="btn btn-primary">Book Spot</button>
-            <a href="{{ url_for('select_lot') }}" class="btn btn-secondary">Change Lot</a>
+            <div class="mb-3">
+                {{ form.hours.label(class="form-label font-weight-bold") }}
+                {{ form.hours(class="form-control", required=True, value=1, min=0.1, step=0.1, placeholder="e.g., 2.5") }}
+                {% if form.hours.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.hours.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="d-flex justify-content-start mt-4">
+                <button type="submit" class="btn btn-primary btn-lg mr-2">Confirm Booking</button>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary btn-lg">Cancel</a>
+            </div>
         </form>
-    </div>
+    {% else %}
+        <div class="alert alert-warning text-center" role="alert">
+            No available parking spots found in **{{ lot.prime_location_name }}** at this moment. Please try selecting another lot or check back later.
+        </div>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('select_lot') }}" class="btn btn-info">Choose Another Lot</a>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary ml-2">Back to Dashboard</a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Release Parking Spot{% endblock %}
+
+{% block content %}
+<div class="card shadow mb-4">
+    <div class="card-header bg-warning text-white">
+        <h5 class="mb-0">Release Parking Spot</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('release_spot', reservation_id=reservation.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="form-group">
+                <label>Spot ID:</label>
+                <input type="text" class="form-control" value="{{ spot.id }}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Vehicle No.:</label>
+                <input type="text" class="form-control" value="{{ reservation.vehicle_no }}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Parking Time:</label>
+                <input type="text" class="form-control" value="{{ reservation.parking_timestamp.strftime('%Y-%m-%d %H:%M') if reservation.parking_timestamp else 'N/A' }}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Release Time:</label>
+                <input type="text" class="form-control" value="{{ reservation.leaving_timestamp.strftime('%Y-%m-%d %H:%M') if reservation.leaving_timestamp else get_ist_time().strftime('%Y-%m-%d %H:%M') }}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Total Cost:</label>
+                <input type="text" class="form-control" value="₹{{ '%.2f'|format(reservation.parking_cost) }}" readonly>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success btn-lg">Release</button>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-danger btn-lg ml-2">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

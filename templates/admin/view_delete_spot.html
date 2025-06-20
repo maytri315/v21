@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}View / Delete Parking Spot{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">View / Delete Specific Parking Spot</h2>
+<div class="card shadow p-4 mb-4">
+    <form method="POST" action="{{ url_for('admin_view_delete_spot') }}" class="mb-3">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="spot_id" class="form-label">Enter Spot ID:</label>
+                <input type="number" class="form-control" id="spot_id" name="spot_id" placeholder="e.g., 101" required>
+            </div>
+            {# The status dropdown here is more for general search on a list, less for specific view/delete by ID #}
+            {# Removing it as it doesn't align with "view/delete by ID" as primary #}
+        </div>
+        <button type="submit" name="action" value="view" class="btn btn-primary mr-2">View Spot Details</button>
+        <button type="submit" name="action" value="delete" class="btn btn-danger" data-confirm="Are you sure you want to delete this spot? This will also remove its past reservation history.">Delete Spot</button>
+    </form>
+</div>
+
+{% if spot_details %}
+    <div class="card shadow p-4 mt-4">
+        <div class="card-header bg-info text-white">
+            <h5>Details for Spot ID: {{ spot_details.id }}</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Spot ID:</strong> {{ spot_details.id }}</p>
+            <p><strong>Located in Lot:</strong> {{ spot_details.lot_name }}</p>
+            <p><strong>Current Status:</strong>
+                <span class="badge badge-{{ 'success' if spot_details.status == 'Available' else 'danger' }}">
+                    {{ spot_details.status }}
+                </span>
+            </p>
+            <p><strong>Currently Occupied By:</strong> {{ spot_details.occupying_user_email }}</p>
+        </div>
+        <div class="card-footer text-right">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Close</a>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

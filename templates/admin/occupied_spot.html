@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Occupied Spots{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Currently Occupied Parking Spots</h1>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-{{ 'success' if category == 'success' else 'danger' if category == 'danger' else 'warning' }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Active Reservations</h5>
+    </div>
+    <div class="card-body">
+        {% if occupied_reservations %}
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Reservation ID</th>
+                        <th>User Email</th>
+                        <th>Spot ID</th>
+                        <th>Lot Name</th>
+                        <th>Vehicle No.</th>
+                        <th>Parking Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in occupied_reservations %}
+                    <tr>
+                        <td>{{ reservation.id }}</td>
+                        <td>{{ reservation.user.email if reservation.user else 'N/A' }}</td>
+                        <td>{{ reservation.spot_id }}</td>
+                        <td>{{ reservation.spot.lot.prime_location_name if reservation.spot and reservation.spot.lot else 'N/A' }}</td>
+                        <td>{{ reservation.vehicle_no if reservation.vehicle_no else 'N/A' }}</td>
+                        <td>{{ reservation.parking_timestamp.strftime('%Y-%m-%d %H:%M') if reservation.parking_timestamp else 'N/A' }}</td>
+                        <td>
+                            {# Button to go to a page to finalize (release) the reservation #}
+                            <a href="{{ url_for('edit_reservation', reservation_id=reservation.id) }}" class="btn btn-warning btn-sm">Edit / Release</a>
+                            <form action="{{ url_for('delete_reservation', reservation_id=reservation.id) }}" method="POST" style="display:inline;" class="ml-1">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-danger btn-sm" data-confirm="Are you sure you want to delete this reservation? This cannot be undone.">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p class="text-center text-muted">No spots are currently occupied.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a href="{{ url_for('admin_summary') }}" class="btn btn-secondary btn-lg">Back to Admin Summary</a>
+</div>
+
+{% endblock %}

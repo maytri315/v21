@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Your Parking Summary{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Your Parking Summary</h2>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5>Reservation Status</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="userReservationStatusChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h5>Total Parking Cost Spent</h5>
+            </div>
+            <div class="card-body">
+                <p class="display-4 text-center">₹{{ "%.2f"|format(total_cost_spent) }}</p>
+                {# Optional: Bar chart for total cost if needed, currently just a number #}
+                <canvas id="userTotalCostChart" style="max-height: 200px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const reservationStatusData = {{ reservation_status_chart_data | tojson | safe }};
+        const totalCostChartData = {{ total_cost_chart_data | tojson | safe }};
+
+        // User Reservation Status Pie Chart
+        const resStatusCtx = document.getElementById('userReservationStatusChart');
+        if (resStatusCtx) {
+            new Chart(resStatusCtx.getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: reservationStatusData.labels,
+                    datasets: [{
+                        data: reservationStatusData.datasets[0].data,
+                        backgroundColor: reservationStatusData.datasets[0].backgroundColor,
+                        hoverOffset: reservationStatusData.datasets[0].hoverOffset
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: false,
+                            text: 'Your Reservation Status'
+                        }
+                    }
+                }
+            });
+        }
+
+        // User Total Cost Bar Chart
+        const totalCostCtx = document.getElementById('userTotalCostChart');
+        if (totalCostCtx) {
+            new Chart(totalCostCtx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: totalCostChartData.labels,
+                    datasets: [{
+                        label: totalCostChartData.datasets[0].label,
+                        data: totalCostChartData.datasets[0].data,
+                        backgroundColor: totalCostChartData.datasets[0].backgroundColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: false,
+                            text: 'Total Parking Cost'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %}

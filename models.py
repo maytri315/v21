@@ -5,6 +5,9 @@ from datetime import datetime
 db = SQLAlchemy()
 
 class User(db.Model, UserMixin):
+    # Add this line to handle re-declarations gracefully during development/reloads
+    __table_args__ = {'extend_existing': True}
+
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
@@ -17,6 +20,9 @@ class User(db.Model, UserMixin):
         return f'<User {self.email}>'
 
 class ParkingLot(db.Model):
+    # Add this line to handle re-declarations gracefully during development/reloads
+    __table_args__ = {'extend_existing': True}
+
     id = db.Column(db.Integer, primary_key=True)
     prime_location_name = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Float, nullable=False) # Price per hour
@@ -42,6 +48,9 @@ class ParkingLot(db.Model):
 
 
 class ParkingSpot(db.Model):
+    # Add this line to handle re-declarations gracefully during development/reloads
+    __table_args__ = {'extend_existing': True}
+
     id = db.Column(db.Integer, primary_key=True)
     lot_id = db.Column(db.Integer, db.ForeignKey('parking_lot.id'), nullable=False)
     # Status: 'A' for Available, 'O' for Occupied
@@ -54,6 +63,9 @@ class ParkingSpot(db.Model):
         return f'<ParkingSpot {self.id} (Lot: {self.lot_id}, Status: {self.status})>'
 
 class Reservation(db.Model):
+    # Add this line to handle re-declarations gracefully during development/reloads
+    __table_args__ = {'extend_existing': True}
+
     id = db.Column(db.Integer, primary_key=True)
     spot_id = db.Column(db.Integer, db.ForeignKey('parking_spot.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

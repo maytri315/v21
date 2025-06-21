@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, FloatField, IntegerField, SelectField, DateTimeLocalField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, IntegerField, FloatField, DateTimeLocalField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange, Optional, ValidationError
+from datetime import datetime
 
-# IMPORTANT: Removed all direct imports from 'models' here.
-# This is crucial to prevent circular import issues.
-# All database-related logic (like populating SelectField choices or unique checks)
-# should now be handled directly within your Flask routes in app.py,
-# where the application context and database are fully initialized.
+# Custom Validator for DatetimeLocalField to ensure past/present
+def valid_datetime_past_or_present(form, field):
+    if field.data and field.data > datetime.now():
+        raise ValidationError('Datetime cannot be in the future.')
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -17,12 +17,10 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, message='Password must be at least 6 characters long.')])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match.')])
-    is_admin = BooleanField('Register as Admin (for initial setup only)') # Added for admin creation
+    is_admin = BooleanField('Register as Admin (for initial setup only)')
     submit = SubmitField('Register')
 
-    # The validate_email method is removed from here.
-    # The uniqueness check for email should be performed in the Flask route (app.py).
-    # Your app.py already contains this check, ensuring it happens when the DB is ready.
+    # Email uniqueness check moved to app.py route
 
 class ParkingLotForm(FlaskForm):
     location_name = StringField('Prime Location Name', validators=[DataRequired(), Length(max=100)])
@@ -32,36 +30,37 @@ class ParkingLotForm(FlaskForm):
     maximum_number_of_spots = IntegerField('Maximum Number of Spots', validators=[DataRequired(), NumberRange(min=1, message='Must have at least 1 spot.')])
     submit = SubmitField('Submit')
 
-    # This validator for pin_code is fine as it doesn't access the database.
-    # The crucial database uniqueness check for pin_code is also handled in app.py.
     def validate_pin_code(self, pin_code):
-        pass
+        pass  # Uniqueness check moved to app.py
 
 class ParkingSpotForm(FlaskForm):
-    # The lot_id choices MUST be populated in the Flask view function (e.g., in app.py's create_spot, edit_spot routes).
-    # The __init__ method that attempted to query the database here has been removed.
     lot_id = SelectField('Parking Lot', coerce=int, validators=[DataRequired()])
     status = SelectField('Status', choices=[('A', 'Available'), ('O', 'Occupied')], validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+    # Choices populated in app.py routes
+
 class ReservationForm(FlaskForm):
-    spot_id = IntegerField('Spot ID', validators=[Optional()]) # Can be hidden field, auto-filled
-    user_id = IntegerField('User ID', validators=[Optional()]) # Can be hidden field, auto-filled
+    spot_id = IntegerField('Spot ID', validators=[Optional()])  # Hidden, pre-filled by route
+    user_id = IntegerField('User ID', validators=[Optional()])  # Hidden, pre-filled by route
     vehicle_no = StringField('Vehicle Number', validators=[DataRequired(), Length(max=20)])
     hours = FloatField('Duration in Hours', validators=[DataRequired(), NumberRange(min=0.1, message='Duration must be at least 0.1 hours.')])
-    parking_cost = FloatField('Parking Cost (₹)', validators=[Optional(), NumberRange(min=0.0)]) # Optional for initial booking, calculated by backend
-    
-    # For admin editing of existing reservations, these might be needed
-    parking_timestamp = DateTimeLocalField('Parking Time', format='%Y-%m-%dT%H:%M', validators=[Optional()])
-    leaving_timestamp = DateTimeLocalField('Leaving Time', format='%Y-%m-%dT%H:%M', validators=[Optional()])
+    parking_cost = FloatField('Parking Cost (₹)', validators=[Optional(), NumberRange(min=0.0)], render_kw={'readonly': True})  # Calculated by backend
+    parking_timestamp = DateTimeLocalField('Parking Time', format='%Y-%m-%dT%H:%M', validators=[Optional(), valid_datetime_past_or_present])
+    leaving_timestamp = DateTimeLocalField('Leaving Time', format='%Y-%m-%dT%H:%M', validators=[Optional(), valid_datetime_past_or_present], render_kw={'step': '60'})
+    submit = SubmitField('Book Spot')
 
-    submit = SubmitField('Book Spot') # For user booking
+    def validate_leaving_timestamp(self, field):
+        if self.parking_timestamp.data and field.data and field.data < self.parking_timestamp.data:
+            raise ValidationError('Leaving time cannot be before parking time.')
+
+    # Removed validate_spot_id and validate_user_id; handled in app.py
 
 class SelectParkingLotForm(FlaskForm):
-    # The lot_id choices MUST be populated in the Flask view function (e.g., in app.py's select_lot route).
-    # The __init__ method that attempted to query the database here has been removed.
     lot_id = SelectField('Select Parking Lot', coerce=int, validators=[DataRequired()])
     submit = SubmitField('Select Lot')
+
+    # Choices populated in app.py routes
 
 class SearchForm(FlaskForm):
     def coerce_lot_id(value):
@@ -76,7 +75,6 @@ class SearchForm(FlaskForm):
         ('lot_location', 'Parking Lot (by location/ID)')
     ], validators=[DataRequired()])
     query_text = StringField('Search Query', validators=[Optional(), Length(max=100)])
-    # Using the custom coerce function here
     lot_id = SelectField('Select Parking Lot', coerce=coerce_lot_id, validators=[Optional()])
     submit = SubmitField('Search')
 

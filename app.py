@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required, UserMixin
 from flask_wtf import FlaskForm
@@ -19,25 +19,9 @@ import logging
 # Configure logging
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Define get_ist_time function at the top
-def get_ist_time():
-    """Get current time in Asia/Kolkata timezone."""
-    # Prioritize zoneinfo if available (Python 3.9+)
-    if ZoneInfo:
-        try:
-            return datetime.now(ZoneInfo("Asia/Kolkata"))
-        except Exception as e:
-            logging.warning(f"ZoneInfo failed for Asia/Kolkata: {e}, falling back to pytz.")
-    # Fallback to pytz
-    try:
-        return datetime.now(pytz.timezone("Asia/Kolkata"))
-    except Exception as e:
-        logging.error(f"Failed to get Asia/Kolkata time with pytz: {e}. Returning naive UTC datetime.")
-        return datetime.utcnow()  # Fallback to naive UTC if all else fails
-
 app = Flask(__name__)
-# Ensure FLASK_SECRET_KEY is set in your environment variables for production
-app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', 'a_very_secret_and_complex_key_replace_me_in_prod')
+# Ensure a strong SECRET_KEY is set (use environment variable in production)
+app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', 'a_very_secure_key_change_me_in_production_1234567890')
 basedir = os.path.abspath(os.path.dirname(__file__))
 instance_path = os.path.join(basedir, 'instance')
 if not os.path.exists(instance_path):
@@ -49,11 +33,22 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 csrf = CSRFProtect(app)
 
 db.init_app(app)
-# Register get_ist_time as a Jinja2 global
-app.jinja_env.globals.update(get_ist_time=get_ist_time)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 api = Api(app)
+
+def get_ist_time():
+    """Get current time in Asia/Kolkata timezone."""
+    if ZoneInfo:
+        try:
+            return datetime.now(ZoneInfo("Asia/Kolkata"))
+        except Exception as e:
+            logging.warning(f"ZoneInfo failed for Asia/Kolkata: {e}, falling back to pytz.")
+    try:
+        return datetime.now(pytz.timezone("Asia/Kolkata"))
+    except Exception as e:
+        logging.error(f"Failed to get Asia/Kolkata time with pytz: {e}. Returning naive UTC datetime.")
+        return datetime.utcnow()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -64,10 +59,19 @@ def load_user(user_id):
         logging.error(f"Error loading user {user_id}: {e}")
         return None
 
+# CSRF Debugging
+@app.before_request
+def protect_against_csrf():
+    try:
+        csrf.protect()
+    except Exception as e:
+        logging.error(f"CSRF protection error: {e}")
+        flash('CSRF validation failed. Please try again.', 'danger')
+        return redirect(url_for('dashboard'))
+
 # --- API Resources ---
 class ParkingLotAPI(Resource):
     def get(self, lot_id=None):
-        """Get parking lot(s) via API."""
         try:
             if lot_id:
                 lot = ParkingLot.query.get_or_404(lot_id)
@@ -80,7 +84,6 @@ class ParkingLotAPI(Resource):
 
 class ParkingSpotAPI(Resource):
     def get(self, lot_id):
-        """Get parking spots for a lot via API."""
         try:
             spots = ParkingSpot.query.filter_by(lot_id=lot_id).all()
             return [{'id': spot.id, 'status': 'Available' if spot.status == 'A' else 'Occupied'} for spot in spots]
@@ -94,27 +97,22 @@ api.add_resource(ParkingSpotAPI, '/api/lots/<int:lot_id>/spots')
 # --- General Routes ---
 @app.route('/')
 def home():
-    """Render the home page."""
     return render_template('home.html')
 
 @app.route('/contact')
 def contact():
-    """Render the contact page."""
     return render_template('contact.html')
 
 @app.route('/about')
 def about():
-    """Render the about page."""
     return render_template('about.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """Handle user login."""
     if current_user.is_authenticated:
         logging.info(f"Authenticated user {current_user.email} redirected from login")
         return redirect(url_for('dashboard'))
     form = LoginForm()
-    logging.debug(f"Login form instantiated: {form}")
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
@@ -128,12 +126,10 @@ def login():
             return redirect(url_for('dashboard'))
         flash('Invalid email or password', 'danger')
         logging.warning(f"Failed login attempt for {form.email.data}")
-    logging.debug(f"Rendering login.html with form: {form}")
     return render_template('login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    """Handle user registration."""
     if current_user.is_authenticated:
         logging.info(f"Authenticated user {current_user.email} redirected from register")
         return redirect(url_for('dashboard'))
@@ -154,7 +150,6 @@ def register():
 @app.route('/logout')
 @login_required
 def logout():
-    """Handle user logout."""
     email = current_user.email
     logout_user()
     flash('Logged out successfully', 'success')
@@ -164,7 +159,6 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    """Render user or admin dashboard based on role."""
     if current_user.is_blocked:
         flash('Your account is blocked. Contact an admin.', 'danger')
         logout_user()
@@ -235,32 +229,72 @@ def book_spot(lot_id):
         return redirect(url_for('dashboard'))
 
     lot = ParkingLot.query.get_or_404(lot_id)
-    spot = ParkingSpot.query.filter_by(lot_id=lot_id, status='A').first()
+    available_spots = ParkingSpot.query.filter_by(lot_id=lot_id, status='A').all()
+    logging.debug(f"Available spots in lot {lot_id} at {get_ist_time()}: {len(available_spots)}")
 
-    form = ReservationForm()
-    if spot:
+    if request.method == 'GET':
+        spot = ParkingSpot.query.filter_by(lot_id=lot_id, status='A').first()
+        if not spot:
+            flash('No available spots in this lot. Please select another lot.', 'danger')
+            logging.warning(f"No available spots for user {current_user.email} in lot {lot_id} at {get_ist_time()}.")
+            return redirect(url_for('select_lot'))
+        session['selected_spot'] = {'id': spot.id, 'timestamp': get_ist_time().isoformat()}
+        form = ReservationForm()
         form.spot_id.data = spot.id
         form.user_id.data = current_user.id
-    else:
-        flash('No available spots in this lot. Please try selecting another lot.', 'danger')
-        logging.warning(f"User {current_user.email} attempted to book in lot {lot_id} but no spot found on GET request.")
-        return redirect(url_for('select_lot'))
+        return render_template('user/book_spot.html', lot=lot, spot=spot, form=form)
 
-    if form.validate_on_submit():
-        re_checked_spot = ParkingSpot.query.get(spot.id)
-        if not re_checked_spot or re_checked_spot.status == 'O':
-            flash('The selected spot is no longer available. Please try again.', 'danger')
-            logging.warning(f"User {current_user.email} attempted to book spot {spot.id} but it was already occupied during POST.")
+    if request.method == 'POST':
+        form = ReservationForm()
+        if not form.validate_on_submit():
+            flash('Invalid spot selection or form submission.', 'danger')
+            logging.error(f"Invalid POST for user {current_user.email} in lot {lot_id} at {get_ist_time()}: {form.errors}")
+            if 'selected_spot' in session:
+                del session['selected_spot']
+            return redirect(url_for('dashboard'))
+
+        if 'selected_spot' not in session or form.spot_id.data != session['selected_spot']['id'] or form.user_id.data != current_user.id:
+            flash('Session data mismatch. Please try again.', 'danger')
+            logging.error(f"Session mismatch for user {current_user.email} in lot {lot_id} at {get_ist_time()}: Form spot_id={form.spot_id.data}, Session spot_id={session.get('selected_spot', {}).get('id')}, Form user_id={form.user_id.data}, Current user_id={current_user.id}")
+            if 'selected_spot' in session:
+                del session['selected_spot']
+            return redirect(url_for('select_lot'))
+
+        selected_spot_data = session['selected_spot']
+        re_checked_spot = ParkingSpot.query.get(selected_spot_data['id'])
+        if not re_checked_spot or re_checked_spot.status != 'A':
+            next_spot = ParkingSpot.query.filter_by(lot_id=lot_id, status='A').first()
+            if not next_spot:
+                flash('The selected spot and all others are no longer available. Please try again.', 'danger')
+                logging.warning(f"No available spots for user {current_user.email} in lot {lot_id} at {get_ist_time()}.")
+                del session['selected_spot']
+                return redirect(url_for('select_lot'))
+            re_checked_spot = next_spot
+            form.spot_id.data = re_checked_spot.id
+            logging.info(f"Switched to next available spot {re_checked_spot.id} for user {current_user.email} in lot {lot_id}.")
+
+        session_timestamp = datetime.fromisoformat(selected_spot_data['timestamp']).replace(tzinfo=pytz.UTC)
+        current_time = get_ist_time().replace(tzinfo=pytz.UTC)
+        if (current_time - session_timestamp).total_seconds() > 300:
+            flash('Session for spot selection has expired. Please try again.', 'danger')
+            logging.warning(f"Stale session spot {selected_spot_data['id']} for user {current_user.email} in lot {lot_id}.")
+            del session['selected_spot']
             return redirect(url_for('select_lot'))
 
         try:
-            hours = float(form.hours.data)
+            hours = float(form.hours.data or 1.0)
             if hours <= 0:
-                raise ValueError("Parking duration must be positive.")
+                raise ValueError("Parking duration must be greater than 0.")
         except ValueError as e:
-            flash(f'Invalid parking duration: {e}', 'danger')
-            logging.warning(f"Invalid hours input by user {current_user.email}: {e}")
-            return render_template('user/book_spot.html', lot=lot, spot=spot, form=form)
+            flash(f'Invalid parking duration: {str(e)}. Defaulting to 1 hour.', 'danger')
+            logging.warning(f"Invalid hours '{form.hours.data}' from user {current_user.email}, defaulting to 1.")
+            hours = 1.0
+
+        vehicle_no = form.vehicle_no.data.strip() if form.vehicle_no.data else 'TEMP1234'
+        if len(vehicle_no) > 15:
+            flash('Vehicle number exceeds 15 characters. Truncating to 15.', 'warning')
+            logging.warning(f"Vehicle number '{vehicle_no}' truncated for user {current_user.email}.")
+            vehicle_no = vehicle_no[:15]
 
         re_checked_spot.status = 'O'
         parking_cost = lot.price * hours
@@ -268,28 +302,28 @@ def book_spot(lot_id):
         reservation = Reservation(
             spot_id=re_checked_spot.id,
             user_id=current_user.id,
-            vehicle_no=form.vehicle_no.data,
+            vehicle_no=vehicle_no,
             parking_cost=parking_cost,
             hours=hours,
-            parking_timestamp=get_ist_time(),
-            leaving_timestamp=None
+            parking_timestamp=get_ist_time()
         )
         try:
             db.session.add(reservation)
             db.session.commit()
             flash(f'Spot {re_checked_spot.id} booked successfully for {hours} hours! Total Cost: ₹{parking_cost:.2f}', 'success')
-            logging.info(f"User {current_user.email} booked spot {re_checked_spot.id} in lot {lot_id} for {hours} hours, reservation ID {reservation.id}")
+            logging.info(f"User {current_user.email} booked spot {re_checked_spot.id} in lot {lot_id} for {hours} hours, reservation ID {reservation.id} at {get_ist_time()}")
+            del session['selected_spot']
             return redirect(url_for('dashboard'))
         except Exception as e:
             db.session.rollback()
-            re_checked_spot.status = 'A'
-            db.session.commit()
-            flash('Failed to book spot. Please try again.', 'danger')
-            logging.error(f"Booking failed for user {current_user.email}, spot {re_checked_spot.id}: {e}")
-            return render_template('user/book_spot.html', lot=lot, spot=spot, form=form)
-
-    return render_template('user/book_spot.html', lot=lot, spot=spot, form=form)
-
+            if re_checked_spot:
+                re_checked_spot.status = 'A'
+                db.session.commit()
+            flash(f'Booking failed due to an error: {str(e)}. Redirecting to dashboard.', 'danger')
+            logging.error(f"Booking error for user {current_user.email}, spot {re_checked_spot.id if re_checked_spot else 'N/A'}: {str(e)} at {get_ist_time()}")
+            del session['selected_spot']
+            return redirect(url_for('dashboard'))
+        
 @app.route('/user/release_reservation_page/<int:reservation_id>', methods=['GET'])
 @login_required
 def release_reservation_page(reservation_id):
@@ -301,6 +335,7 @@ def release_reservation_page(reservation_id):
         return redirect(url_for('dashboard'))
 
     reservation = Reservation.query.get_or_404(reservation_id)
+
     if reservation.user_id != current_user.id:
         flash('Unauthorized action: You do not own this reservation.', 'danger')
         logging.warning(f"User {current_user.email} attempted unauthorized access to release page for reservation {reservation_id}")
@@ -318,11 +353,13 @@ def release_reservation_page(reservation_id):
         logging.error(f"Spot or Lot not found for reservation {reservation_id} during release page access.")
         return redirect(url_for('dashboard'))
 
-    return render_template('user/release_spot.html', reservation=reservation, spot=spot, lot=lot)
+    current_ist_time = get_ist_time()
+    return render_template('user/release_spot.html', reservation=reservation, spot=spot, lot=lot, current_ist_time=current_ist_time)
 
 @app.route('/user/release_spot/<int:reservation_id>', methods=['POST'])
 @login_required
 def release_spot(reservation_id):
+    logging.debug(f"Received POST data: {request.form}")
     if current_user.is_blocked:
         flash('Your account is blocked.', 'danger')
         return redirect(url_for('dashboard'))
@@ -331,6 +368,7 @@ def release_spot(reservation_id):
         return redirect(url_for('dashboard'))
 
     reservation = Reservation.query.get_or_404(reservation_id)
+
     if reservation.user_id != current_user.id:
         flash('Unauthorized action: You do not own this reservation.', 'danger')
         logging.warning(f"User {current_user.email} attempted unauthorized release of reservation {reservation_id}")
@@ -371,6 +409,7 @@ def cancel_reservation(reservation_id):
         return redirect(url_for('dashboard'))
 
     reservation = Reservation.query.get_or_404(reservation_id)
+
     if reservation.user_id != current_user.id:
         flash('Unauthorized action: You do not own this reservation.', 'danger')
         logging.warning(f"User {current_user.email} attempted unauthorized cancellation of reservation {reservation_id}")
@@ -718,20 +757,61 @@ def admin_view_delete_spot():
     if request.method == 'POST':
         form_submitted = True
         spot_id = request.form.get('spot_id')
-        if spot_id:
-            try:
-                spot_id = int(spot_id)
-                spot = ParkingSpot.query.get(spot_id)
-                if not spot:
-                    flash(f'Spot with ID {spot_id} not found.', 'danger')
-                    logging.warning(f"Admin {current_user.email} searched for non-existent spot ID {spot_id}.")
-            except ValueError:
-                flash('Invalid Spot ID. Please enter a number.', 'danger')
-                logging.warning(f"Admin {current_user.email} entered non-numeric spot ID: {request.form.get('spot_id')}.")
+        if request.form.get('action') == 'delete':
+            if spot_id:
+                try:
+                    spot_id_int = int(spot_id)
+                    spot_to_delete = ParkingSpot.query.get(spot_id_int)
+                    if spot_to_delete:
+                        if spot_to_delete.status == 'O':
+                            flash(f'Cannot delete occupied spot {spot_id_int}. It must be released first.', 'danger')
+                            logging.warning(f"Admin {current_user.email} attempted to delete occupied spot {spot_id_int}.")
+                        else:
+                            db.session.delete(spot_to_delete)
+                            db.session.commit()
+                            flash(f'Spot {spot_id_int} and its history deleted successfully!', 'success')
+                            logging.info(f"Admin {current_user.email} deleted spot {spot_id_int}.")
+                            return redirect(url_for('dashboard'))
+                    else:
+                        flash(f'Spot with ID {spot_id_int} not found for deletion.', 'danger')
+                        logging.warning(f"Admin {current_user.email} attempted to delete non-existent spot ID {spot_id_int}.")
+                except ValueError:
+                    flash('Invalid Spot ID. Please enter a number.', 'danger')
+                    logging.warning(f"Admin {current_user.email} entered non-numeric spot ID for deletion: {spot_id}.")
+                except Exception as e:
+                    db.session.rollback()
+                    flash(f'An error occurred during deletion: {e}', 'danger')
+                    logging.error(f"Error deleting spot {spot_id}: {e}")
+            else:
+                flash('Please enter a Spot ID to delete.', 'warning')
         else:
-            flash('Please enter a Spot ID to search.', 'warning')
+            if spot_id:
+                try:
+                    spot_id = int(spot_id)
+                    spot = ParkingSpot.query.get(spot_id)
+                    if not spot:
+                        flash(f'Spot with ID {spot_id} not found.', 'danger')
+                        logging.warning(f"Admin {current_user.email} searched for non-existent spot ID {spot_id}.")
+                except ValueError:
+                    flash('Invalid Spot ID. Please enter a number.', 'danger')
+                    logging.warning(f"Admin {current_user.email} entered non-numeric spot ID: {request.form.get('spot_id')}.")
+            else:
+                flash('Please enter a Spot ID to search.', 'warning')
 
-    return render_template('admin/view_delete_spot.html', spot=spot, form_submitted=form_submitted)
+    spot_details = None
+    if spot:
+        occupying_user_email = 'N/A'
+        active_reservation = Reservation.query.filter_by(spot_id=spot.id, leaving_timestamp=None).first()
+        if active_reservation and active_reservation.user:
+            occupying_user_email = active_reservation.user.email
+        spot_details = {
+            'id': spot.id,
+            'lot_name': spot.lot.prime_location_name if spot.lot else 'N/A',
+            'status': 'Available' if spot.status == 'A' else 'Occupied',
+            'occupying_user_email': occupying_user_email
+        }
+    
+    return render_template('admin/view_delete_spot.html', spot_details=spot_details, form_submitted=form_submitted)
 
 @app.route('/admin/occupied_spots')
 @login_required
@@ -743,8 +823,30 @@ def admin_occupied_spots():
     occupied_reservations = Reservation.query.filter_by(leaving_timestamp=None).all()
     occupied_reservations.sort(key=lambda r: r.parking_timestamp or datetime.min, reverse=True)
 
+    occupied_spot_data = []
+    for res in occupied_reservations:
+        current_time = get_ist_time()
+        parking_time_naive = res.parking_timestamp.replace(tzinfo=None) if res.parking_timestamp and res.parking_timestamp.tzinfo else res.parking_timestamp
+        current_time_naive = current_time.replace(tzinfo=None) if current_time.tzinfo else current_time
+
+        estimated_current_cost = 'N/A'
+        if parking_time_naive and res.spot and res.spot.lot:
+            duration_td = current_time_naive - parking_time_naive
+            actual_hours = duration_td.total_seconds() / 3600
+            estimated_current_cost = f"₹{(res.spot.lot.price * actual_hours):.2f}"
+
+        occupied_spot_data.append({
+            'reservation_id': res.id,
+            'spot_id': res.spot_id,
+            'lot_name': res.spot.lot.prime_location_name if res.spot and res.spot.lot else 'N/A',
+            'customer_email': res.user.email if res.user else 'N/A',
+            'vehicle_no': res.vehicle_no,
+            'parking_timestamp': res.parking_timestamp.strftime('%Y-%m-%d %H:%M') if res.parking_timestamp else 'N/A',
+            'current_cost_estimate': estimated_current_cost
+        })
+
     logging.info(f"Admin {current_user.email} accessed occupied spots page.")
-    return render_template('admin/occupied_spots.html', occupied_reservations=occupied_reservations)
+    return render_template('admin/occupied_spots.html', occupied_spot_data=occupied_spot_data)
 
 @app.route('/admin/view_users')
 @login_required
@@ -955,8 +1057,6 @@ def search():
         return redirect(url_for('dashboard'))
 
     form = SearchForm()
-    form.lot_id.choices = [('', 'Select Lot')] + [(lot.id, lot.prime_location_name) for lot in ParkingLot.query.all()]
-
     search_results = {'users': [], 'spots': [], 'reservations': []}
     search_performed = False
 
@@ -964,25 +1064,35 @@ def search():
         search_performed = True
         search_type = form.search_type.data
         query_text = form.query_text.data
-        selected_lot_id = form.lot_id.data
 
         if search_type == 'user_email' and query_text:
-            users_found = User.query.filter(User.email.ilike(f'%{query_text}%')).all()
-            search_results['users'] = users_found
+            users = User.query.filter(User.email.ilike(f'%{query_text}%')).all()
+            search_results['users'] = users
             logging.info(f"Admin {current_user.email} searched for user email: '{query_text}'")
-
         elif search_type == 'vehicle_no' and query_text:
-            reservations_found = Reservation.query.filter(Reservation.vehicle_no.ilike(f'%{query_text}%')).all()
-            search_results['reservations'] = reservations_found
+            reservations = Reservation.query.filter(Reservation.vehicle_no.ilike(f'%{query_text}%')).all()
+            search_results['reservations'] = reservations
             logging.info(f"Admin {current_user.email} searched for vehicle no: '{query_text}'")
-
-        elif search_type == 'lot_location' and selected_lot_id:
-            spots_in_lot = ParkingSpot.query.filter_by(lot_id=selected_lot_id).all()
-            search_results['spots'] = spots_in_lot
-            logging.info(f"Admin {current_user.email} searched for spots in lot ID: {selected_lot_id}")
-        elif search_type == 'lot_location' and not selected_lot_id:
-            flash("Please select a parking lot to search by location.", "warning")
-            search_performed = False
+        elif search_type == 'lot_location' and query_text:
+            lot = None
+            try:
+                lot_id_int = int(query_text)
+                lot = ParkingLot.query.get(lot_id_int)
+            except ValueError:
+                lot = ParkingLot.query.filter(
+                    db.func.lower(ParkingLot.prime_location_name).ilike(f'%{query_text.lower()}%')
+                ).first()
+            if lot:
+                spots = ParkingSpot.query.filter_by(lot_id=lot.id).all()
+                search_results['spots'] = spots
+                lot_spot_ids = [s.id for s in spots]
+                reservations = Reservation.query.filter(Reservation.spot_id.in_(lot_spot_ids)).all()
+                search_results['reservations'].extend(reservations)
+                logging.info(f"Admin {current_user.email} searched for spots in lot '{query_text}' (ID: {lot.id})")
+            else:
+                flash(f"No parking lot found matching '{query_text}'.", 'warning')
+        if not any(search_results.values()):
+            flash('No results found for your query.', 'info')
 
     return render_template('admin/search.html', form=form, search_results=search_results, search_performed=search_performed)
 

@@ -1,22 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Admin Search{% endblock %}
+{% block title %}Admin Search - Parking App{% endblock %}
 
 {% block content %}
 <h1 class="text-center mb-4">Admin Search</h1>
-
-<!-- Flash Messages -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-{% for category, message in messages %}
-<div class="alert alert-{{ 'success' if category == 'success' else 'danger' if category == 'danger' else 'warning' }} alert-dismissible fade show" role="alert">
-    {{ message }}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-{% endfor %}
-{% endif %}
-{% endwith %}
 
 <div class="card shadow mb-4">
     <div class="card-header bg-primary text-white">
@@ -25,16 +11,16 @@
     <div class="card-body">
         <form method="POST">
             {{ form.hidden_tag() }}
-            <div class="row">
+            <div class="row align-items-end">
                 <div class="col-md-4 mb-3">
                     {{ form.search_type.label(class="form-label") }}
-                    {{ form.search_type(class="form-control") }}
+                    {{ form.search_type(class="form-control", id="searchTypeSelect") }}
                 </div>
-                <div class="col-md-4 mb-3">
-                    {{ form.query_text.label(class="form-label") }}
-                    {{ form.query_text(class="form-control", placeholder="Enter search text (e.g., email, vehicle no.)") }}
+                <div class="col-md-4 mb-3" id="queryTextInputGroup">
+                    {{ form.query_text.label(class="form-label", id="queryTextLabel") }}
+                    {{ form.query_text(class="form-control", placeholder="Enter search query") }}
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-4 mb-3" id="lotSelectGroup" style="display: none;">
                     {{ form.lot_id.label(class="form-label") }}
                     {{ form.lot_id(class="form-control") }}
                 </div>
@@ -54,143 +40,156 @@
     <div class="card-body">
         {% if search_results.users %}
             <h6 class="mt-3">Users Found:</h6>
-            <div class="table-responsive">
-                <table class="table table-sm table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in search_results.users %}
-                        <tr>
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ 'Admin' if user.is_admin else 'User' }}</td>
-                            <td>{{ 'Blocked' if user.is_blocked else 'Active' }}</td>
-                            <td>
-                                {% if user.id != current_user.id %}
+            <table class="table table-sm table-striped">
+                <thead><tr><th>ID</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                {% for user in search_results.users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ 'Admin' if user.is_admin else 'User' }}</td>
+                        <td>{{ 'Blocked' if user.is_blocked else 'Active' }}</td>
+                        <td>
+                            {% if user.id != current_user.id %}
                                 <a href="{{ url_for('edit_user', user_id=user.id) }}" class="btn btn-warning btn-sm">Edit</a>
                                 {% if user.is_blocked %}
-                                <form action="{{ url_for('unblock_user', user_id=user.id) }}" method="POST" style="display:inline;">
-                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                    <button type="submit" class="btn btn-success btn-sm">Unblock</button>
-                                </form>
+                                    <form action="{{ url_for('unblock_user', user_id=user.id) }}" method="POST" style="display:inline;" id="unblockForm_{{ user.id }}">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="button" class="btn btn-success btn-sm" onclick="confirmAction('unblockForm_{{ user.id }}', 'Unblock user {{ user.email }}?')">Unblock</button>
+                                    </form>
                                 {% else %}
-                                {% if not user.is_admin %}
-                                <form action="{{ url_for('block_user', user_id=user.id) }}" method="POST" style="display:inline;">
-                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                    <button type="submit" class="btn btn-danger btn-sm">Block</button>
-                                </form>
+                                    {% if not user.is_admin %}
+                                        <form action="{{ url_for('block_user', user_id=user.id) }}" method="POST" style="display:inline;" id="blockForm_{{ user.id }}">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="confirmAction('blockForm_{{ user.id }}', 'Block user {{ user.email }}?')">Block</button>
+                                        </form>
+                                    {% endif %}
                                 {% endif %}
-                                {% endif %}
-                                {% else %}
+                            {% else %}
                                 <span class="text-muted">Current Admin</span>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         {% endif %}
 
         {% if search_results.spots %}
             <h6 class="mt-3">Spots Found:</h6>
-            <div class="table-responsive">
-                <table class="table table-sm table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Lot Name</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for spot in search_results.spots %}
-                        <tr>
-                            <td>{{ spot.id }}</td>
-                            <td>{{ spot.lot.prime_location_name if spot.lot else 'N/A' }}</td>
-                            <td>
-                                <span class="badge badge-{{ 'success' if spot.status == 'A' else 'danger' }}">
-                                    {{ 'Available' if spot.status == 'A' else 'Occupied' }}
-                                </span>
-                            </td>
-                            <td>
-                                <a href="{{ url_for('admin_spot_details', spot_id=spot.id) }}" class="btn btn-info btn-sm">View</a>
-                                <a href="{{ url_for('edit_spot', spot_id=spot.id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ url_for('delete_spot', spot_id=spot.id) }}" method="POST" style="display:inline;">
-                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            <table class="table table-sm table-striped">
+                <thead><tr><th>ID</th><th>Lot Name</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                {% for spot in search_results.spots %}
+                    <tr>
+                        <td>{{ spot.id }}</td>
+                        <td>{{ spot.lot.prime_location_name if spot.lot else 'N/A' }}</td>
+                        <td><span class="badge badge-{{ 'success' if spot.status == 'A' else 'danger' }}">{{ 'Available' if spot.status == 'A' else 'Occupied' }}</span></td>
+                        <td>
+                            <a href="{{ url_for('admin_spot_details', spot_id=spot.id) }}" class="btn btn-info btn-sm">View</a>
+                            <a href="{{ url_for('edit_spot', spot_id=spot.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ url_for('delete_spot', spot_id=spot.id) }}" method="POST" style="display:inline;" id="deleteSpotForm_{{ spot.id }}">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmAction('deleteSpotForm_{{ spot.id }}', 'Delete spot {{ spot.id }}?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         {% endif %}
 
         {% if search_results.reservations %}
             <h6 class="mt-3">Reservations Found:</h6>
-            <div class="table-responsive">
-                <table class="table table-sm table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>User Email</th>
-                            <th>Spot ID</th>
-                            <th>Lot Name</th>
-                            <th>Vehicle No.</th>
-                            <th>Duration (hrs)</th>
-                            <th>Cost</th>
-                            <th>Parking Time</th>
-                            <th>Leaving Time</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for reservation in search_results.reservations %}
-                        <tr>
-                            <td>{{ reservation.id }}</td>
-                            <td>{{ reservation.user.email if reservation.user else 'N/A' }}</td>
-                            <td>{{ reservation.spot_id }}</td>
-                            <td>{{ reservation.spot.lot.prime_location_name if reservation.spot and reservation.spot.lot else 'N/A' }}</td>
-                            <td>{{ reservation.vehicle_no if reservation.vehicle_no else 'N/A' }}</td>
-                            <td>{{ "%.1f"|format(reservation.hours) }}</td>
-                            <td>₹{{ "%.2f"|format(reservation.parking_cost) }}</td>
-                            <td>{{ reservation.parking_timestamp.strftime('%Y-%m-%d %H:%M') if reservation.parking_timestamp else 'N/A' }}</td>
-                            <td>{{ reservation.leaving_timestamp.strftime('%Y-%m-%d %H:%M') if reservation.leaving_timestamp else 'Active' }}</td>
-                            <td>
-                                <a href="{{ url_for('edit_reservation', reservation_id=reservation.id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ url_for('delete_reservation', reservation_id=reservation.id) }}" method="POST" style="display:inline;">
-                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            <table class="table table-sm table-striped">
+                <thead><tr><th>ID</th><th>User Email</th><th>Spot ID</th><th>Lot Name</th><th>Vehicle No.</th><th>Duration (hrs)</th><th>Cost</th><th>Parking Time</th><th>Leaving Time</th><th>Actions</th></tr></thead>
+                <tbody>
+                {% for reservation in search_results.reservations %}
+                    <tr>
+                        <td>{{ reservation.id }}</td>
+                        <td>{{ reservation.user.email if reservation.user else 'N/A' }}</td>
+                        <td>{{ reservation.spot_id }}</td>
+                        <td>{{ reservation.spot.lot.prime_location_name if reservation.spot and reservation.spot.lot else 'N/A' }}</td>
+                        <td>{{ reservation.vehicle_no if reservation.vehicle_no else 'N/A' }}</td>
+                        <td>{{ "%.1f"|format(reservation.hours) }}</td>
+                        <td>₹{{ "%.2f"|format(reservation.parking_cost) }}</td>
+                        <td>{{ reservation.parking_timestamp.strftime('%Y-%m-%d %H:%M') if reservation.parking_timestamp else 'N/A' }}</td>
+                        <td>{{ reservation.leaving_timestamp.strftime('%Y-%m-%d %H:%M') if reservation.leaving_timestamp else 'Active' }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_reservation', reservation_id=reservation.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ url_for('delete_reservation', reservation_id=reservation.id) }}" method="POST" style="display:inline;" id="deleteResForm_{{ reservation.id }}">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmAction('deleteResForm_{{ reservation.id }}', 'Delete reservation {{ reservation.id }}?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         {% endif %}
 
-        {% if not search_results.users and not search_results.spots and not search_results.reservations %}
+        {% if search_performed and not search_results.users and not search_results.spots and not search_results.reservations %}
             <p class="text-center text-muted">No results found for your search criteria.</p>
         {% endif %}
     </div>
 </div>
-{% elif request.method == 'POST' %}
-    <p class="text-center text-muted">Please enter search criteria to see results.</p>
 {% endif %}
 
 <div class="text-center mt-4">
-    <a href="{{ url_for('admin_summary') }}" class="btn btn-secondary btn-lg">Back to Admin Summary</a>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary btn-lg">Back to Admin Dashboard</a>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchTypeSelect = document.getElementById('searchTypeSelect');
+        const queryTextInputGroup = document.getElementById('queryTextInputGroup');
+        const queryTextLabel = document.getElementById('queryTextLabel');
+        const queryTextInput = document.getElementById('query_text');
+        const lotSelectGroup = document.getElementById('lotSelectGroup');
+
+        function toggleSearchInputs() {
+            const selectedType = searchTypeSelect.value;
+            queryTextInput.placeholder = '';
+            queryTextLabel.textContent = 'Search Query';
+
+            if (selectedType === 'user_email') {
+                queryTextInputGroup.style.display = 'block';
+                lotSelectGroup.style.display = 'none';
+                queryTextInput.placeholder = 'Enter user email';
+                queryTextLabel.textContent = 'User Email';
+            } else if (selectedType === 'user_id') {
+                queryTextInputGroup.style.display = 'block';
+                lotSelectGroup.style.display = 'none';
+                queryTextInput.placeholder = 'Enter user ID (e.g., 1, 2)';
+                queryTextLabel.textContent = 'User ID';
+            } else if (selectedType === 'vehicle_no') {
+                queryTextInputGroup.style.display = 'block';
+                lotSelectGroup.style.display = 'none';
+                queryTextInput.placeholder = 'Enter vehicle number (e.g., UP16AY1234)';
+                queryTextLabel.textContent = 'Vehicle Number';
+            } else if (selectedType === 'lot_location') {
+                queryTextInputGroup.style.display = 'none';
+                lotSelectGroup.style.display = 'block';
+            } else {
+                queryTextInputGroup.style.display = 'none';
+                lotSelectGroup.style.display = 'none';
+            }
+        }
+
+        searchTypeSelect.addEventListener('change', toggleSearchInputs);
+        toggleSearchInputs();
+
+        function confirmAction(formId, message) {
+            document.getElementById('modalMessage').textContent = message;
+            $('#confirmationModal').modal('show');
+            document.getElementById('confirmActionBtn').onclick = function() {
+                document.getElementById(formId).submit();
+                $('#confirmationModal').modal('hide');
+            };
+        }
+    });
+</script>
 {% endblock %}

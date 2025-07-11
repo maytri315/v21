@@ -1,50 +1,370 @@
 {% extends "base.html" %}
-
 {% block title %}Welcome to Parking App{% endblock %}
-
 {% block content %}
-<div class="container text-center mt-5">
-    <div class="jumbotron bg-light p-5 rounded shadow-sm">
-        <h1 class="display-4">Welcome to Our Parking Management System!</h1>
-        <p class="lead">Your ultimate solution for effortless parking lot management and spot booking.</p>
-        <hr class="my-4">
-        <p>Whether you're an admin managing multiple parking lots or a user looking for a quick spot, we've got you covered.</p>
-        
-        {% if current_user.is_authenticated %}
-            <p class="mt-4">You are already logged in. Head to your dashboard to get started!</p>
-            <a class="btn btn-primary btn-lg" href="{{ url_for('dashboard') }}" role="button">Go to Dashboard</a>
-        {% else %}
-            <p class="mt-4">Join us today to manage your parking spaces or find the perfect spot.</p>
-            <a class="btn btn-primary btn-lg mr-3" href="{{ url_for('login') }}" role="button">Login</a>
-            <a class="btn btn-success btn-lg" href="{{ url_for('register') }}" role="button">Register Now</a>
-        {% endif %}
+<div class="container text-center" style="margin-top: 4.0rem !important;">
+    <div class="card shadow mx-auto jumbotron-container" style="max-width: 800px;">
+        <div class="content-container">
+            <h1 class="display-4 opacity mb-3">Welcome to Our Parking Management System!</h1>
+            <p class="lead">Your ultimate solution for effortless parking lot management and spot booking.</p>
+            <hr class="my-4">
+            <p>Whether you're an admin managing multiple parking lots or a user looking for a quick spot, we've got you covered.</p>
+            
+            {% if current_user.is_authenticated %}
+                <p class="mt-4 opacity">You are already logged in. Head to your dashboard to get started!</p>
+                <a class="btn btn-primary btn-lg" href="{{ url_for('dashboard') }}" role="button">Go to Dashboard</a>
+            {% else %}
+                <p class="mt-4 opacity">Join us today to manage your parking spaces or find the perfect spot.</p>
+                <a class="btn btn-primary btn-lg mr-3" href="{{ url_for('login') }}" role="button">Login</a>
+                <a class="btn btn-success btn-lg" href="{{ url_for('register') }}" role="button">Register Now</a>
+            {% endif %}
+        </div>
     </div>
 
-    <div class="row mt-5">
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Efficient Lot Management</h5>
-                    <p class="card-text">Admins can easily add, edit, and monitor parking lots and individual spots.</p>
-                </div>
+    <div class="container carousel-container mt-4">
+        <div class="card h-100 shadow-sm card-glass product-card">
+            <div class="card-body">
+                <h5 class="card-title opacity">Efficient Lot Management</h5>
+                <p class="card-text opacity">Admins can easily add, edit, and monitor parking lots and individual spots.</p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Seamless Spot Booking</h5>
-                    <p class="card-text">Users can quickly find and book available parking spots with real-time updates.</p>
-                </div>
+        <div class="card h-100 shadow-sm card-glass product-card">
+            <div class="card-body">
+                <h5 class="card-title opacity">Seamless Spot Booking</h5>
+                <p class="card-text opacity">Users can quickly find and book available parking spots with real-time updates.</p>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Comprehensive Analytics</h5>
-                    <p class="card-text">Access detailed summaries and charts on spot occupancy, reservations, and revenue.</p>
-                </div>
+        <div class="card h-100 shadow-sm card-glass product-card">
+            <div class="card-body">
+                <h5 class="card-title opacity">Comprehensive Analytics</h5>
+                <p class="card-text opacity">Access detailed summaries and charts on spot occupancy, reservations, and revenue.</p>
             </div>
         </div>
     </div>
 </div>
+<div class="theme-btn-container"></div>
+{% endblock %}
+{% block styles %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
+:root {
+    --color: #ffffff;
+    --primary-color: #0f3460;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(#00446A 50%, #1c88c7);
+    color: var(--color);
+    letter-spacing: 1px;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color);
+}
+
+h1.display-4 {
+    font-size: 2.5rem;
+}
+
+.content-container h1.opacity {
+    color: var(--primary-color);
+}
+
+.content-container p,
+.content-container a,
+.card-glass .card-text,
+.card-glass a {
+    color: #000000;
+}
+
+.jumbotron-container {
+    position: relative;
+    border: 1px solid hsla(0, 0%, 65%, 0.158);
+    box-shadow: 0 0 36px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(20px);
+    z-index: 99;
+    padding: 1.5rem;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.content-container {
+    text-align: center;
+}
+
+.content-container p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+.card-glass {
+    border: 1px solid hsla(0, 0%, 65%, 0.158);
+    box-shadow: 0 0 36px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(20px);
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.card-glass .card-body {
+    padding: 1rem;
+}
+
+.card-glass .card-title {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+}
+
+.card-glass .card-text {
+    font-size: 0.9rem;
+}
+
+.opacity {
+    opacity: 0.6;
+}
+
+.theme-btn-container {
+    position: absolute;
+    left: 0;
+    bottom: 2rem;
+}
+
+.theme-btn {
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.theme-btn:hover {
+    width: 40px !important;
+}
+
+/* Carousel effect styles from version 1 */
+.carousel-container {
+    max-width: 980px;
+    padding: 0 32px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 200px;
+    transform: perspective(60px);
+    transform-style: preserve-3d;
+}
+
+.product-card {
+    max-width: 360px;
+}
+
+.product-card:nth-child(1) {
+    transform: translate3d(0, 0, -15px);
+    animation-name: rotate-left;
+    animation-duration: 14s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.5s;
+    animation-timing-function: ease-in-out;
+    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+}
+
+.product-card:nth-child(2) {
+    transform: translate3d(0, 0, 5px);
+    animation-name: rotate-center;
+    animation-duration: 14s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.5s;
+    animation-timing-function: ease-in-out;
+    filter: drop-shadow(4px 10px 10px rgba(0, 0, 0, 0.6));
+}
+
+.product-card:nth-child(3) {
+    transform: translate3d(0, 0, -15px);
+    animation-name: rotate-right;
+    animation-duration: 14s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.5s;
+    animation-timing-function: ease-in-out;
+    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes rotate-left {
+    0%, 100% {
+        transform: translate3d(0, 0, -15px);
+        filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+    }
+    33.33% {
+        transform: translate3d(100%, 0, 5px);
+        filter: blur(0) drop-shadow(4px 10px 10px rgba(0, 0, 0, 0.6));
+    }
+    66.66% {
+        transform: translate3d(200%, 0, -15px);
+        filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+    }
+}
+
+@keyframes rotate-center {
+    0%, 100% {
+        transform: translate3d(0, 0, 5px);
+        filter: blur(0) drop-shadow(4px 10px 10px rgba(0, 0, 0, 0.6));
+    }
+    33.33% {
+        transform: translate3d(100%, 0, -15px);
+        filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+    }
+    66.66% {
+        transform: translate3d(-100%, 0, -15px);
+        filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+    }
+}
+
+@keyframes rotate-right {
+    0%, 100% {
+        transform: translate3d(0, 0, -15px);
+        filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+    }
+    33.33% {
+        transform: translate3d(-200%, 0, -15px);
+        filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+    }
+    66.66% {
+        transform: translate3d(-100%, 0, 5px);
+        filter: blur(0) drop-shadow(4px 10px 10px rgba(0, 0, 0, 0.6));
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-container {
+        flex-direction: column;
+        height: auto;
+    }
+    .product-card {
+        margin: 10px 0;
+    }
+    .product-card:nth-child(1) {
+        transform: translate3d(0, 0, -15px);
+    }
+    .product-card:nth-child(2) {
+        transform: translate3d(0, 0, 0);
+    }
+    .product-card:nth-child(3) {
+        transform: translate3d(0, 0, -15px);
+    }
+    @keyframes rotate-left {
+        0%, 100% {
+            transform: translate3d(0, 0, -15px);
+            filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+        }
+        33.33% {
+            transform: translate3d(0, 100%, 5px);
+            filter: blur(0) drop-shadow(4px 10px 10px rgba(0, 0, 0, 0.6));
+        }
+        66.66% {
+            transform: translate3d(0, 200%, -15px);
+            filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+        }
+    }
+    @keyframes rotate-center {
+        0%, 100% {
+            transform: translate3d(0, 0, 5px);
+            filter: blur(0) drop-shadow(4px 10px 10px rgba(0, 0, 0, 0.6));
+        }
+        33.33% {
+            transform: translate3d(0, 100%, -15px);
+            filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+        }
+        66.66% {
+            transform: translate3d(0, -100%, -15px);
+            filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+        }
+    }
+    @keyframes rotate-right {
+        0%, 100% {
+            transform: translate3d(0, 0, -15px);
+            filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+        }
+        33.33% {
+            transform: translate3d(0, -200%, -15px);
+            filter: blur(0.8px) drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+        }
+        66.66% {
+            transform: translate3d(0, -100%, 5px);
+            filter: blur(0) drop-shadow(4px 10px 10px rgba(0, 0, 0, 0.6));
+        }
+    }
+}
+</style>
+{% endblock %}
+{% block scripts %}
+<script>
+const themes = [
+    {
+        background: "#1A1A2E",
+        color: "#FFFFFF",
+        primaryColor: "#0F3460"
+    },
+    {
+        background: "#461220",
+        color: "#FFFFFF",
+        primaryColor: "#E94560"
+    },
+    {
+        background: "#192A51",
+        color: "#FFFFFF",
+        primaryColor: "#967AA1"
+    },
+    {
+        background: "#F7B267",
+        color: "#000000",
+        primaryColor: "#F4845F"
+    },
+    {
+        background: "#F25F5C",
+        color: "#000000",
+        primaryColor: "#642B36"
+    },
+    {
+        background: "#231F20",
+        color: "#FFF",
+        primaryColor: "#BB4430"
+    }
+];
+
+const setTheme = (theme) => {
+    const root = document.querySelector(":root");
+    root.style.setProperty("--color", theme.color);
+    root.style.setProperty("--primary-color", theme.primaryColor);
+};
+
+const displayThemeButtons = () => {
+    const btnContainer = document.querySelector(".theme-btn-container");
+    themes.forEach((theme) => {
+        const div = document.createElement("div");
+        div.className = "theme-btn";
+        div.style.cssText = `background: ${theme.background}; width: 25px; height: 25px`;
+        btnContainer.appendChild(div);
+        div.addEventListener("click", () => setTheme(theme));
+    });
+};
+
+displayThemeButtons();
+</script>
 {% endblock %}

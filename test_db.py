@@ -1,10 +1,8 @@
 import sqlite3
-import os
 
-db_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'instance', 'parking.db')
 try:
-    conn = sqlite3.connect(db_path)
-    print("Connected to database successfully!")
+    conn = sqlite3.connect('C:/vehicle_parking_app/instance/parking.db')
+    print("Successfully connected to parking.db")
     conn.close()
 except sqlite3.OperationalError as e:
     print(f"Error: {e}")

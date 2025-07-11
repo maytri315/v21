@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Monthly Parking Report{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Monthly Parking Report - {{ report_month }}</h2>
+        </div>
+        <div class="card-body">
+            <p>Dear {{ user.email }},</p>
+            <p>Here is your parking activity report for {{ report_month }}:</p>
+            <ul class="list-group mb-3">
+                <li class="list-group-item"><strong>Total Spots Booked:</strong> {{ total_spots_booked }}</li>
+                <li class="list-group-item"><strong>Total Cost:</strong> ₹{{ "%.2f"|format(total_cost) }}</li>
+                <li class="list-group-item"><strong>Most Used Parking Lot:</strong> {{ most_used_lot }}</li>
+            </ul>
+            <h4>Your Reservations</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Reservation ID</th>
+                            <th>Lot Name</th>
+                            <th>Vehicle No</th>
+                            <th>Parking Time</th>
+                            <th>Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reservation in reservations %}
+                        <tr>
+                            <td>{{ reservation.id }}</td>
+                            <td>{{ reservation.spot.lot.prime_location_name if reservation.spot and reservation.spot.lot else 'N/A' }}</td>
+                            <td>{{ reservation.vehicle_no or 'N/A' }}</td>
+                            <td>{{ reservation.parking_timestamp.strftime('%Y-%m-%d %H:%M') if reservation.parking_timestamp else 'N/A' }}</td>
+                            <td>₹{{ "%.2f"|format(reservation.parking_cost) if reservation.parking_cost else 'N/A' }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">No reservations found for this period.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center mt-3">
+                <p>Thank you for using our parking service!</p>
+                <p>© {{ 'now'|strftime('%Y') }} Vehicle Parking App</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

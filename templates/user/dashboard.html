@@ -47,8 +47,6 @@
     </div>
 </div>
 
-<!-- Active Reservations Table -->
-
 <!-- Recent Parking History Table -->
 <div class="card shadow mb-4">
     <div class="card-header bg-secondary text-white">
@@ -105,6 +103,13 @@
         {% else %}
             <p class="text-center text-muted">No recent parking history.</p>
         {% endif %}
+        <!-- CSV Export Button -->
+        <div class="text-center mt-3">
+            <form action="{{ url_for('user_export_csv') }}" method="POST">
+                {{ form.hidden_tag() }}
+                <button type="submit" class="btn btn-primary">Export Parking History as CSV</button>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -149,14 +154,14 @@
                 }
             });
         }
-    });
 
-    document.querySelectorAll('button[data-confirm]').forEach(button => {
-        button.addEventListener('click', function (event) {
-            const message = this.getAttribute('data-confirm');
-            if (!confirm(message)) {
-                event.preventDefault();
-            }
+        document.querySelectorAll('button[data-confirm]').forEach(button => {
+            button.addEventListener('click', function (event) {
+                const message = this.getAttribute('data-confirm');
+                if (!confirm(message)) {
+                    event.preventDefault();
+                }
+            });
         });
     });
 </script>

@@ -5,61 +5,187 @@ from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
 from flask_restful import Api, Resource
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User, ParkingLot, ParkingSpot, Reservation
-from forms import LoginForm, RegistrationForm, ParkingLotForm, ParkingSpotForm, ReservationForm, SelectParkingLotForm, SearchForm, EditUserForm
 from datetime import datetime, timedelta
-try:
-    from zoneinfo import ZoneInfo
-except ImportError:
-    ZoneInfo = None
+from flask_bcrypt import Bcrypt
 import pytz
 import os
 import logging
+import redis
+from flask_mail import Mail, Message
+import csv
+from io import StringIO
+import requests
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FloatField, IntegerField, SelectField, DateTimeField
+from wtforms.validators import DataRequired, Email, Length, Optional, NumberRange
+from flask_caching import Cache
+from celery import Celery
+from celery.schedules import crontab
+import uuid
+from dotenv import load_dotenv
+from flask_migrate import Migrate
 
 # Configure logging
 logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Initialize Flask app
 app = Flask(__name__)
-# Ensure a strong SECRET_KEY is set (use environment variable in production)
-app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', 'a_very_secure_key_change_me_in_production_1234567890')
+app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
+if not app.config['SECRET_KEY']:
+    raise ValueError("No FLASK_SECRET_KEY set. Set it in environment variables for security.")
 basedir = os.path.abspath(os.path.dirname(__file__))
 instance_path = os.path.join(basedir, 'instance')
-if not os.path.exists(instance_path):
-    os.makedirs(instance_path)
+os.makedirs(instance_path, exist_ok=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(instance_path, "parking.db")}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
+app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+app.config['CACHE_TYPE'] = 'redis'
+app.config['CACHE_REDIS_URL'] = 'redis://localhost:6379/0'
+app.config['GOOGLE_CHAT_WEBHOOK_URL'] = os.getenv('GOOGLE_CHAT_WEBHOOK_URL')
 
-# Enable CSRF protection
+# Validate environment variables
+if not app.config['MAIL_USERNAME'] or not app.config['MAIL_PASSWORD']:
+    logging.warning("MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.")
+if not app.config['GOOGLE_CHAT_WEBHOOK_URL']:
+    logging.warning("GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.")
+
+# Initialize extensions
 csrf = CSRFProtect(app)
-
-db.init_app(app)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)  # Moved after app and db definitions
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 api = Api(app)
+mail = Mail(app)
+try:
+    redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+    redis_client.ping()
+except redis.ConnectionError as e:
+    logging.error(f"Failed to connect to Redis: {e}")
+    raise ValueError("Cannot connect to Redis. Ensure Redis server is running.")
+cache = Cache(app)
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
 
+# Models
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(256), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
+    is_blocked = db.Column(db.Boolean, default=False)
+    reservations = db.relationship('Reservation', backref='user', lazy=True)
+
+class ParkingLot(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    prime_location_name = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(200), nullable=False)
+    pin_code = db.Column(db.String(10), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    maximum_number_of_spots = db.Column(db.Integer, nullable=False)
+    spots = db.relationship('ParkingSpot', backref='lot', lazy=True)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(pytz.timezone('Asia/Kolkata')))
+
+class ParkingSpot(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    lot_id = db.Column(db.Integer, db.ForeignKey('parking_lot.id'), nullable=False)
+    status = db.Column(db.String(1), default='A')  # A: Available, O: Occupied
+    reservations = db.relationship('Reservation', backref='spot', lazy=True)
+
+class Reservation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    spot_id = db.Column(db.Integer, db.ForeignKey('parking_spot.id'), nullable=False)
+    parking_timestamp = db.Column(db.DateTime)
+    leaving_timestamp = db.Column(db.DateTime)
+    parking_cost = db.Column(db.Float)
+    vehicle_no = db.Column(db.String(20))
+    hours = db.Column(db.Float, default=1.0)
+
+# Forms
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
+
+class RegistrationForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
+    is_admin = BooleanField('Admin Status', default=False)
+    submit = SubmitField('Register')
+
+class ParkingLotForm(FlaskForm):
+    prime_location_name = StringField('Location Name', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
+    pin_code = StringField('Pin Code', validators=[DataRequired(), Length(min=6, max=6)])
+    price = FloatField('Price per Hour', validators=[DataRequired(), NumberRange(min=0)])
+    maximum_number_of_spots = IntegerField('Number of Spots', validators=[DataRequired(), NumberRange(min=1)])
+    submit = SubmitField('Create Lot')
+
+class ParkingSpotForm(FlaskForm):
+    lot_id = IntegerField('Lot ID', validators=[DataRequired()])
+    status = StringField('Status', validators=[DataRequired(), Length(max=1)])
+    submit = SubmitField('Add Spot')
+
+class ReservationForm(FlaskForm):
+    spot_id = IntegerField('Spot ID', validators=[DataRequired()])
+    user_id = IntegerField('User ID', validators=[DataRequired()], render_kw={'type': 'hidden'})
+    vehicle_no = StringField('Vehicle Number', validators=[DataRequired()])
+    hours = FloatField('Hours', validators=[DataRequired(), NumberRange(min=0.1, max=24)])
+    parking_timestamp = DateTimeField('Parking Time', format='%Y-%m-%d %H:%M:%S', validators=[Optional()])
+    leaving_timestamp = DateTimeField('Leaving Time', format='%Y-%m-%d %H:%M:%S', validators=[Optional()])
+    parking_cost = FloatField('Parking Cost', validators=[Optional()])
+    submit = SubmitField('Book Spot')
+
+class SelectParkingLotForm(FlaskForm):
+    lot_id = SelectField('Parking Lot', coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Select Lot')
+
+class SearchForm(FlaskForm):
+    search_type = SelectField('Search Type', choices=[
+        ('user_email', 'User Email'),
+        ('vehicle_no', 'Vehicle Number'),
+        ('lot_location', 'Lot Location or ID')
+    ], validators=[DataRequired()])
+    query_text = StringField('Search Query', validators=[DataRequired()])
+    submit = SubmitField('Search')
+
+class EditUserForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    is_admin = BooleanField('Admin Status')
+    is_blocked = BooleanField('Blocked Status')
+    submit = SubmitField('Update')
+
+class ProfileForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    current_password = PasswordField('Current Password', validators=[Optional()])
+    new_password = PasswordField('New Password', validators=[Optional(), Length(min=6)])
+    confirm_new_password = PasswordField('Confirm New Password', validators=[Optional()])
+    submit = SubmitField('Update Profile')
+
+# Helper function for IST time
 def get_ist_time():
-    """Get current time in Asia/Kolkata timezone."""
-    if ZoneInfo:
-        try:
-            return datetime.now(ZoneInfo("Asia/Kolkata"))
-        except Exception as e:
-            logging.warning(f"ZoneInfo failed for Asia/Kolkata: {e}, falling back to pytz.")
     try:
-        return datetime.now(pytz.timezone("Asia/Kolkata"))
+        return datetime.now(pytz.timezone('Asia/Kolkata'))
     except Exception as e:
-        logging.error(f"Failed to get Asia/Kolkata time with pytz: {e}. Returning naive UTC datetime.")
+        logging.error(f"Failed to get IST time: {e}. Returning naive UTC datetime.")
         return datetime.utcnow()
 
 @login_manager.user_loader
 def load_user(user_id):
-    """Load user by ID for Flask-Login."""
     try:
         return db.session.get(User, int(user_id))
     except Exception as e:
         logging.error(f"Error loading user {user_id}: {e}")
         return None
 
-# CSRF Debugging
+# CSRF Protection
 @app.before_request
 def protect_against_csrf():
     try:
@@ -69,8 +195,9 @@ def protect_against_csrf():
         flash('CSRF validation failed. Please try again.', 'danger')
         return redirect(url_for('dashboard'))
 
-# --- API Resources ---
+# API Resources with Caching
 class ParkingLotAPI(Resource):
+    @cache.cached(timeout=300, key_prefix='parking_lots')
     def get(self, lot_id=None):
         try:
             if lot_id:
@@ -83,6 +210,7 @@ class ParkingLotAPI(Resource):
             return {'error': 'Internal server error'}, 500
 
 class ParkingSpotAPI(Resource):
+    @cache.cached(timeout=300, key_prefix=lambda: f'parking_spots_{request.view_args["lot_id"]}')
     def get(self, lot_id):
         try:
             spots = ParkingSpot.query.filter_by(lot_id=lot_id).all()
@@ -94,7 +222,152 @@ class ParkingSpotAPI(Resource):
 api.add_resource(ParkingLotAPI, '/api/lots', '/api/lots/<int:lot_id>')
 api.add_resource(ParkingSpotAPI, '/api/lots/<int:lot_id>/spots')
 
-# --- General Routes ---
+# Celery Tasks
+@celery.task
+def send_daily_reminders():
+    with app.app_context():
+        threshold_date = get_ist_time() - timedelta(days=7)
+        new_lots = ParkingLot.query.filter(ParkingLot.created_at >= threshold_date).all()
+        users = User.query.filter_by(is_blocked=False, is_admin=False).all()
+        webhook_url = app.config['GOOGLE_CHAT_WEBHOOK_URL']
+        
+        for user in users:
+            recent_reservation = Reservation.query.filter_by(user_id=user.id).filter(
+                Reservation.parking_timestamp >= threshold_date
+            ).first()
+            if not recent_reservation or new_lots:
+                message = "Hi! You haven't booked a parking spot recently."
+                if new_lots:
+                    lot_names = ", ".join(lot.prime_location_name for lot in new_lots)
+                    message += f" New parking lots available: {lot_names}."
+                message += " Book a spot now at http://127.0.0.1:5000/user/select_lot"
+                try:
+                    if webhook_url:
+                        requests.post(webhook_url, json={'text': f"Reminder for {user.email}: {message}"})
+                        logging.info(f"Sent GChat reminder to {user.email}")
+                    else:
+                        msg = Message('Daily Parking Reminder', recipients=[user.email], body=message)
+                        mail.send(msg)
+                        logging.info(f"Sent email reminder to {user.email}")
+                except Exception as e:
+                    logging.error(f"Failed to send reminder to {user.email}: {e}")
+
+@celery.task
+def send_monthly_reports():
+    with app.app_context():
+        users = User.query.filter_by(is_blocked=False, is_admin=False).all()
+        last_month_start = get_ist_time().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        if last_month_start.month == 1:
+            last_month_start = last_month_start.replace(year=last_month_start.year - 1, month=12)
+        else:
+            last_month_start = last_month_start.replace(month=last_month_start.month - 1)
+        last_month_end = last_month_start.replace(day=28) + timedelta(days=4)
+        last_month_end = last_month_end - timedelta(days=last_month_end.day)
+
+        for user in users:
+            reservations = Reservation.query.filter_by(user_id=user.id).filter(
+                Reservation.parking_timestamp >= last_month_start,
+                Reservation.parking_timestamp <= last_month_end
+            ).all()
+            if not reservations:
+                continue
+
+            total_spots_booked = len(reservations)
+            total_cost = sum(r.parking_cost for r in reservations if r.parking_cost)
+            lot_counts = db.session.query(
+                ParkingLot.prime_location_name,
+                db.func.count(Reservation.id).label('count')
+            ).join(ParkingSpot).join(Reservation).filter(
+                Reservation.user_id == user.id,
+                Reservation.parking_timestamp >= last_month_start,
+                Reservation.parking_timestamp <= last_month_end
+            ).group_by(ParkingLot.id).order_by(db.func.count(Reservation.id).desc()).first()
+
+            most_used_lot = lot_counts.prime_location_name if lot_counts else 'N/A'
+            
+            html_content = f"""
+            <html>
+                <body>
+                    <h2>Monthly Parking Report for {user.email}</h2>
+                    <p>Period: {last_month_start.strftime('%B %Y')}</p>
+                    <ul>
+                        <li>Total Spots Booked: {total_spots_booked}</li>
+                        <li>Most Used Parking Lot: {most_used_lot}</li>
+                        <li>Total Amount Spent: ₹{total_cost:.2f}</li>
+                    </ul>
+                    <h3>Reservation Details</h3>
+                    <table border='1'>
+                        <tr><th>ID</th><th>Lot</th><th>Spot</th><th>Vehicle</th><th>Parking Time</th><th>Hours</th><th>Cost</th></tr>
+            """
+            for r in reservations:
+                html_content += f"""
+                    <tr>
+                        <td>{r.id}</td>
+                        <td>{r.spot.lot.prime_location_name if r.spot and r.spot.lot else 'N/A'}</td>
+                        <td>{r.spot_id}</td>
+                        <td>{r.vehicle_no}</td>
+                        <td>{r.parking_timestamp.strftime('%Y-%m-%d %H:%M') if r.parking_timestamp else 'N/A'}</td>
+                        <td>{r.hours:.1f}</td>
+                        <td>₹{r.parking_cost:.2f}</td>
+                    </tr>
+                """
+            html_content += "</table></body></html>"
+
+            try:
+                msg = Message(f'Your Monthly Parking Report - {last_month_start.strftime("%B %Y")}',
+                             recipients=[user.email], html=html_content)
+                mail.send(msg)
+                logging.info(f"Sent monthly report to {user.email}")
+            except Exception as e:
+                logging.error(f"Failed to send monthly report to {user.email}: {e}")
+
+@celery.task
+def generate_user_csv(user_id, email):
+    with app.app_context():
+        try:
+            reservations = Reservation.query.filter_by(user_id=user_id).all()
+            output = StringIO()
+            writer = csv.writer(output)
+            writer.writerow(['Reservation ID', 'Lot Name', 'Spot ID', 'Vehicle No', 'Parking Time', 'Leaving Time', 'Hours', 'Cost', 'Remarks'])
+            for r in reservations:
+                remarks = 'Active' if not r.leaving_timestamp else 'Released'
+                writer.writerow([
+                    r.id,
+                    r.spot.lot.prime_location_name if r.spot and r.spot.lot else 'N/A',
+                    r.spot_id,
+                    r.vehicle_no,
+                    r.parking_timestamp.strftime('%Y-%m-%d %H:%M') if r.parking_timestamp else 'N/A',
+                    r.leaving_timestamp.strftime('%Y-%m-%d %H:%M') if r.leaving_timestamp else 'N/A',
+                    f'{r.hours:.1f}' if r.hours else 'N/A',
+                    f'₹{r.parking_cost:.2f}' if r.parking_cost else 'N/A',
+                    remarks
+                ])
+            csv_key = f'csv_{user_id}_{uuid.uuid4().hex}'
+            redis_client.setex(csv_key, 3600, output.getvalue())
+            download_url = url_for('download_csv', csv_key=csv_key, _external=True)
+            msg = Message('Your Parking History CSV', recipients=[email])
+            msg.body = f'Access your parking history CSV here: {download_url}\nThis link expires in 1 hour.'
+            mail.send(msg)
+            webhook_url = app.config['GOOGLE_CHAT_WEBHOOK_URL']
+            if webhook_url:
+                requests.post(webhook_url, json={'text': f"CSV export completed for {email}"})
+            logging.info(f"Generated CSV for user {email}, key: {csv_key}")
+        except Exception as e:
+            logging.error(f"Failed to generate CSV for user {email}: {e}")
+
+# Celery Beat Schedule
+celery.conf.beat_schedule = {
+    'send-daily-reminders': {
+        'task': 'app.send_daily_reminders',
+        'schedule': crontab(hour=18, minute=0),  # 6:00 PM IST
+    },
+    'send-monthly-reports': {
+        'task': 'app.send_monthly_reports',
+        'schedule': crontab(day_of_month=1, hour=9, minute=0),  # 9:00 AM IST on 1st
+    },
+}
+
+# Routes
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -130,23 +403,20 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if current_user.is_authenticated:
-        logging.info(f"Authenticated user {current_user.email} redirected from register")
-        return redirect(url_for('dashboard'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        if User.query.filter_by(email=form.email.data).first():
-            flash('Email already exists', 'danger')
-            logging.warning(f"Registration failed: {form.email.data} already exists")
-            return render_template('register.html', form=form)
-        user = User(email=form.email.data, password=generate_password_hash(form.password.data), is_admin=form.is_admin.data)
+        existing_user = User.query.filter_by(email=form.email.data).first()
+        if existing_user:
+            flash('Email already registered.', 'danger')
+            return redirect(url_for('register'))
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')  # Use bcrypt instance
+        user = User(email=form.email.data, password=hashed_password, is_admin=form.is_admin.data)
         db.session.add(user)
         db.session.commit()
-        flash('Registration successful. Please log in.', 'success')
-        logging.info(f"User {form.email.data} registered (Admin: {form.is_admin.data})")
+        flash('Registration successful! Please log in.', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
-
+    
 @app.route('/logout')
 @login_required
 def logout():
@@ -158,6 +428,7 @@ def logout():
 
 @app.route('/dashboard')
 @login_required
+@cache.cached(timeout=60)
 def dashboard():
     if current_user.is_blocked:
         flash('Your account is blocked. Contact an admin.', 'danger')
@@ -175,12 +446,24 @@ def dashboard():
         active_reservations = [r for r in user_reservations if r.leaving_timestamp is None]
         released_reservations = [r for r in user_reservations if r.leaving_timestamp is not None]
 
-        user_reservation_chart_data = {
-            'labels': ['Active', 'Released'],
-            'datasets': [{
-                'data': [len(active_reservations), len(released_reservations)],
-                'backgroundColor': ['#007bff', '#6c757d']
-            }]
+        user_reservation_chart = {
+            'type': 'pie',
+            'data': {
+                'labels': ['Active', 'Released'],
+                'datasets': [{
+                    'data': [len(active_reservations), len(released_reservations)],
+                    'backgroundColor': ['#007bff', '#6c757d'],
+                    'borderColor': ['#ffffff', '#ffffff'],
+                    'borderWidth': 1
+                }]
+            },
+            'options': {
+                'responsive': True,
+                'plugins': {
+                    'legend': {'position': 'top'},
+                    'title': {'display': True, 'text': 'Reservation Status'}
+                }
+            }
         }
         recent_history = sorted(user_reservations, key=lambda x: x.parking_timestamp or datetime.min, reverse=True)[:5]
         
@@ -189,9 +472,8 @@ def dashboard():
                                lots=lots,
                                reservations=user_reservations,
                                recent_history=recent_history,
-                               user_reservation_chart_data=user_reservation_chart_data)
+                               user_reservation_chart=user_reservation_chart)
 
-# --- User Specific Routes ---
 @app.route('/user/select_lot', methods=['GET', 'POST'])
 @login_required
 def select_lot():
@@ -249,15 +531,13 @@ def book_spot(lot_id):
         if not form.validate_on_submit():
             flash('Invalid spot selection or form submission.', 'danger')
             logging.error(f"Invalid POST for user {current_user.email} in lot {lot_id} at {get_ist_time()}: {form.errors}")
-            if 'selected_spot' in session:
-                del session['selected_spot']
+            session.pop('selected_spot', None)
             return redirect(url_for('dashboard'))
 
         if 'selected_spot' not in session or form.spot_id.data != session['selected_spot']['id'] or form.user_id.data != current_user.id:
             flash('Session data mismatch. Please try again.', 'danger')
             logging.error(f"Session mismatch for user {current_user.email} in lot {lot_id} at {get_ist_time()}: Form spot_id={form.spot_id.data}, Session spot_id={session.get('selected_spot', {}).get('id')}, Form user_id={form.user_id.data}, Current user_id={current_user.id}")
-            if 'selected_spot' in session:
-                del session['selected_spot']
+            session.pop('selected_spot', None)
             return redirect(url_for('select_lot'))
 
         selected_spot_data = session['selected_spot']
@@ -267,18 +547,18 @@ def book_spot(lot_id):
             if not next_spot:
                 flash('The selected spot and all others are no longer available. Please try again.', 'danger')
                 logging.warning(f"No available spots for user {current_user.email} in lot {lot_id} at {get_ist_time()}.")
-                del session['selected_spot']
+                session.pop('selected_spot', None)
                 return redirect(url_for('select_lot'))
             re_checked_spot = next_spot
             form.spot_id.data = re_checked_spot.id
             logging.info(f"Switched to next available spot {re_checked_spot.id} for user {current_user.email} in lot {lot_id}.")
 
-        session_timestamp = datetime.fromisoformat(selected_spot_data['timestamp']).replace(tzinfo=pytz.UTC)
-        current_time = get_ist_time().replace(tzinfo=pytz.UTC)
+        session_timestamp = datetime.fromisoformat(selected_spot_data['timestamp']).astimezone(pytz.timezone('Asia/Kolkata'))
+        current_time = get_ist_time()
         if (current_time - session_timestamp).total_seconds() > 300:
             flash('Session for spot selection has expired. Please try again.', 'danger')
             logging.warning(f"Stale session spot {selected_spot_data['id']} for user {current_user.email} in lot {lot_id}.")
-            del session['selected_spot']
+            session.pop('selected_spot', None)
             return redirect(url_for('select_lot'))
 
         try:
@@ -290,11 +570,9 @@ def book_spot(lot_id):
             logging.warning(f"Invalid hours '{form.hours.data}' from user {current_user.email}, defaulting to 1.")
             hours = 1.0
 
-        vehicle_no = form.vehicle_no.data.strip() if form.vehicle_no.data else 'TEMP1234'
-        if len(vehicle_no) > 15:
-            flash('Vehicle number exceeds 15 characters. Truncating to 15.', 'warning')
-            logging.warning(f"Vehicle number '{vehicle_no}' truncated for user {current_user.email}.")
-            vehicle_no = vehicle_no[:15]
+        vehicle_no = form.vehicle_no.data.strip()[:15]
+        if not vehicle_no:
+            vehicle_no = 'TEMP1234'
 
         re_checked_spot.status = 'O'
         parking_cost = lot.price * hours
@@ -310,9 +588,10 @@ def book_spot(lot_id):
         try:
             db.session.add(reservation)
             db.session.commit()
+            cache.delete(f'parking_spots_{lot_id}')
             flash(f'Spot {re_checked_spot.id} booked successfully for {hours} hours! Total Cost: ₹{parking_cost:.2f}', 'success')
             logging.info(f"User {current_user.email} booked spot {re_checked_spot.id} in lot {lot_id} for {hours} hours, reservation ID {reservation.id} at {get_ist_time()}")
-            del session['selected_spot']
+            session.pop('selected_spot', None)
             return redirect(url_for('dashboard'))
         except Exception as e:
             db.session.rollback()
@@ -321,9 +600,9 @@ def book_spot(lot_id):
                 db.session.commit()
             flash(f'Booking failed due to an error: {str(e)}. Redirecting to dashboard.', 'danger')
             logging.error(f"Booking error for user {current_user.email}, spot {re_checked_spot.id if re_checked_spot else 'N/A'}: {str(e)} at {get_ist_time()}")
-            del session['selected_spot']
+            session.pop('selected_spot', None)
             return redirect(url_for('dashboard'))
-        
+
 @app.route('/user/release_reservation_page/<int:reservation_id>', methods=['GET'])
 @login_required
 def release_reservation_page(reservation_id):
@@ -386,6 +665,7 @@ def release_spot(reservation_id):
         
         try:
             db.session.commit()
+            cache.delete(f'parking_spots_{spot.lot_id}')
             flash('Spot released successfully. Thank you for using our service!', 'success')
             logging.info(f"User {current_user.email} released spot {reservation.spot_id} for reservation {reservation.id}")
         except Exception as e:
@@ -421,6 +701,7 @@ def cancel_reservation(reservation_id):
         return redirect(url_for('dashboard'))
 
     spot = ParkingSpot.query.get(reservation.spot_id)
+    lot_id = spot.lot_id if spot else None
     if spot:
         spot.status = 'A'
     else:
@@ -429,6 +710,8 @@ def cancel_reservation(reservation_id):
     try:
         db.session.delete(reservation)
         db.session.commit()
+        if lot_id:
+            cache.delete(f'parking_spots_{lot_id}')
         flash('Reservation cancelled successfully.', 'success')
         logging.info(f"User {current_user.email} cancelled reservation {reservation_id}. Spot {spot.id if spot else 'N/A'} set to available.")
     except Exception as e:
@@ -450,31 +733,130 @@ def user_summary():
     released_reservations_count = sum(1 for r in user_reservations if r.leaving_timestamp is not None)
     total_cost_spent = sum(r.parking_cost for r in user_reservations if r.parking_cost is not None)
 
-    reservation_status_chart_data = {
-        'labels': ['Active Reservations', 'Released Reservations'],
-        'datasets': [{
-            'data': [active_reservations_count, released_reservations_count],
-            'backgroundColor': ['#FF6384', '#36A2EB'],
-            'hoverOffset': 4
-        }]
+    reservation_status_chart = {
+        'type': 'pie',
+        'data': {
+            'labels': ['Active Reservations', 'Released Reservations'],
+            'datasets': [{
+                'data': [active_reservations_count, released_reservations_count],
+                'backgroundColor': ['#FF6384', '#36A2EB'],
+                'borderColor': ['#ffffff', '#ffffff'],
+                'borderWidth': 1
+            }]
+        },
+        'options': {
+            'responsive': True,
+            'plugins': {
+                'legend': {'position': 'top'},
+                'title': {'display': True, 'text': 'Reservation Status'}
+            }
+        }
     }
 
-    total_cost_chart_data = {
-        'labels': ['Total Cost Spent'],
-        'datasets': [{
-            'label': 'Amount (₹)',
-            'data': [total_cost_spent],
-            'backgroundColor': '#4BC0C0'
-        }]
+    total_cost_chart = {
+        'type': 'bar',
+        'data': {
+            'labels': ['Total Cost Spent'],
+            'datasets': [{
+                'label': 'Amount (₹)',
+                'data': [total_cost_spent],
+                'backgroundColor': '#4BC0C0',
+                'borderColor': '#4BC0C0',
+                'borderWidth': 1
+            }]
+        },
+        'options': {
+            'responsive': True,
+            'scales': {
+                'y': {'beginAtZero': True}
+            },
+            'plugins': {
+                'legend': {'display': False},
+                'title': {'display': True, 'text': 'Total Cost Spent'}
+            }
+        }
     }
 
     logging.info(f"User {current_user.email} accessed summary page.")
     return render_template('user/summary.html',
-                           reservation_status_chart_data=reservation_status_chart_data,
+                           reservation_status_chart=reservation_status_chart,
                            total_cost_spent=total_cost_spent,
-                           total_cost_chart_data=total_cost_chart_data)
+                           total_cost_chart=total_cost_chart)
 
-# --- Admin Specific Routes ---
+@app.route('/user/export_csv', methods=['POST'])
+@login_required
+def user_export_csv():
+    if current_user.is_blocked:
+        flash('Your account is blocked.', 'danger')
+        return redirect(url_for('dashboard'))
+    if current_user.is_admin:
+        flash('Admins cannot export user CSV.', 'danger')
+        return redirect(url_for('dashboard'))
+
+    try:
+        generate_user_csv.delay(current_user.id, current_user.email)
+        flash('CSV export job started. You will receive an email with the download link shortly.', 'success')
+        logging.info(f"Triggered async CSV export for user {current_user.email}")
+    except Exception as e:
+        logging.error(f"Failed to start CSV export job for {current_user.email}: {e}")
+        flash('Failed to start CSV export job. Please try again later.', 'danger')
+    return redirect(url_for('dashboard'))
+
+@app.route('/download_csv/<csv_key>')
+def download_csv(csv_key):
+    try:
+        csv_data = redis_client.get(csv_key)
+        if not csv_data:
+            flash('Download link expired or invalid.', 'danger')
+            return redirect(url_for('dashboard'))
+        return app.response_class(
+            csv_data,
+            mimetype='text/csv',
+            headers={'Content-Disposition': f'attachment;filename=parking_history_{csv_key}.csv'}
+        )
+    except redis.ConnectionError:
+        logging.error("Redis connection failed. CSV download unavailable.")
+        flash('CSV download is currently unavailable due to server issues.', 'danger')
+        return redirect(url_for('dashboard'))
+
+@app.route('/user/profile', methods=['GET', 'POST'])
+@login_required
+def user_profile():
+    if current_user.is_blocked:
+        flash('Your account is blocked.', 'danger')
+        return redirect(url_for('dashboard'))
+    form = ProfileForm(email=current_user.email)
+    if form.validate_on_submit():
+        if form.email.data != current_user.email:
+            existing_user = User.query.filter_by(email=form.email.data).first()
+            if existing_user:
+                flash('Email already in use.', 'danger')
+                logging.warning(f"User {current_user.email} attempted to change to existing email {form.email.data}")
+                return render_template('user/profile.html', form=form)
+            current_user.email = form.email.data
+            logging.info(f"User {current_user.email} updated email to {form.email.data}")
+        if form.current_password.data and form.new_password.data and form.confirm_new_password.data:
+            if not check_password_hash(current_user.password, form.current_password.data):
+                flash('Current password is incorrect.', 'danger')
+                logging.warning(f"User {current_user.email} provided incorrect current password")
+                return render_template('user/profile.html', form=form)
+            if form.new_password.data != form.confirm_new_password.data:
+                flash('New passwords do not match.', 'danger')
+                logging.warning(f"User {current_user.email} provided mismatched new passwords")
+                return render_template('user/profile.html', form=form)
+            current_user.password = generate_password_hash(form.new_password.data)
+            logging.info(f"User {current_user.email} updated password")
+        try:
+            db.session.commit()
+            flash('Profile updated successfully!', 'success')
+            logging.info(f"User {current_user.email} updated profile")
+        except Exception as e:
+            db.session.rollback()
+            flash('Failed to update profile. Please try again.', 'danger')
+            logging.error(f"Error updating profile for {current_user.email}: {e}")
+        return redirect(url_for('dashboard'))
+    return render_template('user/profile.html', form=form)
+
 @app.route('/admin/create_lot', methods=['GET', 'POST'])
 @login_required
 def create_lot():
@@ -486,7 +868,7 @@ def create_lot():
         existing_lot = ParkingLot.query.filter(
             db.or_(
                 db.and_(
-                    db.func.lower(ParkingLot.prime_location_name) == db.func.lower(form.location_name.data),
+                    db.func.lower(ParkingLot.prime_location_name) == db.func.lower(form.prime_location_name.data),
                     db.func.lower(ParkingLot.address) == db.func.lower(form.address.data)
                 ),
                 db.func.lower(ParkingLot.pin_code) == db.func.lower(form.pin_code.data)
@@ -502,11 +884,12 @@ def create_lot():
             return render_template('admin/create_lot.html', form=form)
 
         lot = ParkingLot(
-            prime_location_name=form.location_name.data,
+            prime_location_name=form.prime_location_name.data,
             price=form.price.data,
             address=form.address.data,
             pin_code=form.pin_code.data,
-            maximum_number_of_spots=form.maximum_number_of_spots.data
+            maximum_number_of_spots=form.maximum_number_of_spots.data,
+            created_at=get_ist_time()
         )
         db.session.add(lot)
         try:
@@ -515,17 +898,18 @@ def create_lot():
                 spot = ParkingSpot(lot_id=lot.id)
                 db.session.add(spot)
             db.session.commit()
+            cache.delete('parking_lots')
             flash('Parking lot and its spots created successfully!', 'success')
             logging.info(f"Admin {current_user.email} created lot {lot.id} ({lot.prime_location_name}) with {lot.maximum_number_of_spots} spots.")
             return redirect(url_for('dashboard'))
         except db.exc.IntegrityError as e:
             db.session.rollback()
             flash('Failed to create lot due to a database error. Check unique constraints.', 'danger')
-            logging.error(f"IntegrityError in create_lot for {form.location_name.data}: {e}")
+            logging.error(f"IntegrityError in create_lot for {form.prime_location_name.data}: {e}")
         except Exception as e:
             db.session.rollback()
             flash('An unexpected error occurred while creating the lot. Please try again.', 'danger')
-            logging.error(f"General error in create_lot for {form.location_name.data}: {e}")
+            logging.error(f"General error in create_lot for {form.prime_location_name.data}: {e}")
 
     return render_template('admin/create_lot.html', form=form)
 
@@ -543,8 +927,10 @@ def edit_lot(lot_id):
             db.and_(
                 ParkingLot.id != lot_id,
                 db.or_(
-                    db.func.lower(ParkingLot.prime_location_name) == db.func.lower(form.location_name.data),
-                    db.func.lower(ParkingLot.address) == db.func.lower(form.address.data),
+                    db.and_(
+                        db.func.lower(ParkingLot.prime_location_name) == db.func.lower(form.prime_location_name.data),
+                        db.func.lower(ParkingLot.address) == db.func.lower(form.address.data)
+                    ),
                     db.func.lower(ParkingLot.pin_code) == db.func.lower(form.pin_code.data)
                 )
             )
@@ -579,7 +965,7 @@ def edit_lot(lot_id):
                     db.session.delete(spot_to_delete)
                 logging.info(f"Admin {current_user.email} deleted {available_spots_to_delete_count} available spots from lot {lot_id}.")
 
-        lot.prime_location_name = form.location_name.data
+        lot.prime_location_name = form.prime_location_name.data
         lot.price = form.price.data
         lot.address = form.address.data
         lot.pin_code = form.pin_code.data
@@ -587,6 +973,8 @@ def edit_lot(lot_id):
 
         try:
             db.session.commit()
+            cache.delete('parking_lots')
+            cache.delete(f'parking_spots_{lot_id}')
             flash('Parking lot updated successfully!', 'success')
             logging.info(f"Admin {current_user.email} updated lot {lot_id}.")
             return redirect(url_for('dashboard'))
@@ -617,6 +1005,8 @@ def delete_lot(lot_id):
     try:
         db.session.delete(lot)
         db.session.commit()
+        cache.delete('parking_lots')
+        cache.delete(f'parking_spots_{lot_id}')
         flash('Parking lot and all associated data deleted successfully!', 'success')
         logging.info(f"Admin {current_user.email} deleted lot {lot.id}.")
     except Exception as e:
@@ -670,6 +1060,7 @@ def create_spot(lot_id):
         try:
             db.session.add(spot)
             db.session.commit()
+            cache.delete(f'parking_spots_{lot_id}')
             flash(f'Spot {spot.id} created successfully in Lot {lot.prime_location_name}!', 'success')
             logging.info(f"Admin {current_user.email} created spot {spot.id} in lot {lot_id}.")
             return redirect(url_for('dashboard'))
@@ -709,6 +1100,9 @@ def edit_spot(spot_id):
         spot.status = form.status.data
         try:
             db.session.commit()
+            cache.delete(f'parking_spots_{old_lot_id}')
+            if old_lot_id != new_lot_id:
+                cache.delete(f'parking_spots_{new_lot_id}')
             flash(f'Spot {spot.id} updated successfully!', 'success')
             logging.info(f"Admin {current_user.email} updated spot {spot.id}.")
             return redirect(url_for('dashboard'))
@@ -735,6 +1129,7 @@ def delete_spot(spot_id):
     try:
         db.session.delete(spot)
         db.session.commit()
+        cache.delete(f'parking_spots_{spot.lot_id}')
         flash(f'Spot {spot_id} and its history deleted successfully!', 'success')
         logging.info(f"Admin {current_user.email} deleted spot {spot_id}.")
     except Exception as e:
@@ -769,6 +1164,7 @@ def admin_view_delete_spot():
                         else:
                             db.session.delete(spot_to_delete)
                             db.session.commit()
+                            cache.delete(f'parking_spots_{spot_to_delete.lot_id}')
                             flash(f'Spot {spot_id_int} and its history deleted successfully!', 'success')
                             logging.info(f"Admin {current_user.email} deleted spot {spot_id_int}.")
                             return redirect(url_for('dashboard'))
@@ -868,14 +1264,8 @@ def edit_user(user_id):
     form = EditUserForm(obj=user_to_edit)
 
     if user_to_edit.id == current_user.id:
-        if hasattr(form.is_admin, 'render_kw'):
-            form.is_admin.render_kw['disabled'] = 'disabled'
-        else:
-            form.is_admin.render_kw = {'disabled': 'disabled'}
-        if hasattr(form.is_blocked, 'render_kw'):
-            form.is_blocked.render_kw['disabled'] = 'disabled'
-        else:
-            form.is_blocked.render_kw = {'disabled': 'disabled'}
+        form.is_admin.render_kw = {'disabled': 'disabled'}
+        form.is_blocked.render_kw = {'disabled': 'disabled'}
 
     if form.validate_on_submit():
         if user_to_edit.id == current_user.id:
@@ -983,6 +1373,8 @@ def edit_reservation(reservation_id):
 
         try:
             db.session.commit()
+            if spot:
+                cache.delete(f'parking_spots_{spot.lot_id}')
             flash(f'Reservation {reservation_id} updated successfully!', 'success')
             logging.info(f"Admin {current_user.email} updated reservation {reservation_id}.")
             return redirect(url_for('dashboard'))
@@ -1008,6 +1400,8 @@ def delete_reservation(reservation_id):
         if spot and not reservation.leaving_timestamp:
             spot.status = 'A'
         db.session.commit()
+        if spot:
+            cache.delete(f'parking_spots_{spot.lot_id}')
         flash(f'Reservation {reservation_id} deleted successfully!', 'success')
         logging.info(f"Admin {current_user.email} deleted reservation {reservation_id}.")
     except Exception as e:
@@ -1035,11 +1429,16 @@ def cleanup_old_data():
         return redirect(url_for('dashboard'))
 
     deleted_count = 0
+    lot_ids = set()
     try:
         for res in old_reservations:
+            if res.spot:
+                lot_ids.add(res.spot.lot_id)
             db.session.delete(res)
             deleted_count += 1
         db.session.commit()
+        for lot_id in lot_ids:
+            cache.delete(f'parking_spots_{lot_id}')
         flash(f'Successfully deleted {deleted_count} old released reservations.', 'success')
         logging.info(f"Admin {current_user.email} deleted {deleted_count} old released reservations.")
     except Exception as e:
@@ -1108,19 +1507,43 @@ def admin_summary():
     total_spots = ParkingSpot.query.count()
     total_reservations = Reservation.query.count()
     
-    spot_status_data = {
-        'labels': ['Available', 'Occupied'],
-        'datasets': [{
-            'data': [ParkingSpot.query.filter_by(status='A').count(), ParkingSpot.query.filter_by(status='O').count()],
-            'backgroundColor': ['#28a745', '#dc3545']
-        }]
+    spot_status_chart = {
+        'type': 'pie',
+        'data': {
+            'labels': ['Available', 'Occupied'],
+            'datasets': [{
+                'data': [ParkingSpot.query.filter_by(status='A').count(), ParkingSpot.query.filter_by(status='O').count()],
+                'backgroundColor': ['#28a745', '#dc3545'],
+                'borderColor': ['#ffffff', '#ffffff'],
+                'borderWidth': 1
+            }]
+        },
+        'options': {
+            'responsive': True,
+            'plugins': {
+                'legend': {'position': 'top'},
+                'title': {'display': True, 'text': 'Spot Status'}
+            }
+        }
     }
-    reservation_status_data = {
-        'labels': ['Active', 'Released'],
-        'datasets': [{
-            'data': [Reservation.query.filter_by(leaving_timestamp=None).count(), Reservation.query.filter(Reservation.leaving_timestamp != None).count()],
-            'backgroundColor': ['#007bff', '#6c757d']
-        }]
+    reservation_status_chart = {
+        'type': 'pie',
+        'data': {
+            'labels': ['Active', 'Released'],
+            'datasets': [{
+                'data': [Reservation.query.filter_by(leaving_timestamp=None).count(), Reservation.query.filter(Reservation.leaving_timestamp != None).count()],
+                'backgroundColor': ['#007bff', '#6c757d'],
+                'borderColor': ['#ffffff', '#ffffff'],
+                'borderWidth': 1
+            }]
+        },
+        'options': {
+            'responsive': True,
+            'plugins': {
+                'legend': {'position': 'top'},
+                'title': {'display': True, 'text': 'Reservation Status'}
+            }
+        }
     }
     total_revenue = sum(r.parking_cost for r in Reservation.query.filter(Reservation.leaving_timestamp != None).all() if r.parking_cost)
 
@@ -1130,8 +1553,8 @@ def admin_summary():
                            total_lots=total_lots,
                            total_spots=total_spots,
                            total_reservations=total_reservations,
-                           spot_status_data=spot_status_data,
-                           reservation_status_data=reservation_status_data,
+                           spot_status_chart=spot_status_chart,
+                           reservation_status_chart=reservation_status_chart,
                            total_revenue=total_revenue)
 
 # --- Database Initialization ---

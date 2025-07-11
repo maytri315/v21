@@ -1,67 +1,65 @@
 {% extends "base.html" %}
 {% block title %}Edit Parking Lot{% endblock %}
+
 {% block content %}
-<h2 class="mb-4">Edit Parking Lot: {{ lot.prime_location_name }}</h2>
-<div class="card shadow p-4">
-    <form method="POST" action="{{ url_for('edit_lot', lot_id=lot.id) }}">
-        {{ form.hidden_tag() }}
-        <div class="mb-3">
-            {{ form.location_name.label(class="form-label") }}
-            {{ form.location_name(class="form-control", required=True) }}
-            {% if form.location_name.errors %}
-                <div class="text-danger small mt-1">
-                    {% for error in form.location_name.errors %}
-                        {{ error }}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Edit Parking Lot</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="POST" action="{{ url_for('edit_lot', lot_id=lot.id) }}">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.prime_location_name.label(class="form-label") }}
+                    {{ form.prime_location_name(class="form-control") }}
+                    {% for error in form.prime_location_name.errors %}
+                    <span class="text-danger">{{ error }}</span>
                     {% endfor %}
                 </div>
-            {% endif %}
-        </div>
-        <div class="mb-3">
-            {{ form.price.label(class="form-label") }}
-            {{ form.price(class="form-control", required=True) }}
-            {% if form.price.errors %}
-                <div class="text-danger small mt-1">
-                    {% for error in form.price.errors %}
-                        {{ error }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="mb-3">
-            {{ form.address.label(class="form-label") }}
-            {{ form.address(class="form-control", required=True) }}
-            {% if form.address.errors %}
-                <div class="text-danger small mt-1">
+                <div class="form-group">
+                    {{ form.address.label(class="form-label") }}
+                    {{ form.address(class="form-control") }}
                     {% for error in form.address.errors %}
-                        {{ error }}
+                    <span class="text-danger">{{ error }}</span>
                     {% endfor %}
                 </div>
-            {% endif %}
-        </div>
-        <div class="mb-3">
-            {{ form.pin_code.label(class="form-label") }}
-            {{ form.pin_code(class="form-control", required=True) }}
-            {% if form.pin_code.errors %}
-                <div class="text-danger small mt-1">
+                <div class="form-group">
+                    {{ form.pin_code.label(class="form-label") }}
+                    {{ form.pin_code(class="form-control") }}
                     {% for error in form.pin_code.errors %}
-                        {{ error }}
+                    <span class="text-danger">{{ error }}</span>
                     {% endfor %}
                 </div>
-            {% endif %}
-        </div>
-        <div class="mb-3">
-            {{ form.maximum_number_of_spots.label(class="form-label") }} {# CHANGED: from form.max_spots to form.maximum_number_of_spots #}
-            {{ form.maximum_number_of_spots(class="form-control", required=True, min="1") }} {# CHANGED: from form.max_spots to form.maximum_number_of_spots #}
-            {% if form.maximum_number_of_spots.errors %} {# CHANGED: from form.max_spots to form.maximum_number_of_spots #}
-                <div class="text-danger small mt-1">
-                    {% for error in form.maximum_number_of_spots.errors %} {# CHANGED: from form.max_spots to form.maximum_number_of_spots #}
-                        {{ error }}
+                <div class="form-group">
+                    {{ form.price.label(class="form-label") }}
+                    {{ form.price(class="form-control") }}
+                    {% for error in form.price.errors %}
+                    <span class="text-danger">{{ error }}</span>
                     {% endfor %}
                 </div>
-            {% endif %}
+                <div class="form-group">
+                    {{ form.maximum_number_of_spots.label(class="form-label") }}
+                    {{ form.maximum_number_of_spots(class="form-control") }}
+                    {% for error in form.maximum_number_of_spots.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group text-center">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
         </div>
-        <button type="submit" class="btn btn-primary">Update Lot</button>
-        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary ml-2">Back to Dashboard</a>
-    </form>
+    </div>
 </div>
 {% endblock %}

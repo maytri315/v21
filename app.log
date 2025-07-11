@@ -5853,3 +5853,810 @@
 2025-06-21 22:27:33,131 - INFO -  * Restarting with stat
 2025-06-21 22:27:38,962 - WARNING -  * Debugger is active!
 2025-06-21 22:27:38,968 - INFO -  * Debugger PIN: 153-310-666
+2025-06-22 01:01:44,772 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-06-22 01:01:44,773 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-22 01:01:44,778 - INFO -  * Restarting with stat
+2025-06-22 01:01:47,004 - WARNING -  * Debugger is active!
+2025-06-22 01:01:47,018 - INFO -  * Debugger PIN: 153-310-666
+2025-06-22 01:01:47,085 - INFO - 127.0.0.1 - - [22/Jun/2025 01:01:47] "GET / HTTP/1.1" 200 -
+2025-06-22 01:01:47,404 - INFO - 127.0.0.1 - - [22/Jun/2025 01:01:47] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-06-22 01:01:47,405 - INFO - 127.0.0.1 - - [22/Jun/2025 01:01:47] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-06-22 01:01:47,418 - INFO - 127.0.0.1 - - [22/Jun/2025 01:01:47] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-06-22 01:08:42,543 - INFO - Admin admin@gmail.com accessed dashboard
+2025-06-22 01:08:44,239 - INFO - 127.0.0.1 - - [22/Jun/2025 01:08:44] "GET /dashboard HTTP/1.1" 200 -
+2025-06-22 01:08:48,565 - INFO - 127.0.0.1 - - [22/Jun/2025 01:08:48] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-06-22 01:08:49,351 - INFO - 127.0.0.1 - - [22/Jun/2025 01:08:49] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-06-22 01:08:49,458 - INFO - 127.0.0.1 - - [22/Jun/2025 01:08:49] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-22 01:09:18,605 - INFO - Admin admin@gmail.com accessed dashboard
+2025-06-22 01:09:18,858 - INFO - 127.0.0.1 - - [22/Jun/2025 01:09:18] "GET /dashboard HTTP/1.1" 200 -
+2025-06-22 01:09:19,134 - INFO - 127.0.0.1 - - [22/Jun/2025 01:09:19] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-22 01:09:19,158 - INFO - 127.0.0.1 - - [22/Jun/2025 01:09:19] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-06-22 01:09:19,553 - INFO - 127.0.0.1 - - [22/Jun/2025 01:09:19] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-06-22 01:09:23,122 - INFO - 127.0.0.1 - - [22/Jun/2025 01:09:23] "GET /admin/view_lot/1 HTTP/1.1" 200 -
+2025-06-22 01:09:23,261 - INFO - 127.0.0.1 - - [22/Jun/2025 01:09:23] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-22 01:09:23,318 - INFO - 127.0.0.1 - - [22/Jun/2025 01:09:23] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-06-22 01:09:23,342 - INFO - 127.0.0.1 - - [22/Jun/2025 01:09:23] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 20:57:54,050 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-05 20:57:54,052 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-05 20:57:54,054 - INFO -  * Restarting with stat
+2025-07-05 20:57:55,768 - WARNING -  * Debugger is active!
+2025-07-05 20:57:55,789 - INFO -  * Debugger PIN: 294-686-373
+2025-07-05 20:57:58,601 - INFO - 127.0.0.1 - - [05/Jul/2025 20:57:58] "GET /register HTTP/1.1" 200 -
+2025-07-05 20:57:58,849 - INFO - 127.0.0.1 - - [05/Jul/2025 20:57:58] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-07-05 20:57:58,868 - INFO - 127.0.0.1 - - [05/Jul/2025 20:57:58] "GET /static/images/logo.png HTTP/1.1" 200 -
+2025-07-05 20:57:58,868 - INFO - 127.0.0.1 - - [05/Jul/2025 20:57:58] "GET /static/js/scripts.js HTTP/1.1" 200 -
+2025-07-05 20:58:05,149 - INFO - 127.0.0.1 - - [05/Jul/2025 20:58:05] "GET /register HTTP/1.1" 200 -
+2025-07-05 20:58:05,192 - INFO - 127.0.0.1 - - [05/Jul/2025 20:58:05] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 20:58:05,194 - INFO - 127.0.0.1 - - [05/Jul/2025 20:58:05] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 20:58:05,195 - INFO - 127.0.0.1 - - [05/Jul/2025 20:58:05] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 21:01:18,860 - INFO - 127.0.0.1 - - [05/Jul/2025 21:01:18] "GET /register HTTP/1.1" 200 -
+2025-07-05 21:01:18,926 - INFO - 127.0.0.1 - - [05/Jul/2025 21:01:18] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 21:01:18,931 - INFO - 127.0.0.1 - - [05/Jul/2025 21:01:18] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 21:01:18,933 - INFO - 127.0.0.1 - - [05/Jul/2025 21:01:18] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 21:04:10,893 - INFO - 127.0.0.1 - - [05/Jul/2025 21:04:10] "GET /register HTTP/1.1" 200 -
+2025-07-05 21:04:10,908 - INFO - 127.0.0.1 - - [05/Jul/2025 21:04:10] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 21:04:10,923 - INFO - 127.0.0.1 - - [05/Jul/2025 21:04:10] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 21:04:10,933 - INFO - 127.0.0.1 - - [05/Jul/2025 21:04:10] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 21:06:38,973 - INFO - 127.0.0.1 - - [05/Jul/2025 21:06:38] "GET /register HTTP/1.1" 200 -
+2025-07-05 21:06:38,994 - INFO - 127.0.0.1 - - [05/Jul/2025 21:06:38] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 21:06:39,008 - INFO - 127.0.0.1 - - [05/Jul/2025 21:06:39] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 21:06:39,011 - INFO - 127.0.0.1 - - [05/Jul/2025 21:06:39] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 21:06:40,621 - INFO - 127.0.0.1 - - [05/Jul/2025 21:06:40] "GET /register HTTP/1.1" 200 -
+2025-07-05 21:06:40,652 - INFO - 127.0.0.1 - - [05/Jul/2025 21:06:40] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 21:06:40,658 - INFO - 127.0.0.1 - - [05/Jul/2025 21:06:40] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 21:06:40,674 - INFO - 127.0.0.1 - - [05/Jul/2025 21:06:40] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 21:10:18,238 - INFO - 127.0.0.1 - - [05/Jul/2025 21:10:18] "GET /register HTTP/1.1" 200 -
+2025-07-05 21:10:18,287 - INFO - 127.0.0.1 - - [05/Jul/2025 21:10:18] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 21:10:18,312 - INFO - 127.0.0.1 - - [05/Jul/2025 21:10:18] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 21:10:18,316 - INFO - 127.0.0.1 - - [05/Jul/2025 21:10:18] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 21:10:22,806 - INFO - 127.0.0.1 - - [05/Jul/2025 21:10:22] "GET /register HTTP/1.1" 200 -
+2025-07-05 21:10:22,848 - INFO - 127.0.0.1 - - [05/Jul/2025 21:10:22] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 21:10:22,856 - INFO - 127.0.0.1 - - [05/Jul/2025 21:10:22] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 21:10:22,860 - INFO - 127.0.0.1 - - [05/Jul/2025 21:10:22] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 21:37:34,324 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:34] "[35m[1mGET /register HTTP/1.1[0m" 500 -
+2025-07-05 21:37:34,748 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:34] "GET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-07-05 21:37:34,800 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:34] "GET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-07-05 21:37:34,892 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:34] "GET /register?__debugger__=yes&cmd=resource&f=console.png&s=ErdljI4bE8BYwI5JInqT HTTP/1.1" 200 -
+2025-07-05 21:37:34,938 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:34] "GET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-07-05 21:37:35,109 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:35] "[35m[1mGET /register HTTP/1.1[0m" 500 -
+2025-07-05 21:37:35,132 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:35] "[36mGET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-05 21:37:35,136 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:35] "[36mGET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-05 21:37:35,219 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:35] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png&s=ErdljI4bE8BYwI5JInqT HTTP/1.1[0m" 304 -
+2025-07-05 21:37:35,248 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:35] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-07-05 21:37:35,318 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:35] "[35m[1mGET /register HTTP/1.1[0m" 500 -
+2025-07-05 21:37:35,338 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:35] "[36mGET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-05 21:37:35,353 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:35] "[36mGET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-05 21:37:35,371 - INFO - 127.0.0.1 - - [05/Jul/2025 21:37:35] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png&s=ErdljI4bE8BYwI5JInqT HTTP/1.1[0m" 304 -
+2025-07-05 22:21:10,155 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:10] "GET /register HTTP/1.1" 200 -
+2025-07-05 22:21:10,252 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:10] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:21:10,367 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:10] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:21:10,368 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:10] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:21:28,107 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:28] "GET /register HTTP/1.1" 200 -
+2025-07-05 22:21:28,127 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:28] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:21:28,159 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:28] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:21:28,175 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:28] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:21:32,941 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:32] "GET / HTTP/1.1" 200 -
+2025-07-05 22:21:32,961 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:32] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:21:32,962 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:32] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:21:32,977 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:32] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:21:37,215 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:37] "GET /register HTTP/1.1" 200 -
+2025-07-05 22:21:37,246 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:37] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:21:37,249 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:37] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:21:37,249 - INFO - 127.0.0.1 - - [05/Jul/2025 22:21:37] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:24:03,614 - INFO - 127.0.0.1 - - [05/Jul/2025 22:24:03] "GET /register HTTP/1.1" 200 -
+2025-07-05 22:24:03,632 - INFO - 127.0.0.1 - - [05/Jul/2025 22:24:03] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:24:03,649 - INFO - 127.0.0.1 - - [05/Jul/2025 22:24:03] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:24:03,658 - INFO - 127.0.0.1 - - [05/Jul/2025 22:24:03] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:25:22,868 - INFO - 127.0.0.1 - - [05/Jul/2025 22:25:22] "GET /register HTTP/1.1" 200 -
+2025-07-05 22:25:22,881 - INFO - 127.0.0.1 - - [05/Jul/2025 22:25:22] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:25:22,896 - INFO - 127.0.0.1 - - [05/Jul/2025 22:25:22] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:25:22,956 - INFO - 127.0.0.1 - - [05/Jul/2025 22:25:22] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:26:57,142 - INFO - 127.0.0.1 - - [05/Jul/2025 22:26:57] "GET /register HTTP/1.1" 200 -
+2025-07-05 22:26:57,158 - INFO - 127.0.0.1 - - [05/Jul/2025 22:26:57] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:26:57,168 - INFO - 127.0.0.1 - - [05/Jul/2025 22:26:57] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:26:57,198 - INFO - 127.0.0.1 - - [05/Jul/2025 22:26:57] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:28:35,330 - INFO - 127.0.0.1 - - [05/Jul/2025 22:28:35] "GET /register HTTP/1.1" 200 -
+2025-07-05 22:28:35,350 - INFO - 127.0.0.1 - - [05/Jul/2025 22:28:35] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:28:35,358 - INFO - 127.0.0.1 - - [05/Jul/2025 22:28:35] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:28:35,365 - INFO - 127.0.0.1 - - [05/Jul/2025 22:28:35] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:30:30,963 - INFO - 127.0.0.1 - - [05/Jul/2025 22:30:30] "GET /login HTTP/1.1" 200 -
+2025-07-05 22:30:31,003 - INFO - 127.0.0.1 - - [05/Jul/2025 22:30:31] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:30:31,021 - INFO - 127.0.0.1 - - [05/Jul/2025 22:30:31] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:30:31,023 - INFO - 127.0.0.1 - - [05/Jul/2025 22:30:31] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:30:34,484 - INFO - 127.0.0.1 - - [05/Jul/2025 22:30:34] "GET /register HTTP/1.1" 200 -
+2025-07-05 22:30:34,499 - INFO - 127.0.0.1 - - [05/Jul/2025 22:30:34] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:30:34,524 - INFO - 127.0.0.1 - - [05/Jul/2025 22:30:34] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:30:34,528 - INFO - 127.0.0.1 - - [05/Jul/2025 22:30:34] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:34:36,047 - INFO - 127.0.0.1 - - [05/Jul/2025 22:34:36] "GET /register HTTP/1.1" 200 -
+2025-07-05 22:34:36,076 - INFO - 127.0.0.1 - - [05/Jul/2025 22:34:36] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:34:36,086 - INFO - 127.0.0.1 - - [05/Jul/2025 22:34:36] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:34:36,089 - INFO - 127.0.0.1 - - [05/Jul/2025 22:34:36] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:34:56,813 - INFO - 127.0.0.1 - - [05/Jul/2025 22:34:56] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:34:56,911 - INFO - 127.0.0.1 - - [05/Jul/2025 22:34:56] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 22:35:08,830 - INFO - 127.0.0.1 - - [05/Jul/2025 22:35:08] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 22:37:15,416 - INFO - 127.0.0.1 - - [05/Jul/2025 22:37:15] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 22:42:45,175 - INFO - 127.0.0.1 - - [05/Jul/2025 22:42:45] "GET /register HTTP/1.1" 200 -
+2025-07-05 22:42:45,484 - INFO - 127.0.0.1 - - [05/Jul/2025 22:42:45] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:42:45,589 - INFO - 127.0.0.1 - - [05/Jul/2025 22:42:45] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:42:45,590 - INFO - 127.0.0.1 - - [05/Jul/2025 22:42:45] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:42:45,668 - INFO - 127.0.0.1 - - [05/Jul/2025 22:42:45] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 22:49:02,270 - INFO - 127.0.0.1 - - [05/Jul/2025 22:49:02] "GET /register HTTP/1.1" 200 -
+2025-07-05 22:49:02,496 - INFO - 127.0.0.1 - - [05/Jul/2025 22:49:02] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:49:02,515 - INFO - 127.0.0.1 - - [05/Jul/2025 22:49:02] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:49:02,534 - INFO - 127.0.0.1 - - [05/Jul/2025 22:49:02] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 22:49:02,555 - INFO - 127.0.0.1 - - [05/Jul/2025 22:49:02] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:49:09,814 - INFO - 127.0.0.1 - - [05/Jul/2025 22:49:09] "POST /register HTTP/1.1" 200 -
+2025-07-05 22:49:09,829 - INFO - 127.0.0.1 - - [05/Jul/2025 22:49:09] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:49:09,851 - INFO - 127.0.0.1 - - [05/Jul/2025 22:49:09] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:49:09,864 - INFO - 127.0.0.1 - - [05/Jul/2025 22:49:09] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:52:28,918 - INFO - 127.0.0.1 - - [05/Jul/2025 22:52:28] "POST /register HTTP/1.1" 200 -
+2025-07-05 22:52:28,953 - INFO - 127.0.0.1 - - [05/Jul/2025 22:52:28] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:52:28,955 - INFO - 127.0.0.1 - - [05/Jul/2025 22:52:28] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:52:28,955 - INFO - 127.0.0.1 - - [05/Jul/2025 22:52:28] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:57:27,310 - INFO - 127.0.0.1 - - [05/Jul/2025 22:57:27] "POST /register HTTP/1.1" 200 -
+2025-07-05 22:57:27,453 - INFO - 127.0.0.1 - - [05/Jul/2025 22:57:27] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:57:27,470 - INFO - 127.0.0.1 - - [05/Jul/2025 22:57:27] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:57:27,484 - INFO - 127.0.0.1 - - [05/Jul/2025 22:57:27] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:59:20,592 - INFO - 127.0.0.1 - - [05/Jul/2025 22:59:20] "GET / HTTP/1.1" 200 -
+2025-07-05 22:59:20,644 - INFO - 127.0.0.1 - - [05/Jul/2025 22:59:20] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:59:20,648 - INFO - 127.0.0.1 - - [05/Jul/2025 22:59:20] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 22:59:20,656 - INFO - 127.0.0.1 - - [05/Jul/2025 22:59:20] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:59:22,319 - INFO - 127.0.0.1 - - [05/Jul/2025 22:59:22] "GET /login HTTP/1.1" 200 -
+2025-07-05 22:59:22,340 - INFO - 127.0.0.1 - - [05/Jul/2025 22:59:22] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 22:59:22,344 - INFO - 127.0.0.1 - - [05/Jul/2025 22:59:22] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 22:59:22,354 - INFO - 127.0.0.1 - - [05/Jul/2025 22:59:22] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:03:00,728 - INFO - 127.0.0.1 - - [05/Jul/2025 23:03:00] "GET / HTTP/1.1" 200 -
+2025-07-05 23:03:00,762 - INFO - 127.0.0.1 - - [05/Jul/2025 23:03:00] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:03:00,766 - INFO - 127.0.0.1 - - [05/Jul/2025 23:03:00] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:03:00,779 - INFO - 127.0.0.1 - - [05/Jul/2025 23:03:00] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:07:25,607 - INFO - 127.0.0.1 - - [05/Jul/2025 23:07:25] "GET /login HTTP/1.1" 200 -
+2025-07-05 23:07:25,634 - INFO - 127.0.0.1 - - [05/Jul/2025 23:07:25] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:07:25,643 - INFO - 127.0.0.1 - - [05/Jul/2025 23:07:25] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:07:25,673 - INFO - 127.0.0.1 - - [05/Jul/2025 23:07:25] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:07:39,190 - INFO - User admin@gmail.com logged in
+2025-07-05 23:07:39,206 - INFO - 127.0.0.1 - - [05/Jul/2025 23:07:39] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-07-05 23:07:39,242 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-05 23:07:39,326 - INFO - 127.0.0.1 - - [05/Jul/2025 23:07:39] "GET /dashboard HTTP/1.1" 200 -
+2025-07-05 23:07:39,358 - INFO - 127.0.0.1 - - [05/Jul/2025 23:07:39] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:07:39,373 - INFO - 127.0.0.1 - - [05/Jul/2025 23:07:39] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:07:39,382 - INFO - 127.0.0.1 - - [05/Jul/2025 23:07:39] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:10:51,044 - INFO - 127.0.0.1 - - [05/Jul/2025 23:10:51] "GET / HTTP/1.1" 200 -
+2025-07-05 23:10:51,064 - INFO - 127.0.0.1 - - [05/Jul/2025 23:10:51] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:10:51,073 - INFO - 127.0.0.1 - - [05/Jul/2025 23:10:51] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:10:51,083 - INFO - 127.0.0.1 - - [05/Jul/2025 23:10:51] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:10:55,692 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-05 23:10:55,730 - INFO - 127.0.0.1 - - [05/Jul/2025 23:10:55] "GET /dashboard HTTP/1.1" 200 -
+2025-07-05 23:10:55,753 - INFO - 127.0.0.1 - - [05/Jul/2025 23:10:55] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:10:55,767 - INFO - 127.0.0.1 - - [05/Jul/2025 23:10:55] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:10:55,772 - INFO - 127.0.0.1 - - [05/Jul/2025 23:10:55] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:11:00,708 - INFO - User admin@gmail.com logged out
+2025-07-05 23:11:00,712 - INFO - 127.0.0.1 - - [05/Jul/2025 23:11:00] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-07-05 23:11:00,727 - INFO - 127.0.0.1 - - [05/Jul/2025 23:11:00] "GET / HTTP/1.1" 200 -
+2025-07-05 23:11:00,755 - INFO - 127.0.0.1 - - [05/Jul/2025 23:11:00] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:11:00,755 - INFO - 127.0.0.1 - - [05/Jul/2025 23:11:00] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:11:00,757 - INFO - 127.0.0.1 - - [05/Jul/2025 23:11:00] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:11:27,022 - INFO - 127.0.0.1 - - [05/Jul/2025 23:11:27] "GET /login HTTP/1.1" 200 -
+2025-07-05 23:11:27,064 - INFO - 127.0.0.1 - - [05/Jul/2025 23:11:27] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:11:27,082 - INFO - 127.0.0.1 - - [05/Jul/2025 23:11:27] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:11:27,082 - INFO - 127.0.0.1 - - [05/Jul/2025 23:11:27] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:11:46,057 - INFO - 127.0.0.1 - - [05/Jul/2025 23:11:46] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:11:46,251 - INFO - 127.0.0.1 - - [05/Jul/2025 23:11:46] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 23:12:39,253 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:39] "GET /login HTTP/1.1" 200 -
+2025-07-05 23:12:39,436 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:39] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:12:39,548 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:39] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 23:12:39,708 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:39] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:12:39,709 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:39] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:12:42,139 - INFO - User admin@gmail.com logged in
+2025-07-05 23:12:42,172 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:42] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-07-05 23:12:42,205 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-05 23:12:42,254 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:42] "GET /dashboard HTTP/1.1" 200 -
+2025-07-05 23:12:42,408 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:42] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 23:12:42,428 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:42] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:12:42,457 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:42] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:12:42,479 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:42] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:12:47,982 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:47] "GET / HTTP/1.1" 200 -
+2025-07-05 23:12:48,054 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:48] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:12:48,070 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:48] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:12:48,089 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:48] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:12:50,818 - INFO - User admin@gmail.com logged out
+2025-07-05 23:12:50,819 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:50] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-07-05 23:12:50,837 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:50] "GET / HTTP/1.1" 200 -
+2025-07-05 23:12:50,867 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:50] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:12:50,879 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:50] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:12:50,921 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:50] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:12:54,329 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:54] "GET /register HTTP/1.1" 200 -
+2025-07-05 23:12:54,350 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:54] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:12:54,360 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:54] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:12:54,394 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:54] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:12:57,995 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:57] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:12:58,024 - INFO - 127.0.0.1 - - [05/Jul/2025 23:12:58] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 23:17:26,633 - INFO - 127.0.0.1 - - [05/Jul/2025 23:17:26] "GET /register HTTP/1.1" 200 -
+2025-07-05 23:17:26,898 - INFO - 127.0.0.1 - - [05/Jul/2025 23:17:26] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:17:26,976 - INFO - 127.0.0.1 - - [05/Jul/2025 23:17:26] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:17:26,984 - INFO - 127.0.0.1 - - [05/Jul/2025 23:17:26] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:17:27,090 - INFO - 127.0.0.1 - - [05/Jul/2025 23:17:27] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 23:19:13,030 - INFO - 127.0.0.1 - - [05/Jul/2025 23:19:13] "GET /register HTTP/1.1" 200 -
+2025-07-05 23:19:13,656 - INFO - 127.0.0.1 - - [05/Jul/2025 23:19:13] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:19:13,656 - INFO - 127.0.0.1 - - [05/Jul/2025 23:19:13] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:19:13,656 - INFO - 127.0.0.1 - - [05/Jul/2025 23:19:13] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:19:13,886 - INFO - 127.0.0.1 - - [05/Jul/2025 23:19:13] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 23:19:45,273 - INFO - 127.0.0.1 - - [05/Jul/2025 23:19:45] "GET /register HTTP/1.1" 200 -
+2025-07-05 23:19:45,327 - INFO - 127.0.0.1 - - [05/Jul/2025 23:19:45] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:19:45,444 - INFO - 127.0.0.1 - - [05/Jul/2025 23:19:45] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:19:45,529 - INFO - 127.0.0.1 - - [05/Jul/2025 23:19:45] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:19:45,587 - INFO - 127.0.0.1 - - [05/Jul/2025 23:19:45] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-05 23:22:06,380 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:06] "GET / HTTP/1.1" 200 -
+2025-07-05 23:22:06,461 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:06] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:22:06,510 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:06] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:22:06,514 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:06] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:22:08,939 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:08] "GET /login HTTP/1.1" 200 -
+2025-07-05 23:22:08,957 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:08] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:22:08,965 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:08] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:22:08,966 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:08] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:22:13,350 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:13] "GET /register HTTP/1.1" 200 -
+2025-07-05 23:22:13,451 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:13] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:22:13,472 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:13] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:22:13,473 - INFO - 127.0.0.1 - - [05/Jul/2025 23:22:13] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:23:10,714 - INFO - 127.0.0.1 - - [05/Jul/2025 23:23:10] "GET / HTTP/1.1" 200 -
+2025-07-05 23:23:10,751 - INFO - 127.0.0.1 - - [05/Jul/2025 23:23:10] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:23:10,778 - INFO - 127.0.0.1 - - [05/Jul/2025 23:23:10] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:23:10,802 - INFO - 127.0.0.1 - - [05/Jul/2025 23:23:10] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:23:12,092 - INFO - 127.0.0.1 - - [05/Jul/2025 23:23:12] "GET /login HTTP/1.1" 200 -
+2025-07-05 23:23:12,137 - INFO - 127.0.0.1 - - [05/Jul/2025 23:23:12] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:23:12,146 - INFO - 127.0.0.1 - - [05/Jul/2025 23:23:12] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:23:12,148 - INFO - 127.0.0.1 - - [05/Jul/2025 23:23:12] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:25:04,464 - INFO - 127.0.0.1 - - [05/Jul/2025 23:25:04] "GET /login HTTP/1.1" 200 -
+2025-07-05 23:25:04,506 - INFO - 127.0.0.1 - - [05/Jul/2025 23:25:04] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:25:04,528 - INFO - 127.0.0.1 - - [05/Jul/2025 23:25:04] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:25:04,533 - INFO - 127.0.0.1 - - [05/Jul/2025 23:25:04] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:25:07,347 - INFO - 127.0.0.1 - - [05/Jul/2025 23:25:07] "GET /register HTTP/1.1" 200 -
+2025-07-05 23:25:07,366 - INFO - 127.0.0.1 - - [05/Jul/2025 23:25:07] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:25:07,378 - INFO - 127.0.0.1 - - [05/Jul/2025 23:25:07] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:25:07,379 - INFO - 127.0.0.1 - - [05/Jul/2025 23:25:07] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:27:06,236 - INFO - 127.0.0.1 - - [05/Jul/2025 23:27:06] "GET / HTTP/1.1" 200 -
+2025-07-05 23:27:06,263 - INFO - 127.0.0.1 - - [05/Jul/2025 23:27:06] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:27:06,293 - INFO - 127.0.0.1 - - [05/Jul/2025 23:27:06] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:27:06,294 - INFO - 127.0.0.1 - - [05/Jul/2025 23:27:06] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:34:14,525 - INFO - 127.0.0.1 - - [05/Jul/2025 23:34:14] "GET / HTTP/1.1" 200 -
+2025-07-05 23:34:14,662 - INFO - 127.0.0.1 - - [05/Jul/2025 23:34:14] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:34:14,687 - INFO - 127.0.0.1 - - [05/Jul/2025 23:34:14] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:34:14,780 - INFO - 127.0.0.1 - - [05/Jul/2025 23:34:14] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:37:55,493 - INFO - 127.0.0.1 - - [05/Jul/2025 23:37:55] "GET / HTTP/1.1" 200 -
+2025-07-05 23:37:55,734 - INFO - 127.0.0.1 - - [05/Jul/2025 23:37:55] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:37:55,821 - INFO - 127.0.0.1 - - [05/Jul/2025 23:37:55] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:37:56,210 - INFO - 127.0.0.1 - - [05/Jul/2025 23:37:56] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:43:24,801 - INFO - 127.0.0.1 - - [05/Jul/2025 23:43:24] "GET / HTTP/1.1" 200 -
+2025-07-05 23:43:25,127 - INFO - 127.0.0.1 - - [05/Jul/2025 23:43:25] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:43:25,130 - INFO - 127.0.0.1 - - [05/Jul/2025 23:43:25] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:43:25,136 - INFO - 127.0.0.1 - - [05/Jul/2025 23:43:25] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:47:11,793 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:11] "GET /register HTTP/1.1" 200 -
+2025-07-05 23:47:11,830 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:11] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:47:11,831 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:11] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:47:11,850 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:11] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:47:16,327 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:16] "GET /login HTTP/1.1" 200 -
+2025-07-05 23:47:16,388 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:16] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:47:16,428 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:16] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:47:16,528 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:16] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:47:18,863 - INFO - User admin@gmail.com logged in
+2025-07-05 23:47:18,869 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:18] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-07-05 23:47:18,902 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-05 23:47:18,938 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:18] "GET /dashboard HTTP/1.1" 200 -
+2025-07-05 23:47:18,975 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:18] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:47:18,975 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:18] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:47:18,976 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:18] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:47:29,025 - INFO - Admin admin@gmail.com deleted lot 1.
+2025-07-05 23:47:29,028 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:29] "[32mPOST /admin/delete_lot/1 HTTP/1.1[0m" 302 -
+2025-07-05 23:47:29,046 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-05 23:47:29,053 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:29] "GET /dashboard HTTP/1.1" 200 -
+2025-07-05 23:47:29,081 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:29] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:47:29,086 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:29] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:47:29,087 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:29] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:47:31,889 - INFO - Admin admin@gmail.com deleted lot 2.
+2025-07-05 23:47:31,890 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:31] "[32mPOST /admin/delete_lot/2 HTTP/1.1[0m" 302 -
+2025-07-05 23:47:31,929 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-05 23:47:31,931 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:31] "GET /dashboard HTTP/1.1" 200 -
+2025-07-05 23:47:31,963 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:31] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:47:31,968 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:31] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:47:31,987 - INFO - 127.0.0.1 - - [05/Jul/2025 23:47:31] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:53:18,649 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:18] "GET / HTTP/1.1" 200 -
+2025-07-05 23:53:18,673 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:18] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:53:18,690 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:18] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:53:18,737 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:18] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:53:21,080 - INFO - User admin@gmail.com logged out
+2025-07-05 23:53:21,085 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:21] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-07-05 23:53:21,098 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:21] "GET / HTTP/1.1" 200 -
+2025-07-05 23:53:21,125 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:21] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:53:21,143 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:21] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-05 23:53:21,146 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:21] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:53:22,666 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:22] "GET /login HTTP/1.1" 200 -
+2025-07-05 23:53:22,690 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:22] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-05 23:53:22,703 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:22] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-05 23:53:22,704 - INFO - 127.0.0.1 - - [05/Jul/2025 23:53:22] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-06 00:00:42,905 - INFO - 127.0.0.1 - - [06/Jul/2025 00:00:42] "GET /register HTTP/1.1" 200 -
+2025-07-06 00:00:42,950 - INFO - 127.0.0.1 - - [06/Jul/2025 00:00:42] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-06 00:00:42,981 - INFO - 127.0.0.1 - - [06/Jul/2025 00:00:42] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-06 00:00:43,032 - INFO - 127.0.0.1 - - [06/Jul/2025 00:00:43] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-06 00:03:40,534 - INFO - 127.0.0.1 - - [06/Jul/2025 00:03:40] "GET / HTTP/1.1" 200 -
+2025-07-06 00:03:40,582 - INFO - 127.0.0.1 - - [06/Jul/2025 00:03:40] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-06 00:03:40,648 - INFO - 127.0.0.1 - - [06/Jul/2025 00:03:40] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-06 00:03:40,654 - INFO - 127.0.0.1 - - [06/Jul/2025 00:03:40] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-06 15:31:35,361 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-06 15:31:35,363 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-06 15:31:35,368 - INFO -  * Restarting with stat
+2025-07-06 15:31:37,157 - WARNING -  * Debugger is active!
+2025-07-06 15:31:37,171 - INFO -  * Debugger PIN: 294-686-373
+2025-07-06 15:31:52,655 - INFO - 127.0.0.1 - - [06/Jul/2025 15:31:52] "GET / HTTP/1.1" 200 -
+2025-07-06 15:31:53,236 - INFO - 127.0.0.1 - - [06/Jul/2025 15:31:53] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-07-06 15:31:53,440 - INFO - 127.0.0.1 - - [06/Jul/2025 15:31:53] "GET /static/images/logo.png HTTP/1.1" 200 -
+2025-07-06 15:31:53,604 - INFO - 127.0.0.1 - - [06/Jul/2025 15:31:53] "GET /static/js/scripts.js HTTP/1.1" 200 -
+2025-07-06 15:31:54,042 - INFO - 127.0.0.1 - - [06/Jul/2025 15:31:54] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-06 15:31:58,017 - INFO - 127.0.0.1 - - [06/Jul/2025 15:31:58] "GET /login HTTP/1.1" 200 -
+2025-07-06 15:31:58,117 - INFO - 127.0.0.1 - - [06/Jul/2025 15:31:58] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-06 15:31:58,433 - INFO - 127.0.0.1 - - [06/Jul/2025 15:31:58] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-06 15:31:58,433 - INFO - 127.0.0.1 - - [06/Jul/2025 15:31:58] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-06 15:32:02,089 - INFO - User admin@gmail.com logged in
+2025-07-06 15:32:02,091 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:02] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-07-06 15:32:02,134 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-06 15:32:02,282 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:02] "GET /dashboard HTTP/1.1" 200 -
+2025-07-06 15:32:02,328 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:02] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-06 15:32:02,647 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:02] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-06 15:32:02,650 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:02] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-06 15:32:10,514 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:10] "GET /admin/view_users HTTP/1.1" 200 -
+2025-07-06 15:32:10,688 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:10] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-06 15:32:10,714 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:10] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-06 15:32:10,844 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:10] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-06 15:32:13,969 - INFO - User admin@gmail.com logged out
+2025-07-06 15:32:13,971 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:13] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-07-06 15:32:14,280 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:14] "GET / HTTP/1.1" 200 -
+2025-07-06 15:32:14,626 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:14] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-06 15:32:14,637 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:14] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-06 15:32:14,639 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:14] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-06 15:32:16,242 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:16] "GET /login HTTP/1.1" 200 -
+2025-07-06 15:32:16,572 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:16] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-06 15:32:16,577 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:16] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-06 15:32:16,637 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:16] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-06 15:32:20,193 - INFO - User user1@gmail.com logged in
+2025-07-06 15:32:20,195 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:20] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-07-06 15:32:20,211 - INFO - User user1@gmail.com accessed dashboard with 0 reservations
+2025-07-06 15:32:20,458 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:20] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-07-06 15:32:20,661 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:20] "GET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-07-06 15:32:21,159 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:21] "GET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-07-06 15:32:21,523 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:21] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=NJZQDr23SfQUwdyzjChH HTTP/1.1" 200 -
+2025-07-06 15:32:21,796 - INFO - 127.0.0.1 - - [06/Jul/2025 15:32:21] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-07-06 15:33:30,993 - INFO - User user1@gmail.com accessed dashboard with 0 reservations
+2025-07-06 15:33:31,277 - INFO - 127.0.0.1 - - [06/Jul/2025 15:33:31] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-07-06 15:33:31,383 - INFO - 127.0.0.1 - - [06/Jul/2025 15:33:31] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-06 15:33:31,386 - INFO - 127.0.0.1 - - [06/Jul/2025 15:33:31] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-06 15:33:31,758 - INFO - 127.0.0.1 - - [06/Jul/2025 15:33:31] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=NJZQDr23SfQUwdyzjChH HTTP/1.1[0m" 304 -
+2025-07-06 15:33:32,027 - INFO - 127.0.0.1 - - [06/Jul/2025 15:33:32] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-07-06 15:41:04,220 - INFO -  * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+2025-07-06 15:41:07,359 - INFO -  * Restarting with stat
+2025-07-08 15:05:51,074 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-08 15:05:51,076 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-08 15:05:51,082 - INFO -  * Restarting with stat
+2025-07-08 15:05:59,670 - WARNING -  * Debugger is active!
+2025-07-08 15:05:59,804 - INFO -  * Debugger PIN: 121-520-640
+2025-07-08 15:06:04,912 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:04] "GET / HTTP/1.1" 200 -
+2025-07-08 15:06:05,453 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:05] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:06:05,546 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:05] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:06:05,870 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:05] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:06:06,712 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:06] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-08 15:06:08,515 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:08] "GET /login HTTP/1.1" 200 -
+2025-07-08 15:06:08,690 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:08] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:06:09,006 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:09] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:06:09,006 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:09] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:06:13,113 - INFO - User admin@gmail.com logged in
+2025-07-08 15:06:13,116 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:13] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-07-08 15:06:13,147 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-08 15:06:13,396 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:13] "GET /dashboard HTTP/1.1" 200 -
+2025-07-08 15:06:13,430 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:13] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:06:13,816 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:13] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:06:13,860 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:13] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:06:16,691 - INFO - Admin admin@gmail.com accessed summary page.
+2025-07-08 15:06:16,809 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:16] "GET /admin/summary HTTP/1.1" 200 -
+2025-07-08 15:06:16,835 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:16] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:06:16,839 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:16] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:06:17,147 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:17] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:06:23,494 - INFO - User admin@gmail.com logged out
+2025-07-08 15:06:23,496 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:23] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-07-08 15:06:23,750 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:23] "GET / HTTP/1.1" 200 -
+2025-07-08 15:06:24,096 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:24] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:06:24,107 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:24] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:06:24,144 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:24] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:06:26,057 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:26] "GET /login HTTP/1.1" 200 -
+2025-07-08 15:06:26,373 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:26] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:06:26,442 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:26] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:06:26,443 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:26] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:06:32,159 - INFO - User user1@gmail.com logged in
+2025-07-08 15:06:32,161 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:32] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-07-08 15:06:32,176 - INFO - User user1@gmail.com accessed dashboard with 0 reservations
+2025-07-08 15:06:32,453 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:32] "GET /dashboard HTTP/1.1" 200 -
+2025-07-08 15:06:32,491 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:32] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:06:32,801 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:32] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:06:32,807 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:32] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:06:43,937 - INFO - User user1@gmail.com accessed summary page.
+2025-07-08 15:06:44,001 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:44] "GET /user/summary HTTP/1.1" 200 -
+2025-07-08 15:06:44,160 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:44] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:06:44,206 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:44] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:06:44,331 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:44] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:06:45,978 - INFO - User user1@gmail.com accessed dashboard with 0 reservations
+2025-07-08 15:06:45,984 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:45] "GET /dashboard HTTP/1.1" 200 -
+2025-07-08 15:06:46,285 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:46] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:06:46,313 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:46] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:06:46,328 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:46] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:06:48,059 - INFO - User user1@gmail.com accessed summary page.
+2025-07-08 15:06:48,060 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:48] "GET /user/summary HTTP/1.1" 200 -
+2025-07-08 15:06:48,287 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:48] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:06:48,340 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:48] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:06:48,396 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:48] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:06:49,621 - INFO - User user1@gmail.com accessed dashboard with 0 reservations
+2025-07-08 15:06:49,623 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:49] "GET /dashboard HTTP/1.1" 200 -
+2025-07-08 15:06:49,920 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:49] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:06:49,968 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:49] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:06:49,993 - INFO - 127.0.0.1 - - [08/Jul/2025 15:06:49] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:07:57,278 - ERROR - Failed to send CSV export email to user1@gmail.com: The message does not specify a sender and a default sender has not been configured
+2025-07-08 15:07:57,280 - INFO - 127.0.0.1 - - [08/Jul/2025 15:07:57] "[32mPOST /user/export_csv HTTP/1.1[0m" 302 -
+2025-07-08 15:07:57,608 - INFO - User user1@gmail.com accessed dashboard with 0 reservations
+2025-07-08 15:07:57,610 - INFO - 127.0.0.1 - - [08/Jul/2025 15:07:57] "GET /dashboard HTTP/1.1" 200 -
+2025-07-08 15:07:57,898 - INFO - 127.0.0.1 - - [08/Jul/2025 15:07:57] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 15:07:58,036 - INFO - 127.0.0.1 - - [08/Jul/2025 15:07:58] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 15:07:58,050 - INFO - 127.0.0.1 - - [08/Jul/2025 15:07:58] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 15:29:12,281 - INFO - User user1@gmail.com accessed dashboard with 0 reservations
+2025-07-08 15:29:12,302 - INFO - 127.0.0.1 - - [08/Jul/2025 15:29:12] "GET /dashboard HTTP/1.1" 200 -
+2025-07-08 18:12:40,466 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-08 18:12:40,468 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-08 18:12:40,973 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-08 18:12:40,973 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-08 18:12:40,979 - INFO -  * Restarting with stat
+2025-07-08 18:12:44,642 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-08 18:12:44,642 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-08 18:12:44,886 - WARNING -  * Debugger is active!
+2025-07-08 18:12:44,920 - INFO -  * Debugger PIN: 121-520-640
+2025-07-08 18:13:01,480 - INFO - 127.0.0.1 - - [08/Jul/2025 18:13:01] "[32mGET /dashboard HTTP/1.1[0m" 302 -
+2025-07-08 18:13:01,682 - INFO - 127.0.0.1 - - [08/Jul/2025 18:13:01] "GET /login?next=/dashboard HTTP/1.1" 200 -
+2025-07-08 18:13:02,505 - INFO - 127.0.0.1 - - [08/Jul/2025 18:13:02] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-08 18:13:02,592 - INFO - 127.0.0.1 - - [08/Jul/2025 18:13:02] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-08 18:13:02,595 - INFO - 127.0.0.1 - - [08/Jul/2025 18:13:02] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-08 18:13:06,106 - INFO - User user1@gmail.com logged in
+2025-07-08 18:13:06,108 - INFO - 127.0.0.1 - - [08/Jul/2025 18:13:06] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-07-08 18:13:06,889 - INFO - 127.0.0.1 - - [08/Jul/2025 18:13:06] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-07-08 18:13:08,070 - INFO - 127.0.0.1 - - [08/Jul/2025 18:13:08] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-08 18:13:08,087 - INFO - 127.0.0.1 - - [08/Jul/2025 18:13:08] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-08 18:13:08,169 - INFO - 127.0.0.1 - - [08/Jul/2025 18:13:08] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=9eWgqZYOTR30PAoFQVub HTTP/1.1" 200 -
+2025-07-08 18:13:08,708 - INFO - 127.0.0.1 - - [08/Jul/2025 18:13:08] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-07-08 18:16:43,757 - INFO -  * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+2025-07-08 18:16:50,404 - INFO -  * Restarting with stat
+2025-07-11 22:20:10,136 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 22:20:10,138 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 22:20:13,119 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-11 22:20:13,119 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-11 22:20:13,123 - INFO -  * Restarting with stat
+2025-07-11 22:20:15,629 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 22:20:15,629 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 22:20:17,925 - WARNING -  * Debugger is active!
+2025-07-11 22:20:17,948 - INFO -  * Debugger PIN: 381-405-176
+2025-07-11 22:20:31,367 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:31] "GET / HTTP/1.1" 200 -
+2025-07-11 22:20:32,010 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:32] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-07-11 22:20:32,024 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:32] "GET /static/images/logo.png HTTP/1.1" 200 -
+2025-07-11 22:20:32,249 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:32] "GET /static/js/scripts.js HTTP/1.1" 200 -
+2025-07-11 22:20:32,357 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:32] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-11 22:20:35,782 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:35] "GET /login HTTP/1.1" 200 -
+2025-07-11 22:20:35,816 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:35] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 22:20:35,816 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:35] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 22:20:36,109 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:36] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 22:20:44,171 - INFO - User admin@gmail.com logged in
+2025-07-11 22:20:44,172 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:44] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-07-11 22:20:46,573 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:46] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-07-11 22:20:47,061 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:47] "GET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-07-11 22:20:47,102 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:47] "GET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-07-11 22:20:47,189 - INFO - 127.0.0.1 - - [11/Jul/2025 22:20:47] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=njjyWQmfbUynDrDiw8T0 HTTP/1.1" 200 -
+2025-07-11 22:34:57,027 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 22:34:57,028 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 22:34:59,418 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-11 22:34:59,418 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-11 22:34:59,422 - INFO -  * Restarting with stat
+2025-07-11 22:35:02,845 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 22:35:02,845 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 22:35:05,030 - WARNING -  * Debugger is active!
+2025-07-11 22:35:05,050 - INFO -  * Debugger PIN: 381-405-176
+2025-07-11 22:38:16,475 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 22:38:16,477 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 22:38:18,830 - ERROR - Error: Path doesn't exist: migrations.  Please use the 'init' command to create a new scripts folder.
+2025-07-11 22:38:31,214 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 22:38:31,215 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 22:38:33,372 - ERROR - Error: Path doesn't exist: migrations.  Please use the 'init' command to create a new scripts folder.
+2025-07-11 22:46:40,378 - INFO - 127.0.0.1 - - [11/Jul/2025 22:46:40] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-07-11 23:00:44,070 - INFO -  * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+2025-07-11 23:00:52,168 - INFO -  * Restarting with stat
+2025-07-11 23:01:01,851 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 23:01:01,851 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 23:01:04,189 - WARNING -  * Debugger is active!
+2025-07-11 23:01:04,212 - INFO -  * Debugger PIN: 381-405-176
+2025-07-11 23:01:06,339 - INFO - 127.0.0.1 - - [11/Jul/2025 23:01:06] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-07-11 23:01:06,564 - INFO - 127.0.0.1 - - [11/Jul/2025 23:01:06] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-11 23:01:06,686 - INFO - 127.0.0.1 - - [11/Jul/2025 23:01:06] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-11 23:01:07,049 - INFO - 127.0.0.1 - - [11/Jul/2025 23:01:07] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=HYa8tJdnXLEtJ7gPqE4Z HTTP/1.1" 200 -
+2025-07-11 23:01:07,299 - INFO - 127.0.0.1 - - [11/Jul/2025 23:01:07] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-07-11 23:04:21,944 - INFO - 127.0.0.1 - - [11/Jul/2025 23:04:21] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-07-11 23:04:22,407 - INFO - 127.0.0.1 - - [11/Jul/2025 23:04:22] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-11 23:04:22,408 - INFO - 127.0.0.1 - - [11/Jul/2025 23:04:22] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-11 23:04:22,917 - INFO - Authenticated user admin@gmail.com redirected from login
+2025-07-11 23:04:23,026 - INFO - 127.0.0.1 - - [11/Jul/2025 23:04:23] "[32mGET /login HTTP/1.1[0m" 302 -
+2025-07-11 23:04:23,114 - INFO - 127.0.0.1 - - [11/Jul/2025 23:04:23] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=HYa8tJdnXLEtJ7gPqE4Z HTTP/1.1[0m" 304 -
+2025-07-11 23:04:23,488 - INFO - 127.0.0.1 - - [11/Jul/2025 23:04:23] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-07-11 23:04:24,781 - INFO - 127.0.0.1 - - [11/Jul/2025 23:04:24] "GET / HTTP/1.1" 200 -
+2025-07-11 23:04:29,846 - INFO - 127.0.0.1 - - [11/Jul/2025 23:04:29] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-07-11 23:04:29,928 - INFO - 127.0.0.1 - - [11/Jul/2025 23:04:29] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-11 23:04:30,209 - INFO - 127.0.0.1 - - [11/Jul/2025 23:04:30] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-11 23:04:30,573 - INFO - 127.0.0.1 - - [11/Jul/2025 23:04:30] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=HYa8tJdnXLEtJ7gPqE4Z HTTP/1.1[0m" 304 -
+2025-07-11 23:10:17,225 - INFO - 127.0.0.1 - - [11/Jul/2025 23:10:17] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-07-11 23:10:17,445 - INFO - 127.0.0.1 - - [11/Jul/2025 23:10:17] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-11 23:10:17,446 - INFO - 127.0.0.1 - - [11/Jul/2025 23:10:17] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-11 23:10:17,997 - INFO - 127.0.0.1 - - [11/Jul/2025 23:10:17] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=HYa8tJdnXLEtJ7gPqE4Z HTTP/1.1[0m" 304 -
+2025-07-11 23:10:18,231 - INFO - 127.0.0.1 - - [11/Jul/2025 23:10:18] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-07-11 23:11:35,314 - INFO -  * Detected change in 'C:\\vehicle_parking_app\\fix_schema.py', reloading
+2025-07-11 23:11:38,342 - INFO -  * Restarting with stat
+2025-07-11 23:11:49,768 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 23:11:49,768 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 23:11:52,364 - WARNING -  * Debugger is active!
+2025-07-11 23:11:52,403 - INFO -  * Debugger PIN: 381-405-176
+2025-07-11 23:12:38,207 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 23:12:38,209 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 23:12:40,510 - ERROR - Error: Path doesn't exist: migrations.  Please use the 'init' command to create a new scripts folder.
+2025-07-11 23:12:42,952 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 23:12:42,952 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 23:12:45,078 - ERROR - Error: Path doesn't exist: migrations.  Please use the 'init' command to create a new scripts folder.
+2025-07-11 23:14:20,706 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 23:14:20,725 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 23:14:23,489 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-11 23:14:23,489 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-11 23:14:23,495 - INFO -  * Restarting with stat
+2025-07-11 23:14:27,994 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 23:14:27,995 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 23:14:30,186 - WARNING -  * Debugger is active!
+2025-07-11 23:14:30,206 - INFO -  * Debugger PIN: 381-405-176
+2025-07-11 23:14:30,256 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-11 23:14:30,364 - INFO - 127.0.0.1 - - [11/Jul/2025 23:14:30] "GET /dashboard HTTP/1.1" 200 -
+2025-07-11 23:14:32,229 - INFO - 127.0.0.1 - - [11/Jul/2025 23:14:32] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:14:32,231 - INFO - 127.0.0.1 - - [11/Jul/2025 23:14:32] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:14:32,263 - INFO - 127.0.0.1 - - [11/Jul/2025 23:14:32] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:14:38,471 - INFO - 127.0.0.1 - - [11/Jul/2025 23:14:38] "[35m[1mGET /admin/create_lot HTTP/1.1[0m" 500 -
+2025-07-11 23:14:38,549 - INFO - 127.0.0.1 - - [11/Jul/2025 23:14:38] "GET /admin/create_lot?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-07-11 23:14:38,813 - INFO - 127.0.0.1 - - [11/Jul/2025 23:14:38] "GET /admin/create_lot?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-07-11 23:14:39,225 - INFO - 127.0.0.1 - - [11/Jul/2025 23:14:39] "GET /admin/create_lot?__debugger__=yes&cmd=resource&f=console.png&s=Ovz3yVLCyvWvY1ZmAPTF HTTP/1.1" 200 -
+2025-07-11 23:14:39,482 - INFO - 127.0.0.1 - - [11/Jul/2025 23:14:39] "GET /admin/create_lot?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-07-11 23:20:09,213 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:09] "GET /admin/create_lot HTTP/1.1" 200 -
+2025-07-11 23:20:09,415 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:09] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:20:09,415 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:09] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:20:09,715 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:09] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:20:13,932 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-11 23:20:13,939 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:13] "GET /dashboard HTTP/1.1" 200 -
+2025-07-11 23:20:14,128 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:14] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:20:14,275 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:14] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:20:14,277 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:14] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:20:16,426 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:16] "GET /admin/create_lot HTTP/1.1" 200 -
+2025-07-11 23:20:16,704 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:16] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:20:16,770 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:16] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:20:16,771 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:16] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:20:33,995 - INFO - Admin admin@gmail.com created lot 1 (abc) with 5 spots.
+2025-07-11 23:20:34,002 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:34] "[32mPOST /admin/create_lot HTTP/1.1[0m" 302 -
+2025-07-11 23:20:34,341 - INFO - Cache used for key: view//dashboard
+2025-07-11 23:20:34,342 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:34] "GET /dashboard HTTP/1.1" 200 -
+2025-07-11 23:20:34,608 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:34] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:20:34,702 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:34] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:20:34,710 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:34] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:20:39,937 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:39] "GET /admin/create_lot HTTP/1.1" 200 -
+2025-07-11 23:20:40,168 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:40] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:20:40,193 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:40] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:20:40,255 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:40] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:20:42,432 - INFO - Cache used for key: view//dashboard
+2025-07-11 23:20:42,433 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:42] "GET /dashboard HTTP/1.1" 200 -
+2025-07-11 23:20:42,669 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:42] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:20:42,719 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:42] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:20:42,767 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:42] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:20:46,037 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:46] "GET /admin/create_lot HTTP/1.1" 200 -
+2025-07-11 23:20:46,353 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:46] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:20:46,416 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:46] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:20:46,417 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:46] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:20:48,810 - INFO - Cache used for key: view//dashboard
+2025-07-11 23:20:48,810 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:48] "GET /dashboard HTTP/1.1" 200 -
+2025-07-11 23:20:49,059 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:49] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:20:49,097 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:49] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:20:49,150 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:49] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:20:55,046 - INFO - Cache used for key: view//dashboard
+2025-07-11 23:20:55,048 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:55] "GET /dashboard HTTP/1.1" 200 -
+2025-07-11 23:20:55,083 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:55] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:20:55,304 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:55] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:20:55,404 - INFO - 127.0.0.1 - - [11/Jul/2025 23:20:55] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:49:29,224 - INFO -  * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+2025-07-11 23:49:29,165 - INFO -  * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+2025-07-11 23:49:44,360 - INFO -  * Restarting with stat
+2025-07-11 23:49:45,988 - INFO -  * Restarting with stat
+2025-07-11 23:50:05,198 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-11 23:50:05,198 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 23:50:05,198 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-11 23:50:08,338 - WARNING -  * Debugger is active!
+2025-07-11 23:50:08,338 - WARNING -  * Debugger is active!
+2025-07-11 23:50:08,407 - INFO -  * Debugger PIN: 381-405-176
+2025-07-11 23:50:10,647 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-11 23:50:11,290 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:11] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-07-11 23:50:11,886 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:11] "GET /admin/create_lot HTTP/1.1" 200 -
+2025-07-11 23:50:13,444 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:13] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:50:13,526 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:13] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:50:13,529 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:13] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:50:19,955 - WARNING - Admin admin@gmail.com attempted to create duplicate lot (name: abc, pin_code: 246215)
+2025-07-11 23:50:19,961 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:19] "POST /admin/create_lot HTTP/1.1" 200 -
+2025-07-11 23:50:20,016 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:20] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:50:20,202 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:20] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:50:20,322 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:20] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:50:28,839 - WARNING - Admin admin@gmail.com attempted to create duplicate lot (name: abch, pin_code: 246215)
+2025-07-11 23:50:28,845 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:28] "POST /admin/create_lot HTTP/1.1" 200 -
+2025-07-11 23:50:28,895 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:28] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-11 23:50:29,080 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:29] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-11 23:50:29,207 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:29] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-11 23:50:47,593 - INFO - Admin admin@gmail.com accessed dashboard
+2025-07-11 23:50:47,684 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:47] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-07-11 23:50:48,472 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:48] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-11 23:50:48,492 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:48] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-11 23:50:49,008 - INFO - Parking lot 2 (abch) committed to database
+2025-07-11 23:50:49,047 - INFO - 5 parking spots created for lot 2
+2025-07-11 23:50:49,051 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:49] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=S0YYinkDyHXHaBxV7Czn HTTP/1.1" 200 -
+2025-07-11 23:50:49,076 - INFO - Admin admin@gmail.com created lot 2 (abch) with 5 spots
+2025-07-11 23:50:49,079 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:49] "[32mPOST /admin/create_lot HTTP/1.1[0m" 302 -
+2025-07-11 23:50:49,305 - INFO - 127.0.0.1 - - [11/Jul/2025 23:50:49] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-07-11 23:55:41,964 - INFO -  * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+2025-07-11 23:55:42,345 - INFO -  * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+2025-07-11 23:56:07,419 - INFO -  * Restarting with stat
+2025-07-11 23:56:09,057 - INFO -  * Restarting with stat
+INFO:root:Default admin user created: admin@example.com
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 381-405-176
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:29:28] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:29:29] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:29:29] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:29:30] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=5e6HatXkOVh0hpYiQq1p HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:29:30] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:34:17] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:34:18] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:34:19] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:34:19] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=5e6HatXkOVh0hpYiQq1p HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:34:19] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+INFO:werkzeug: * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 381-405-176
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:35:38] "[32mGET /dashboard HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:35:38] "[35m[1mGET /login?next=/dashboard HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:35:39] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:35:39] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:35:40] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=ySJ0HkU56qgcpG1K1Hcm HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Jul/2025 00:35:40] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+2025-07-12 00:37:50,832 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-12 00:37:50,832 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-12 00:37:53,251 - WARNING -  * Debugger is active!
+2025-07-12 00:37:53,283 - INFO -  * Debugger PIN: 381-405-176
+2025-07-12 00:37:53,347 - INFO - 127.0.0.1 - - [12/Jul/2025 00:37:53] "GET /login?next=/dashboard HTTP/1.1" 200 -
+2025-07-12 00:37:54,664 - INFO - 127.0.0.1 - - [12/Jul/2025 00:37:54] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:37:54,705 - INFO - 127.0.0.1 - - [12/Jul/2025 00:37:54] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:37:54,713 - INFO - 127.0.0.1 - - [12/Jul/2025 00:37:54] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:38:01,514 - WARNING - Failed login attempt for admin@gmail.com
+2025-07-12 00:38:01,516 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:01] "POST /login HTTP/1.1" 200 -
+2025-07-12 00:38:01,560 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:01] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:38:01,585 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:01] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:38:01,883 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:01] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:38:08,759 - WARNING - Failed login attempt for admin@gmail.com
+2025-07-12 00:38:08,760 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:08] "POST /login HTTP/1.1" 200 -
+2025-07-12 00:38:08,969 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:08] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:38:09,182 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:09] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:38:09,198 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:09] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:38:11,976 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:11] "GET /login HTTP/1.1" 200 -
+2025-07-12 00:38:12,289 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:12] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:38:12,308 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:12] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:38:12,318 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:12] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:38:14,904 - WARNING - Failed login attempt for user1@gmail.com
+2025-07-12 00:38:14,905 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:14] "POST /login HTTP/1.1" 200 -
+2025-07-12 00:38:14,926 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:14] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:38:15,167 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:15] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:38:15,234 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:15] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:38:35,890 - INFO -  * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+2025-07-12 00:38:49,553 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-12 00:38:49,553 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-12 00:38:52,306 - WARNING -  * Debugger is active!
+2025-07-12 00:38:52,321 - INFO -  * Debugger PIN: 381-405-176
+2025-07-12 00:38:52,443 - WARNING - Failed login attempt for user1@gmail.com
+2025-07-12 00:38:52,467 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:52] "POST /login HTTP/1.1" 200 -
+2025-07-12 00:38:53,329 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:53] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:38:53,332 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:53] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:38:53,336 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:53] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:38:58,468 - WARNING - Failed login attempt for user1@gmail.com
+2025-07-12 00:38:58,474 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:58] "POST /login HTTP/1.1" 200 -
+2025-07-12 00:38:58,498 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:58] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:38:58,716 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:58] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:38:58,810 - INFO - 127.0.0.1 - - [12/Jul/2025 00:38:58] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:39:03,075 - WARNING - Failed login attempt for admin@gmail.com
+2025-07-12 00:39:03,077 - INFO - 127.0.0.1 - - [12/Jul/2025 00:39:03] "POST /login HTTP/1.1" 200 -
+2025-07-12 00:39:03,091 - INFO - 127.0.0.1 - - [12/Jul/2025 00:39:03] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:39:03,339 - INFO - 127.0.0.1 - - [12/Jul/2025 00:39:03] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:39:03,402 - INFO - 127.0.0.1 - - [12/Jul/2025 00:39:03] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:48:47,141 - INFO -  * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+INFO:werkzeug: * Restarting with stat
+2025-07-12 00:50:18,279 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-12 00:50:18,292 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-12 00:50:21,707 - WARNING -  * Debugger is active!
+2025-07-12 00:50:21,756 - INFO -  * Debugger PIN: 381-405-176
+2025-07-12 00:50:21,949 - INFO - 127.0.0.1 - - [12/Jul/2025 00:50:21] "GET / HTTP/1.1" 200 -
+2025-07-12 00:50:21,950 - INFO - 127.0.0.1 - - [12/Jul/2025 00:50:21] "GET / HTTP/1.1" 200 -
+2025-07-12 00:50:21,972 - INFO - 127.0.0.1 - - [12/Jul/2025 00:50:21] "GET / HTTP/1.1" 200 -
+2025-07-12 00:50:23,054 - INFO - 127.0.0.1 - - [12/Jul/2025 00:50:23] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:50:23,071 - INFO - 127.0.0.1 - - [12/Jul/2025 00:50:23] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:50:23,096 - INFO - 127.0.0.1 - - [12/Jul/2025 00:50:23] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:52:32,846 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:32] "GET /login HTTP/1.1" 200 -
+2025-07-12 00:52:32,964 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:32] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:52:32,965 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:32] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:52:33,329 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:33] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:52:35,818 - WARNING - Failed login attempt for user1@gmail.com
+2025-07-12 00:52:35,822 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:35] "POST /login HTTP/1.1" 200 -
+2025-07-12 00:52:35,852 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:35] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:52:35,871 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:35] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:52:36,162 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:36] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:52:43,638 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:43] "GET /register HTTP/1.1" 200 -
+2025-07-12 00:52:43,840 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:43] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-12 00:52:43,902 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:43] "[36mGET /static/js/scripts.js HTTP/1.1[0m" 304 -
+2025-07-12 00:52:44,088 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:44] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2025-07-12 00:52:45,724 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:45] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2025-07-12 00:52:45,958 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:45] "GET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-07-12 00:52:46,082 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:46] "GET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-07-12 00:52:46,637 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:46] "GET /register?__debugger__=yes&cmd=resource&f=console.png&s=n0s3Z7WNSJsFg1TnT9tE HTTP/1.1" 200 -
+2025-07-12 00:52:46,906 - INFO - 127.0.0.1 - - [12/Jul/2025 00:52:46] "GET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-07-12 00:59:12,532 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-12 00:59:12,536 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-12 00:59:15,144 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-12 00:59:15,144 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-12 00:59:15,150 - INFO -  * Restarting with stat
+2025-07-12 00:59:21,523 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-12 00:59:21,523 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-12 00:59:23,815 - WARNING -  * Debugger is active!
+2025-07-12 00:59:24,244 - INFO -  * Debugger PIN: 381-405-176
+2025-07-12 00:59:31,172 - INFO - 127.0.0.1 - - [12/Jul/2025 00:59:31] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2025-07-12 00:59:32,818 - INFO - 127.0.0.1 - - [12/Jul/2025 00:59:32] "[36mGET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-12 00:59:32,848 - INFO - 127.0.0.1 - - [12/Jul/2025 00:59:32] "[36mGET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-12 00:59:33,572 - INFO - 127.0.0.1 - - [12/Jul/2025 00:59:33] "GET /register?__debugger__=yes&cmd=resource&f=console.png&s=kAkylIQB5lYspS1uIqIk HTTP/1.1" 200 -
+2025-07-12 00:59:34,396 - INFO - 127.0.0.1 - - [12/Jul/2025 00:59:34] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-07-12 00:59:42,683 - INFO - 127.0.0.1 - - [12/Jul/2025 00:59:42] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2025-07-12 00:59:42,716 - INFO - 127.0.0.1 - - [12/Jul/2025 00:59:42] "[36mGET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-12 00:59:42,910 - INFO - 127.0.0.1 - - [12/Jul/2025 00:59:42] "[36mGET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-12 00:59:43,277 - INFO - 127.0.0.1 - - [12/Jul/2025 00:59:43] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png&s=kAkylIQB5lYspS1uIqIk HTTP/1.1[0m" 304 -
+2025-07-12 01:00:37,927 - INFO -  * Detected change in 'C:\\vehicle_parking_app\\app.py', reloading
+2025-07-12 01:00:47,386 - INFO -  * Restarting with stat
+2025-07-12 01:01:09,236 - WARNING - MAIL_USERNAME or MAIL_PASSWORD not set. Email features may not work.
+2025-07-12 01:01:09,237 - WARNING - GOOGLE_CHAT_WEBHOOK_URL not set. Google Chat notifications will not work.
+2025-07-12 01:01:12,601 - WARNING -  * Debugger is active!
+2025-07-12 01:01:12,644 - INFO -  * Debugger PIN: 381-405-176
+2025-07-12 01:01:13,025 - INFO - 127.0.0.1 - - [12/Jul/2025 01:01:13] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2025-07-12 01:01:13,806 - INFO - 127.0.0.1 - - [12/Jul/2025 01:01:13] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2025-07-12 01:01:14,341 - INFO - 127.0.0.1 - - [12/Jul/2025 01:01:14] "[36mGET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-12 01:01:14,429 - INFO - 127.0.0.1 - - [12/Jul/2025 01:01:14] "[36mGET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-12 01:01:14,949 - INFO - 127.0.0.1 - - [12/Jul/2025 01:01:14] "GET /register?__debugger__=yes&cmd=resource&f=console.png&s=YWnOzBHDfIpRLgyccEmQ HTTP/1.1" 200 -
+2025-07-12 01:01:15,190 - INFO - 127.0.0.1 - - [12/Jul/2025 01:01:15] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-07-12 01:02:08,174 - INFO - 127.0.0.1 - - [12/Jul/2025 01:02:08] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2025-07-12 01:02:11,346 - INFO - 127.0.0.1 - - [12/Jul/2025 01:02:11] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2025-07-12 01:02:11,840 - INFO - 127.0.0.1 - - [12/Jul/2025 01:02:11] "[36mGET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-12 01:02:11,841 - INFO - 127.0.0.1 - - [12/Jul/2025 01:02:11] "[36mGET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-07-12 01:02:12,311 - INFO - 127.0.0.1 - - [12/Jul/2025 01:02:12] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png&s=YWnOzBHDfIpRLgyccEmQ HTTP/1.1[0m" 304 -
+2025-07-12 01:02:12,533 - INFO - 127.0.0.1 - - [12/Jul/2025 01:02:12] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
